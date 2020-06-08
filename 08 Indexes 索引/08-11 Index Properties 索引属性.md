@@ -1,4 +1,42 @@
 
+In addition to the numerous index types MongoDB supports, indexes can also have various properties. The following documents detail the index properties that you can select when building an index.
+
+除了 MongoDB支持的众多索引类型外，索引还可以具有各种属性。以下文档详细介绍了在建立索引时可以选择的索引属性。
+
+
+### [TTL Indexes](https://docs.mongodb.com/manual/core/index-ttl/)
+
+The TTL index is used for TTL collections, which expire data after a period of time.
+
+TTL索引用于TTL收集，这些收集会在一段时间后使数据过期。
+
+### [Unique Indexes](https://docs.mongodb.com/manual/core/index-unique/)
+
+A unique index causes MongoDB to reject all documents that contain a duplicate value for the indexed field.
+
+唯一索引会导致MongoDB拒绝所有包含索引字段重复值的文档。
+
+### [Partial Indexes](https://docs.mongodb.com/manual/core/index-partial/)
+
+A partial index indexes only documents that meet specified filter criteria.
+
+部分索引仅索引符合指定过滤条件的文档。
+
+### [Case Insensitive Indexes](https://docs.mongodb.com/manual/core/index-case-insensitive/)
+
+A case insensitive index disregards the case of the index key values.
+
+不区分大小写的索引会忽略索引键值的大小写。
+
+### [Sparse Indexes](https://docs.mongodb.com/manual/core/index-sparse/)
+
+A sparse index does not index documents that do not have the indexed field.
+
+稀疏索引不会索引没有索引字段的文档。
+
+
+-----------------
+
 ## Index Properties[](#index-properties "Permalink to this headline")   索引属性
 
 ### Unique Indexes[](#unique-indexes "Permalink to this headline")    唯一索引
