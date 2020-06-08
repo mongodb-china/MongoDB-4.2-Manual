@@ -27,7 +27,7 @@ Before binding to a non-localhost (e.g. publicly accessible) IP address, ensure 
 在绑定到非本地主机(例如可公开访问的) IP 地址之前，请确保已保护数据库集群防止未经授权的访问。有关安全建议的完整列表，请参阅[安全检查表](https://docs.mongodb.com/manual/administration/security-checklist/)。至少需要要考虑 [启用身份验证](https://docs.mongodb.com/manual/administration/security-checklist/#checklist-auth) 和施[强化网络基础架构](https://docs.mongodb.com/manual/core/security-hardening/#)。
 
 WARNING：
-警告：
+重要提示：
 
 Make sure that your [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) and [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) instances are only accessible on trusted networks. If your system has more than one network interface, bind MongoDB programs to the private or internal network interface.
 确保只能在受信任的网络上访问 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 和[mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos)实例。如果您的系统具有多个网络接口，请将 MongoDB 程序绑定到专用或内部网络接口。
