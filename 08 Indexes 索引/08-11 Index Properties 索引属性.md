@@ -35,6 +35,6 @@ See:  [Expire Data from Collections by Setting TTL](https://docs.mongodb.com/man
 
 
 
-原文链接：https://docs.mongodb.com/manual/core/index-ttl/
+原文链接：https://docs.mongodb.com/manual/core/index-properties/
 
 译者：程哲欣
