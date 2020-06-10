@@ -51,7 +51,7 @@ The following checklist, along with the [Development Checklist](https://docs.mon
 
 - Verify that all non-hidden replica set members are identically provisioned in terms of their RAM, CPU, disk, network setup, etc.                                                                                                                                                     验证所有非隐藏副本集成员在 RAM，CPU，磁盘，网络设置等方面的配置是否相同。
 
-- [Configure the oplog size](https://docs.mongodb.com/manual/tutorial/change-oplog-size/) to suit your use case:                                                                                                                           [配置 oplog 的大小](https://docs.mongodb.com/manual/tutorial/change-oplog-size/) 适合您的使用案例：    
+- [Configure the oplog size](https://docs.mongodb.com/manual/tutorial/change-oplog-size/) to suit your use case:                                                                                                                           [配置 oplog 的大小](https://docs.mongodb.com/manual/tutorial/change-oplog-size/) 以适合您的使用案例：    
 
   - The replication oplog window should cover normal maintenance and downtime windows to avoid the need for a full resync.                                                                                                                                                       复制 oplog 窗口包括正常维护和停机时间窗口，以避免需要完全重新同步。
 
