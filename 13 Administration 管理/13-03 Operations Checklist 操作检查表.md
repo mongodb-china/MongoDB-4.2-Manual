@@ -185,6 +185,6 @@ The following checklist, along with the [Development Checklist](https://docs.mon
 
 
 
-原文链接：[https://docs.mongodb.com/manual/core/security-hardening/](https://docs.mongodb.com/manual/core/security-hardening/)
+原文链接：https://docs.mongodb.com/manual/administration/production-checklist-operations/
 
 译者：孔令升
