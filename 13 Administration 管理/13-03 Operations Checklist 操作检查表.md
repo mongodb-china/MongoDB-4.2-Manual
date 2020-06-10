@@ -24,7 +24,7 @@
 - [Load Balancing]负载均衡(https://docs.mongodb.com/manual/administration/production-checklist-operations/#load-balancing)
 
 
-The following checklist, along with the [Development Checklist](https://docs.mongodb.com/manual/administration/production-checklist-development/) list, provides recommendations to help you avoid issues in your production MongoDB deployment.                                                                                                       下面的清单以及[开发清单](https://docs.mongodb.com/manual/administration/production-checklist-development/)列表提供了一些建议，帮助您避免生产环境下MongoDB部署中的问题。
+The following checklist, along with the [Development Checklist](https://docs.mongodb.com/manual/administration/production-checklist-development/) list, provides recommendations to help you avoid issues in your production MongoDB deployment.                                                                                                       下面的清单和[开发清单](https://docs.mongodb.com/manual/administration/production-checklist-development/)列表一同提供了一些建议，帮助您避免生产环境下MongoDB部署中的问题。
 
 ## Filesystem     
 
