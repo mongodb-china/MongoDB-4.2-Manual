@@ -32,7 +32,7 @@ The following checklist, along with the [Development Checklist](https://docs.mon
 
 - Align your disk partitions with your RAID configuration.                                                                                                        将磁盘分区与RAID配置对齐。
 
-- Avoid using NFS drives for your [dbPath](https://docs.mongodb.com/manual/reference/configuration-options/#storage.dbPath). Using NFS drives can result in degraded and unstable performance.                                                                                                                                                                                      避免对  [dbPath](https://docs.mongodb.com/manual/reference/configuration-options/#storage.dbPath) 使用 NFS 驱动器。使用 NFS 驱动器可能导致性能下降和不稳定。见：
+- Avoid using NFS drives for your [dbPath](https://docs.mongodb.com/manual/reference/configuration-options/#storage.dbPath). Using NFS drives can result in degraded and unstable performance.                                                                                                                                                                                      避免对  [dbPath](https://docs.mongodb.com/manual/reference/configuration-options/#storage.dbPath) 使用 NFS 驱动器。使用 NFS 驱动器可能导致性能下降和不稳定。
 
   See:  [Remote Filesystems](https://docs.mongodb.com/manual/administration/production-notes/#production-nfs) for more information.                                                                                                                       有关详细信息，请参阅：[远程文件系统](https://docs.mongodb.com/manual/administration/production-notes/#production-nfs) 。                        
 
