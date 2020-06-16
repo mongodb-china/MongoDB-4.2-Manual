@@ -38,7 +38,7 @@ The following checklist, along with the [Development Checklist](https://docs.mon
 
   - VMware users should use VMware virtual drives over NFS.                                                                                                   VMware 用户应该通过 NFS 使用 VMware 虚拟驱动器。
 
-- Linux/Unix: format your drives into XFS or EXT4. If possible, use XFS as it generally performs better with MongoDB.                                                                                                                                                                                            Linux/Unix：将驱动器格式化为 XFS 或 EXT4。如果可能的话，使用 XFS，因为它通常在MongoDB 中执行得更好。
+- Linux/Unix: format your drives into XFS or EXT4. If possible, use XFS as it generally performs better with MongoDB.                                                                                                                                                                                            Linux/Unix：将驱动器格式化为 XFS 或 EXT4。如果可能的话，使用 XFS，因为它通常在MongoDB 中运行得更好。
 
   - With the WiredTiger storage engine, use of XFS is strongly recommended to avoid performance issues found when using EXT4 with WiredTiger.                                                                                                                 对于 WiredTiger 存储引擎，强烈建议使用XFS，以避免在将 EXT4 与 WiredTiger 一起使用时产生性能问题。
   - If using RAID, you may need to configure XFS with your RAID geometry.                                                    如果使用 RAID，可能需要使用 RAID 几何阵列配置 XFS。
