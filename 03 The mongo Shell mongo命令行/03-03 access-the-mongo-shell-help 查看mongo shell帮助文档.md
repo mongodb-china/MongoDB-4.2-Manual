@@ -46,7 +46,7 @@ In the mongo[](https://docs.mongodb.com/manual/reference/program/mongo/#bin.mong
     db.updateUser
     ```
 
-[1][](https://docs.mongodb.com/manual/tutorial/access-mongo-shell-help/#access)	If the deployment runs with access control, the operation returns different values based on user privileges. See listDatabases Behavior[](https://docs.mongodb.com/manual/reference/command/listDatabases/#listdatabases-behavior) for details. 如果以访问控制模式运行，根据用户权限不同返回不同的值。去listDatabases Behavior 查看详情。
+[1][](https://docs.mongodb.com/manual/tutorial/access-mongo-shell-help/#access)	If the deployment runs with access control, the operation returns different values based on user privileges. See listDatabases Behavior[](https://docs.mongodb.com/manual/reference/command/listDatabases/#listdatabases-behavior) for details. 如果以访问控制模式运行，根据用户权限不同返回不同的值。可以到listDatabases Behavior 查看详情。
 
 ## Collection Help 集合帮助
 
