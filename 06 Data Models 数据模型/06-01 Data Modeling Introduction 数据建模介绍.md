@@ -8,10 +8,10 @@ On this page 在本页中
 - [Data Use and Performance](https://docs.mongodb.com/manual/core/data-modeling-introduction/#data-use-and-performance)
 - [Further Reading](https://docs.mongodb.com/manual/core/data-modeling-introduction/#further-reading)
 - [灵活的模式](https://docs.mongodb.com/manual/core/data-modeling-introduction/#flexible-schema)
-- [文件结构](https://docs.mongodb.com/manual/core/data-modeling-introduction/#document-structure)
+- [文档结构](https://docs.mongodb.com/manual/core/data-modeling-introduction/#document-structure)
 - [写操作原子性](https://docs.mongodb.com/manual/core/data-modeling-introduction/#atomicity-of-write-operations)
 - [数据使用和性能](https://docs.mongodb.com/manual/core/data-modeling-introduction/#data-use-and-performance)
-- [进一步阅读](https://docs.mongodb.com/manual/core/data-modeling-introduction/#further-reading)
+- [扩展阅读](https://docs.mongodb.com/manual/core/data-modeling-introduction/#further-reading)
 
 The key challenge in data modeling is balancing the needs of the application, the performance characteristics of the database engine, and the data retrieval patterns. When designing data models, always consider the application usage of the data (i.e. queries, updates, and processing of the data) as well as the inherent structure of the data itself.
 
