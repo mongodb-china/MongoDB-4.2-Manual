@@ -41,7 +41,7 @@ In practice, however, the documents in a collection share a similar structure, a
 
 
 
-## Document Structure 文件结构
+## Document Structure 文档结构
 
 The key decision in designing data models for MongoDB applications revolves around the structure of documents and how the application represents relationships between data. MongoDB allows related data to be embedded within a single document.
 
@@ -49,7 +49,7 @@ The key decision in designing data models for MongoDB applications revolves arou
 
 
 
-### Embedded Data
+### Embedded Data 嵌入数据方式
 
 Embedded documents capture relationships between data by storing related data in a single document structure. MongoDB documents make it possible to embed document structures in a field or array within a document. These *denormalized* data models allow applications to retrieve and manipulate related data in a single database operation.
 
@@ -67,7 +67,7 @@ See [Embedded Data Models](https://docs.mongodb.com/manual/core/data-model-desig
 
 
 
-### References 参考文献
+### References 引用数据方式
 
 References store the relationships between data by including links or *references* from one document to another. Applications can resolve these [references](https://docs.mongodb.com/manual/reference/database-references/) to access the related data. Broadly, these are *normalized* data models.
 
@@ -125,7 +125,7 @@ For details regarding transactions in MongoDB, see the [Transactions](https://do
 
 
 
-### Multi-Document Transactions 多文档事务处理
+### Multi-Document Transactions 多文档事务
 
 For situations that require atomicity of reads and writes to multiple documents (in a single or multiple collections), MongoDB supports multi-document transactions:
 
@@ -153,7 +153,7 @@ SEE ALSO
 
 
 
-> 重要的注意事项:
+> 注意事项:
 >
 > 在大多数情况下，多文档事务比单文档写入带来更高的性能成本，而且多文档事务的可用性不应替代有效的模式设计。对于许多情况，[非规范化数据模型（嵌入文档和数组）](https://docs.mongodb.com/manual/core/data-model-design/#data-modeling-embedding)将继续是数据和用例的最佳选择。也就是说，对于许多场景，对数据进行适当的建模将最大限度地减少对多文档事务的需求。
 >
@@ -181,7 +181,7 @@ See [Operational Factors and Data Models](https://docs.mongodb.com/manual/core/d
 
 
 
-## Further Reading 进一步阅读
+## Further Reading 扩展阅读
 
 For more information on data modeling with MongoDB, download the [MongoDB Application Modernization Guide](https://www.mongodb.com/modernize?tck=docs_server).
 
@@ -202,7 +202,7 @@ The download includes the following resources:
 
 - 用MongoDB实现数据建模的方法论
 - 白皮书涵盖了从[RDBMS](https://docs.mongodb.com/manual/reference/glossary/#term-rdbms)数据模型迁移到MongoDB的最佳实践和考虑事项
-- 具有RDBMS等价的参考MongoDB模式
+- 参考MongoDB模式及其等价的RDBMS概念
 - 应用程序现代化记分卡
 
 ←  [数据模型](https://docs.mongodb.com/manual/data-modeling/)  [模式验证](https://docs.mongodb.com/manual/core/schema-validation/) →
