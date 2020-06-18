@@ -61,7 +61,7 @@ MongoDB 4.2版本在特性兼容版本为4.0时，仅支持4.0的索引构建方
 ### Comparison to Foreground and Background Builds[](#comparison-to-foreground-and-background-builds "Permalink to this headline")  索引前后台创建的比较
 
 Previous versions of MongoDB supported building indexes either in the foreground or background. Foreground index builds were fast and produced more efficient index data structures, but required blocking all read-write access to the parent database of the collection being indexed for the duration of the build. Background index builds were slower and had less efficient results, but allowed read-write access to the database and its collections during the build process.
-先前版本MongoDB，支持前后台两种方式创建索引。前台构建索引方式速度更快且可生成更有效的数据结构，但在生成期间会阻塞该集合父数据库的所有读写操作。后台构建索引方式相比于前者速度更慢，且数据结构检索效率较低，但在索引构建过程中允许对数据库和正在构建索引集合的的读写访问。
+先前版本的MongoDB支持前后台两种方式创建索引。前台构建索引方式速度更快且可生成更有效的数据结构，但在生成期间会阻塞该集合父数据库的所有读写操作。后台构建索引方式相比于前者速度更慢，且数据结构检索效率较低，但在索引构建过程中允许对数据库和正在构建索引集合的的读写访问。
 
 Changed in version MongoDB: 4.2
 MongoDB 4.2版本变化
