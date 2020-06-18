@@ -140,22 +140,22 @@ Replicated write operation to the collection being indexed can also stall behind
 如果索引生成在执行操作或命令时持有独占锁，则对被索引集合的复制写操作也可能被延迟到索引构建完成之后。[`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod") 进程无法使用任何oplog直到锁释放。如果复制延迟时间超过从节点的[oplog window](replica-set-oplog.html#replica-set-oplog-sizing)，从节点将不进行同步，需要通过重新同步来恢复。
 
 Use  [`rs.printReplicationInfo()`](../reference/method/rs.printReplicationInfo.html#rs.printReplicationInfo "rs.printReplicationInfo()")  on each replica set member to validate the time covered by the oplog size configured for that member  _prior_  to starting the index build. You can  [increase the oplog size](../tutorial/change-oplog-size.html)  to mitigate the likelihood of a secondary falling out of sync. For example, setting an oplog window size that can cover 72 hours of operations ensures that secondaries can tolerate at least that much replication lag.
-在构建索引之前，使用[`rs.printReplicationInfo()`](../reference/method/rs.printReplicationInfo.html#rs.printReplicationInfo "rs.printReplicationInfo()")命令鉴别每个副本集成员配置的时间区间中可处理的oplog大小。你可以增大oplog大小[increase the oplog size](../tutorial/change-oplog-size.html)，降低不同步的概率。例如，设置oplog的窗口可以覆盖72个小时的操作记录，只要确保secondary节点可以容忍这么久的复制延迟。
+在构建索引之前，使用[`rs.printReplicationInfo()`](../reference/method/rs.printReplicationInfo.html#rs.printReplicationInfo "rs.printReplicationInfo()")命令鉴别每个副本集成员配置的时间区间中可处理的oplog大小。你可以增大oplog大小[increase the oplog size](../tutorial/change-oplog-size.html)，降低从节点不同步的概率。例如，设置oplog的窗口可以覆盖72个小时的操作记录，只要确保从节点可以容忍这么久的复制延迟。
 
 Alternatively, build indexes during a maintenance window in which applications cease issuing distributed transactions, write operations, or metadata commands that affect the collection being indexed.
 或者在维护时间窗口中执行索引构建，应用程序停止对该索引集合的所有事物操作、写操作和元数据操作。
 
 Secondary Index Builds May Stall Read and Write Operations
-Secondary节点的索引构建可能造成读写操作延迟。
+从节点的索引构建可能造成读写操作延迟。
 
 MongoDB 4.2 index builds obtain an exclusive lock on the collection being indexed at the start and end of the build process. While a secondary index build holds the exclusive lock, any read or write operations that depends on the secondary stall until the build releases that lock.
-MongoDB 4.2索引生成过程的开始和结束时获取正在索引的集合的独占锁。当secondary节点索引生成持有独占锁时，该secondary节点将暂停任何读写操作，直到索引生成释放该锁为止。
+MongoDB 4.2索引生成过程的开始和结束时获取正在索引的集合的独占锁。当从节点索引生成持有独占锁时，该从节点将暂停任何读写操作，直到索引生成释放该锁为止。
 
 Secondaries Process Index Drops After Index Build Completes
 索引生成完成后，辅助进程索引将删除。
 
 Dropping the index on the primary before secondaries complete the replicated index build does not kill the secondary index builds. When the secondary replicates the index drop, it must wait until  _after_  the index build completes to apply the drop. Furthermore, since index drops are a metadata operation on the collection, the index drop stalls replication on that secondary.
-在secondary节点完成索引构建的复制之前，在primary节点删除索引，将不会中断secondary节点的构建。当secondary节点执行索引删除的复制操作时，其须等待之前的索引生成操作执行复制完毕。此外，由于索引删除是集合上的元数据操作，因此索引删除会暂停该secondary节点上的复制。
+在从节点完成索引构建的复制之前，在主节点删除索引，将不会中断从节点的构建。当从节点执行索引删除的复制操作时，其须等待之前的索引生成操作执行复制完毕。此外，由于索引删除是集合上的元数据操作，因此索引删除会暂停该从节点上的复制。
 
 ## Build Failure and Recovery[](#build-failure-and-recovery "Permalink to this headline")  构建失败和恢复
 
