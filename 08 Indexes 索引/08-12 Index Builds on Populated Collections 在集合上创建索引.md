@@ -128,16 +128,16 @@ To minimize the impact of building an index on:
 - 拥有分片复制集的分片集群中，使用滚动索引生成策略，如[Build Indexes on Sharded Clusters](../tutorial/build-indexes-on-sharded-clusters.html)章节所述。
 
 You can alternatively start the index build on the  [primary](../reference/glossary.html#term-primary). Once the index build completes, the secondaries replicate and start the index build. Consider the following risks  _before_  starting a replicated index build:
-你可以在[primary](../reference/glossary.html#term-primary)节点执行索引构建。索引生成完成后，secondaries节点进行复制并开始索引构建。复制集中在开始构建索引之前请注意如下风险：
+你可以在主节点执行索引构建。索引生成完成后，从节点进行复制并开始索引构建。复制集中在开始构建索引之前请注意如下风险：
 
 Secondaries May Fall Out of Sync
-Secondaries节点可能不进行同步。
+从节点可能不进行同步。
 
 Secondary index builds block the application of replicated transactions on a sharded cluster  _if_  that transaction includes writes to the collection being indexed. Similarly, replicated metadata operations against the collection being indexed also stall behind the index build. The  [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")  cannot apply any further oplog entries until the index build completes.
-Secondary节点的索引构建将阻塞应用正在执行的对构建索引集合的事务操作。 [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")进程在构建索引完成前将无法使用任何oplog。
+从节点的索引构建将阻塞应用正在执行的对构建索引集合的事务操作。 [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")进程在构建索引完成前将无法使用任何oplog。
 
 Replicated write operation to the collection being indexed can also stall behind the index build  _if_  the index build is holding an exclusive lock at the time of the operation or command. The  [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")  cannot apply any further oplog entries until the index build releases the exclusive lock. If replication stalls for longer than the  [oplog window](replica-set-oplog.html#replica-set-oplog-sizing)  on that secondary, the secondary falls out of sync and requires  [resynchronization](replica-set-sync.html#replica-set-initial-sync)  to recover.
-如果索引生成在执行操作或命令时持有独占锁，则对被索引集合的复制写操作也可能被延迟到索引构建完成之后。[`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod") 进程无法使用任何oplog直到锁释放。如果复制延迟时间超过secondary节点的[oplog window](replica-set-oplog.html#replica-set-oplog-sizing)，secondary将不进行同步，需要通过[resynchronization](replica-set-sync.html#replica-set-initial-sync)来恢复。
+如果索引生成在执行操作或命令时持有独占锁，则对被索引集合的复制写操作也可能被延迟到索引构建完成之后。[`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod") 进程无法使用任何oplog直到锁释放。如果复制延迟时间超过从节点的[oplog window](replica-set-oplog.html#replica-set-oplog-sizing)，从节点将不进行同步，需要通过重新同步来恢复。
 
 Use  [`rs.printReplicationInfo()`](../reference/method/rs.printReplicationInfo.html#rs.printReplicationInfo "rs.printReplicationInfo()")  on each replica set member to validate the time covered by the oplog size configured for that member  _prior_  to starting the index build. You can  [increase the oplog size](../tutorial/change-oplog-size.html)  to mitigate the likelihood of a secondary falling out of sync. For example, setting an oplog window size that can cover 72 hours of operations ensures that secondaries can tolerate at least that much replication lag.
 在构建索引之前，使用[`rs.printReplicationInfo()`](../reference/method/rs.printReplicationInfo.html#rs.printReplicationInfo "rs.printReplicationInfo()")命令鉴别每个副本集成员配置的时间区间中可处理的oplog大小。你可以增大oplog大小[increase the oplog size](../tutorial/change-oplog-size.html)，降低不同步的概率。例如，设置oplog的窗口可以覆盖72个小时的操作记录，只要确保secondary节点可以容忍这么久的复制延迟。
