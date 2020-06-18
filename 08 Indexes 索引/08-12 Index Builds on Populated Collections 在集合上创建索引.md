@@ -167,15 +167,15 @@ If the  [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")  sh
 ### Interrupted Index Builds on a Primary  `mongod`[](#interrupted-index-builds-on-a-primary-mongod "Permalink to this headline")  Primary主节点`mongod`[](#interrupted-index-builds-on-a-primary-mongod "Permalink to this headline")进程的索引构建中断
 
 If the primary shuts down or steps down during the index build, the index build job and all progress is lost. Restarting the  [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")  does not restart the index build. You must re-issue the  [`createIndex()`](../reference/method/db.collection.createIndex.html#db.collection.createIndex "db.collection.createIndex()")  operation to restart the index build.
-如果primary节点在索引构建时停止了，索引构建任务和所有进程将丢失。你必须重新运行[`createIndex()`](../reference/method/db.collection.createIndex.html#db.collection.createIndex "db.collection.createIndex()") 操作来重启索引构建。
+如果从节点在索引构建时停止了，索引构建任务和所有进程将丢失。你必须重新运行[`createIndex()`](../reference/method/db.collection.createIndex.html#db.collection.createIndex "db.collection.createIndex()") 操作来重启索引构建。
 
 ### Interrupted Index Builds on a Secondary  `mongod`[](#interrupted-index-builds-on-a-secondary-mongod "Permalink to this headline") Secondary从节点`mongod`[](#interrupted-index-builds-on-a-secondary-mongod "Permalink to this headline")进程的索引构建中断
 
 If a secondary shuts down during the index build, the index build job is persisted. Restarting the  [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")  recovers the index build and restarts it  **from scratch**.
-如果secondary节点在索引构建时停止了，索引构建任务将保留。重启 [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")进程将恢复索引构建并从头重新开始。
+如果从节点在索引构建时停止了，索引构建任务将保留。重启 [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")进程将恢复索引构建并从头重新开始。
 
 The startup process stalls behind any recovered index builds. All other operations, including replication, wait until the index builds complete. If the secondary’s oplog does not cover the time required to complete the index build, the secondary may fall out of sync with the rest of the replica set and require  [resynchronization](replica-set-sync.html#replica-set-initial-sync).
-启动进程会在任意已恢复的索引生成之后暂停。所有操作，包括复制将进入等待直到索引构建完成。如果secondary节点的oplog未在时间窗口区间完成缩影索引构建的复制，secondary不再进行这部分oplog的复制集的同步，需要[resynchronization](replica-set-sync.html#replica-set-initial-sync)恢复。
+启动进程会在任意已恢复的索引生成之后暂停。所有操作，包括复制将进入等待直到索引构建完成。如果从节点的oplog未在时间窗口区间完成缩影索引构建的复制，从节点不再进行这部分oplog的复制集的同步，需要重新同步恢复。
 
 If you restart the  [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")  as a standalone (i.e. removing or commenting out  [`replication.replSetName`](../reference/configuration-options.html#replication.replSetName "replication.replSetName")  or omitting  [`--replSetName`](../reference/program/mongod.html#cmdoption-mongod-replset)), the  `mongod`  still recovers the index build  **from scratch**. You can use the  [`storage.indexBuildRetry`](../reference/configuration-options.html#storage.indexBuildRetry "storage.indexBuildRetry")  configuration file setting or  [`--noIndexBuildRetry`](../reference/program/mongod.html#cmdoption-mongod-noindexbuildretry)  command line option to skip the index build on start up.
 如果你重启了[`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")进程作为独立的复制集节点实例或删除[`--replSetName`](../reference/program/mongod.html#cmdoption-mongod-replset))。`mongod`进程仍将从头恢复索引构建。你可以使用[`storage.indexBuildRetry`](../reference/configuration-options.html#storage.indexBuildRetry "storage.indexBuildRetry")配置文件设置或写入命令行参数[`--noIndexBuildRetry`](../reference/program/mongod.html#cmdoption-mongod-noindexbuildretry)。
