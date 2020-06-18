@@ -115,7 +115,7 @@ If unspecified at the transaction start, transactions use the session-level read
 
 For more information, see [Transaction Read Concern](https://docs.mongodb.com/manual/core/transactions/#transactions-read-concern).
 
-有关等多信息，请参考 [事务的读关注](https://docs.mongodb.com/manual/core/transactions/#transactions-read-concern).
+更相关信息，请参考 [事务的读关注](https://docs.mongodb.com/manual/core/transactions/#transactions-read-concern).
 
 ### Causally Consistent Sessions and Available Read Concerns
 
