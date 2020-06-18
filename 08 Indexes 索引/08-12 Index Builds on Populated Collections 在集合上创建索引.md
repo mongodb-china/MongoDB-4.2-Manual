@@ -164,12 +164,12 @@ Dropping the index on the primary before secondaries complete the replicated ind
 If the  [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")  shuts down during the index build, the index build job and all progress is lost. Restarting the  [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")  does not restart the index build. You must re-issue the  [`createIndex()`](../reference/method/db.collection.createIndex.html#db.collection.createIndex "db.collection.createIndex()")  operation to restart the index build.
 如果[`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")进程在索引构建时终止了，索引构建任务和所有进程将丢失。重启[`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")进程不会重新执行索引构建，你必须重新运行[`createIndex()`](../reference/method/db.collection.createIndex.html#db.collection.createIndex "db.collection.createIndex()") 操作来重启索引构建。
 
-### Interrupted Index Builds on a Primary  `mongod`[](#interrupted-index-builds-on-a-primary-mongod "Permalink to this headline")  Primary主节点`mongod`[](#interrupted-index-builds-on-a-primary-mongod "Permalink to this headline")进程的索引构建中断
+### Interrupted Index Builds on a Primary  `mongod`[](#interrupted-index-builds-on-a-primary-mongod "Permalink to this headline")  主节点`mongod`[](#interrupted-index-builds-on-a-primary-mongod "Permalink to this headline")进程的索引构建中断
 
 If the primary shuts down or steps down during the index build, the index build job and all progress is lost. Restarting the  [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")  does not restart the index build. You must re-issue the  [`createIndex()`](../reference/method/db.collection.createIndex.html#db.collection.createIndex "db.collection.createIndex()")  operation to restart the index build.
 如果从节点在索引构建时停止了，索引构建任务和所有进程将丢失。你必须重新运行[`createIndex()`](../reference/method/db.collection.createIndex.html#db.collection.createIndex "db.collection.createIndex()") 操作来重启索引构建。
 
-### Interrupted Index Builds on a Secondary  `mongod`[](#interrupted-index-builds-on-a-secondary-mongod "Permalink to this headline") Secondary从节点`mongod`[](#interrupted-index-builds-on-a-secondary-mongod "Permalink to this headline")进程的索引构建中断
+### Interrupted Index Builds on a Secondary  `mongod`[](#interrupted-index-builds-on-a-secondary-mongod "Permalink to this headline") 从节点`mongod`[](#interrupted-index-builds-on-a-secondary-mongod "Permalink to this headline")进程的索引构建中断
 
 If a secondary shuts down during the index build, the index build job is persisted. Restarting the  [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")  recovers the index build and restarts it  **from scratch**.
 如果从节点在索引构建时停止了，索引构建任务将保留。重启 [`mongod`](../reference/program/mongod.html#bin.mongod "bin.mongod")进程将恢复索引构建并从头重新开始。
@@ -202,10 +202,10 @@ The  [`msg`](../reference/command/currentOp.html#currentOp.msg "currentOp.msg") 
 ## Terminate In Progress Index Builds[](#terminate-in-progress-index-builds "Permalink to this headline")    终止正在进行的索引生成
 
 To terminate an ongoing index build on a primary or standalone  `mongod`, use the  [`db.killOp()`](../reference/method/db.killOp.html#db.killOp "db.killOp()")  method in the  [`mongo`](../reference/program/mongo.html#bin.mongo "bin.mongo")  shell. When terminating an index build, the effects of  [`db.killOp()`](../reference/method/db.killOp.html#db.killOp "db.killOp()")  may not be immediate and may occur well after much of the index build operation has completed.
-终止primary节点或单个  `mongod` 进程中正在执行的索引构建命令，请在[`mongo`](../reference/program/mongo.html#bin.mongo "bin.mongo")进程中使用[`db.killOp()`](../reference/method/db.killOp.html#db.killOp "db.killOp()")命令。当终止索引生成时，[`db.killOp()`](../reference/method/db.killOp.html#db.killOp "db.killOp()")命令可能不会立即执行，并可能在大部分索引生成操作完成后执行。
+终止主节点或单个  `mongod` 进程中正在执行的索引构建命令，请在[`mongo`](../reference/program/mongo.html#bin.mongo "bin.mongo")进程中使用[`db.killOp()`](../reference/method/db.killOp.html#db.killOp "db.killOp()")命令。当终止索引生成时，[`db.killOp()`](../reference/method/db.killOp.html#db.killOp "db.killOp()")命令可能不会立即执行，并可能在大部分索引生成操作完成后执行。
 
 You cannot terminate a  _replicated_  index build on secondary members of a replica set. You must first  [`drop`](../reference/method/db.collection.dropIndex.html#db.collection.dropIndex "db.collection.dropIndex()")  the index on the primary. The secondaries will replicate the drop operation and drop the indexes  _after_  the index build completes. All further replication blocks behind the index build and drop.
-你无法终止一个已经在复制集secondary节点进行复制的索引构建操作。你必须首先在primary节点[`drop`](../reference/method/db.collection.dropIndex.html#db.collection.dropIndex "db.collection.dropIndex()")删除索引。secondary节点将复制删除操作并在索引构建完成后删除索引。所用复制操作将阻塞直到索引构建完成并执行完删除操作。
+你无法终止一个已经在复制集从节点进行复制的索引构建操作。你必须首先在主节点[`drop`](../reference/method/db.collection.dropIndex.html#db.collection.dropIndex "db.collection.dropIndex()")删除索引。从节点将复制删除操作并在索引构建完成后删除索引。所用复制操作将阻塞直到索引构建完成并执行完删除操作。
 
 To minimize the impact of building an index on replica sets and sharded clusters with replica set shards, see:
 尽量降低复制集和拥有复制集的分片集群的构建索引影响，参见：
