@@ -47,7 +47,7 @@ MongoDB 为内置角色提供了预定义的资源和允许的操作。有关授
 
   [`aggregate`](https://docs.mongodb.com/manual/reference/command/aggregate/#dbcmd.aggregate) for all [pipeline operations](https://docs.mongodb.com/manual/reference/operator/aggregation/) **except** [`$collStats`](https://docs.mongodb.com/manual/reference/operator/aggregation/collStats/#pipe._S_collStats), [`$out`](https://docs.mongodb.com/manual/reference/operator/aggregation/out/#pipe._S_out), and [`$indexStats`](https://docs.mongodb.com/manual/reference/operator/aggregation/indexStats/#pipe._S_indexStats).
 
-  [`aggregate`](https://docs.mongodb.com/manual/reference/command/aggregate/#dbcmd.aggregate) 用来对所有管道操作除了[`$collStats、`](https://docs.mongodb.com/manual/reference/operator/aggregation/collStats/#pipe._S_collStats)[`$out`](https://docs.mongodb.com/manual/reference/operator/aggregation/out/#pipe._S_out)和 [`$indexStats`](https://docs.mongodb.com/manual/reference/operator/aggregation/indexStats/#pipe._S_indexStats).
+  [`aggregate`](https://docs.mongodb.com/manual/reference/command/aggregate/#dbcmd.aggregate) 用来对除了[`$collStats、`](https://docs.mongodb.com/manual/reference/operator/aggregation/collStats/#pipe._S_collStats)[`$out`](https://docs.mongodb.com/manual/reference/operator/aggregation/out/#pipe._S_out)和 [`$indexStats`](https://docs.mongodb.com/manual/reference/operator/aggregation/indexStats/#pipe._S_indexStats)的所有管道操作。
 
   [`checkShardingIndex`](https://docs.mongodb.com/manual/reference/command/checkShardingIndex/#dbcmd.checkShardingIndex)
 
