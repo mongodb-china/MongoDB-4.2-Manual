@@ -108,7 +108,7 @@ To get a list of the wrapper classes available in the mongo[](https://docs.mongo
 ```
 help misc
 ```
-SEE ALSO:查看
+SEE ALSO:参见
 
 mongo Shell Methods[](https://docs.mongodb.com/manual/reference/method/)mongo shell 方法集
 
