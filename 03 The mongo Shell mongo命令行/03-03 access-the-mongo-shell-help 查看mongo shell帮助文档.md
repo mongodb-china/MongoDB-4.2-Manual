@@ -91,6 +91,7 @@ When you perform read operations[](https://docs.mongodb.com/manual/tutorial/quer
     ```
 
 Some useful methods for handling cursors are:
+处理游标的一些有用方法是：
 
 * hasNext()[](https://docs.mongodb.com/manual/reference/method/cursor.hasNext/#cursor.hasNext) which checks whether the cursor has more documents to return. hasNext()检查游标是否有更多文档返回
 
