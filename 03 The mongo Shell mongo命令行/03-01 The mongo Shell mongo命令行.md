@@ -270,7 +270,7 @@ You can exit the line continuation mode if you enter two blank lines, as in the 
 
 Tab Completion and Other Keyboard Shortcuts tab补全和其他快捷键
 
-The [mongo](https://docs.mongodb.com/manual/reference/program/mongo/#bin.mongo) shell supports keyboard shortcuts. For example, mongo shell支持快捷键
+The [mongo](https://docs.mongodb.com/manual/reference/program/mongo/#bin.mongo) shell supports keyboard shortcuts. For example, mongo shell支持快捷键，例如：
 
 - Use the up/down arrow keys to scroll through command history. See [.dbshell](https://docs.mongodb.com/manual/reference/program/mongo/#mongo-dbshell-file) documentation for more information on the .dbshell file. 使用向上/向下箭头键滚动命令历史。可以到 .dbshell文档了解更多信息
 
