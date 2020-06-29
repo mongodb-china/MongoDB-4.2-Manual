@@ -74,7 +74,7 @@ Starting in version 3.6, MongoDB supports JSON Schema validation. To specify JSO
 
 > 注意
 >
-> JSON模式是执行模式验证的推荐方法。
+> 推荐使用JSON模式执行模式验证。
 >
 
 例如，以下示例使用JSON模式指定验证规则：
