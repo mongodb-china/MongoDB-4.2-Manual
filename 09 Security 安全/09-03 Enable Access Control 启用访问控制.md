@@ -178,7 +178,7 @@ Using the [`mongo`](https://docs.mongodb.com/v4.0/reference/program/mongo/#bin.m
 
 Start a [`mongo`](https://docs.mongodb.com/v4.0/reference/program/mongo/#bin.mongo) shell with the :option:-u <username> <mongo -u>, -p, and the  --authenticationDatabase <database> command line options:
 
-开启mongo shell时，使用选项： -u <username> 、-p 和 --authenticationDatabase <database> 命令行选项。
+开启mongo shell时，使用选项：-u <username> <mongo -u> 、-p 和 --authenticationDatabase <database> 命令行选项。
 
 ```shell
 mongo --port 27017 -u "myUserAdmin" --authenticationDatabase "admin" -p
@@ -272,7 +272,7 @@ After disconnecting the [`mongo`](https://docs.mongodb.com/v4.0/reference/progra
 
 Start a [`mongo`](https://docs.mongodb.com/v4.0/reference/program/mongo/#bin.mongo) shell with the :option:-u <username> <mongo -u>, -p, and the  --authenticationDatabase <database> command line options:
 
-开启mongo shell时，使用选项： -u <username> 、-p 和 --authenticationDatabase <database> 命令行选项。
+开启mongo shell时，使用选项：-u <username> <mongo -u> 、-p 和 --authenticationDatabase <database> 命令行选项。
 
 ```shell
 mongo --port 27017 -u "myTester" --authenticationDatabase "test" -p
