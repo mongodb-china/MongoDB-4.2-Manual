@@ -70,7 +70,7 @@ mongod --port 27017 --dbpath /var/lib/mongodb
 
 ### 2 Connect to the instance.
 
-### 2 连接这个示例
+### 2 连接这个实例
 
 For example, open a new terminal and connect a [`mongo`](https://docs.mongodb.com/manual/reference/program/mongo/#bin.mongo) shell to the instance:
 
