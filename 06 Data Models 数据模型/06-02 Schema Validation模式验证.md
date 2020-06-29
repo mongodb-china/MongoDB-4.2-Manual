@@ -156,7 +156,7 @@ SEE ALSO
 
 [query operators](https://docs.mongodb.com/manual/reference/operator/query/#query-selectors)
 
-另见
+另请参见
 
 [查询运算符](https://docs.mongodb.com/manual/reference/operator/query/#query-selectors)
 
@@ -349,7 +349,7 @@ SEE ALSO
 
 [`collMod`](https://docs.mongodb.com/manual/reference/command/collMod/#dbcmd.collMod), [`db.createCollection()`](https://docs.mongodb.com/manual/reference/method/db.createCollection/#db.createCollection), [`db.getCollectionInfos()`](https://docs.mongodb.com/manual/reference/method/db.getCollectionInfos/#db.getCollectionInfos).
 
-另见
+另请参见
 
 [`collMod`](https://docs.mongodb.com/manual/reference/command/collMod/#dbcmd.collMod), [`db.createCollection()`](https://docs.mongodb.com/manual/reference/method/db.createCollection/#db.createCollection), [`db.getCollectionInfos()`](https://docs.mongodb.com/manual/reference/method/db.getCollectionInfos/#db.getCollectionInfos)。
 
