@@ -51,7 +51,7 @@ MongoDB also provides the following related options:
 MongoDB还提供了以下相关选项：
 
 - `validationLevel` 选项，该选项确定MongoDB在更新期间对现有文档应用验证规则的严格程度，以及
-- `validationAction` 选项，该选项确定MongoDB是否应错误并拒绝违反验证规则的文档，或 `warn` 日志中的违反行为，但允许无效文档。
+- `validationAction` 选项，该选项确定MongoDB是否应显示错误并拒绝违反验证规则的文档，或 `warn` 日志中的违反行为，但允许无效文档。
 
 
 
