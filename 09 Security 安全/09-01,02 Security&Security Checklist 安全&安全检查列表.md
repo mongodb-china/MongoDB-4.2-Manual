@@ -6,7 +6,25 @@ MongoDB provides various features, such as authentication, access control, encry
 
 MongoD提供了各种各样的功能让你安全地部署MongoDB，诸如：身份认证、访问控制、加密。一些关键的安全功能包括：
 
-![1589183562447](C:\Users\sangfor\AppData\Roaming\Typora\typora-user-images\1589183562447.png)
+| Authentication                                               | Authorization                                                | TLS/SSL                                                      |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| [Authentication](https://docs.mongodb.com/manual/core/authentication/)[SCRAM](https://docs.mongodb.com/manual/core/security-scram/)[x.509](https://docs.mongodb.com/manual/core/security-x.509/) | [Role-Based Access Control](https://docs.mongodb.com/manual/core/authorization/)[Enable Access Control](https://docs.mongodb.com/manual/tutorial/enable-authentication/)[Manage Users and Roles](https://docs.mongodb.com/manual/tutorial/manage-users-and-roles/) | [TLS/SSL (Transport Encryption)](https://docs.mongodb.com/manual/core/security-transport-encryption/)[Configure mongod and mongos for TLS/SSL](https://docs.mongodb.com/manual/tutorial/configure-ssl/)[TLS/SSL Configuration for Clients](https://docs.mongodb.com/manual/tutorial/configure-ssl-clients/) |
+
+| Enterprise Only                                              | Encryption                                                   |      |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | :--- |
+| [Kerberos Authentication](https://docs.mongodb.com/manual/core/kerberos/)[LDAP Proxy Authentication](https://docs.mongodb.com/manual/core/security-ldap/)[Encryption at Rest](https://docs.mongodb.com/manual/core/security-encryption-at-rest/)[Auditing](https://docs.mongodb.com/manual/core/auditing/) | [Client-Side Field Level Encryption](https://docs.mongodb.com/manual/core/security-client-side-encryption/) |      |
+
+
+
+| Authentication                                               | Authorization                                                | TLS/SSL                                                      |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| [身份认证](https://docs.mongodb.com/manual/core/authentication/)  [SCRAM](https://docs.mongodb.com/manual/core/security-scram/)  [x.509](https://docs.mongodb.com/manual/core/security-x.509/) | [基于角色的访问控制](https://docs.mongodb.com/manual/core/authorization/)  [启动访问控制](https://docs.mongodb.com/manual/tutorial/enable-authentication/)  [用户与角色管理](https://docs.mongodb.com/manual/tutorial/manage-users-and-roles/) | [TLS/SSL (传输加密)](https://docs.mongodb.com/manual/core/security-transport-encryption/)  [使用TLS/SSL配置mongod和mongos](https://docs.mongodb.com/manual/tutorial/configure-ssl/) [为客户端配置TLS/SSL ](https://docs.mongodb.com/manual/tutorial/configure-ssl-clients/) |
+
+| Enterprise Only                                              | Encryption                                                   |      |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | :--- |
+| [Kerberos 验证](https://docs.mongodb.com/manual/core/kerberos/)  [LDAP 代理验证](https://docs.mongodb.com/manual/core/security-ldap/)  [静态加密](https://docs.mongodb.com/manual/core/security-encryption-at-rest/)  [审计](https://docs.mongodb.com/manual/core/auditing/) | [客户端字段级加密](https://docs.mongodb.com/manual/core/security-client-side-encryption/) |      |
+
+
 
 ### Security Checklist
 
@@ -81,11 +99,10 @@ Starting in version 4.0, MongoDB uses the native TLS/SSL OS libraries:
 | Linux/BSD | OpenSSL                   |
 | macOS     | Secure Transport          |
 
-| 操作系统  | 使用的系统库             |
-| :-------- | ------------------------ |
-| Windows   | Secure Channel(Schannel) |
-| Linux/BSD | OpenSSL                  |
-| macOS     | Secure Transport         |
+| 操作系统  | 使用的系统库     |
+| :-------- | ---------------- |
+| Linux/BSD | OpenSSL          |
+| macOS     | Secure Transport |
 
 >NOTE
 >
@@ -93,7 +110,7 @@ Starting in version 4.0, MongoDB uses the native TLS/SSL OS libraries:
 
 > 注意
 >
-> 从4.0版本开始，在支持TLS1.1+的系统上，MongoDB会禁用TLS1.0加密。更多详细信息，请参阅[禁用TLS1.0] (https://docs.mongodb.com/manual/tutorial/configure-ssl/).
+> 从4.0版本开始，在支持TLS1.1+的系统上，MongoDB会禁用TLS1.0加密。更多详细信息，请参阅 [禁用TLS1.0](https://docs.mongodb.com/manual/tutorial/configure-ssl/).
 
 请[参阅使用TLS/SSL配置mongod和mongos](https://docs.mongodb.com/manual/tutorial/configure-ssl/)
 
@@ -161,7 +178,7 @@ Track access and changes to database configurations and data. [MongoDB Enterpris
 
 See [Auditing](https://docs.mongodb.com/manual/core/auditing/) and [Configure Auditing](https://docs.mongodb.com/manual/tutorial/configure-auditing/).
 
-请参阅(https://docs.mongodb.com/manual/core/auditing/)和[Configure Auditing](https://docs.mongodb.com/manual/tutorial/configure-auditing/)
+请参阅[Auditing](https://docs.mongodb.com/manual/core/auditing/) 和[Configure Auditing](https://docs.mongodb.com/manual/tutorial/configure-auditing/)
 
 ### ➤ Run MongoDB with a Dedicated User
 
