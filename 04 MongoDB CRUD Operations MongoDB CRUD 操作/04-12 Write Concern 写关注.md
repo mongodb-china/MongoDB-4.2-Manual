@@ -236,4 +236,4 @@ TIP
 
 Avoid using a [`"majority"`](https://docs.mongodb.com/manual/reference/write-concern/#writeconcern."majority") write concern with a (P-S-A) or other topologies that require all data-bearing voting members to be available to acknowledge the writes. Customers who want the durability guarantees of using a [`"majority"`](https://docs.mongodb.com/manual/reference/write-concern/#writeconcern."majority") write concern should instead deploy a topology that does not require all data bearing voting members to be available (e.g. P-S-S).
 
-避免对（P-S-A）或其他要求所有保存数据的投票成员都可以确认写入的拓扑结构使用 [`"majority"`](https://docs.mongodb.com/manual/reference/write-concern/#writeconcern."majority") 写。使用者想要保证在使用[`"majority"`](https://docs.mongodb.com/manual/reference/write-concern/#writeconcern."majority")读关注时的可靠性，则应该部署一个不要求所有保存数据的投票成员都可以确认写入的拓扑结构（例如P-S-S）。
+避免对（P-S-A）或其他要求所有保存数据的投票成员都可以确认写入的拓扑结构使用 [`"majority"`](https://docs.mongodb.com/manual/reference/write-concern/#writeconcern."majority") 写。使用者想要保证在使用[`"majority"`](https://docs.mongodb.com/manual/reference/write-concern/#writeconcern."majority")读关注时的可靠性，则应该部署一个不要求所有保存数据的投票成员都可以确认写入的拓扑结构（例如P-S-S）。 
