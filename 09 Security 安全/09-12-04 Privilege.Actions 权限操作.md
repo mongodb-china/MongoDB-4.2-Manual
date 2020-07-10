@@ -29,7 +29,7 @@ On this page
 
 Privilege actions define the operations a user can perform on a [resource](https://docs.mongodb.com/manual/reference/resource-document/#resource-document). A MongoDB [privilege](https://docs.mongodb.com/manual/core/authorization/#privileges) comprises a [resource](https://docs.mongodb.com/manual/reference/resource-document/#resource-document) and the permitted actions. This page lists available actions grouped by common purpose.
 
-权限操作定义了用户可以对[资源](https://docs.mongodb.com/manual/reference/resource-document/#resource-document)做的操作。一个 MongoDB [权限](https://docs.mongodb.com/manual/core/authorization/#privileges)包括[资源](https://docs.mongodb.com/manual/reference/resource-document/#resource-document)和允许的操作。本页面列出了按通用目的分组的可用操作。
+权限操作定义了用户可以对[资源](https://docs.mongodb.com/manual/reference/resource-document/#resource-document)做的操作。一个 MongoDB [权限](https://docs.mongodb.com/manual/core/authorization/#privileges)包括[资源](https://docs.mongodb.com/manual/reference/resource-document/#resource-document)和允许的操作。本页面按常用操作目标分组列出可用操作。
 
 MongoDB provides built-in roles with pre-defined pairings of resources and permitted actions. For lists of the actions granted, see [Built-In Roles](https://docs.mongodb.com/manual/reference/built-in-roles/). To define custom roles, see [Create a User-Defined Role](https://docs.mongodb.com/manual/tutorial/manage-users-and-roles/#create-user-defined-role).
 
