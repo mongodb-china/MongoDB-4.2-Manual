@@ -1021,3 +1021,8 @@ db.runCommand({find: UUID("123e4567-e89b-12d3-a456-426655440000")})
   允许内部动作。除非绝对必要，否则**不要**分配此操作。
   
   
+原文链接：https://docs.mongodb.com/manual/reference/privilege-actions/
+
+译者：谢伟成
+  
+  
