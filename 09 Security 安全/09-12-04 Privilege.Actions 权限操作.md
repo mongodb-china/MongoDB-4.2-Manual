@@ -11,7 +11,7 @@ On this page
 - [Deployment Management Actions](https://docs.mongodb.com/manual/reference/privilege-actions/#deployment-management-actions)
 - [部署管理操作](https://docs.mongodb.com/manual/reference/privilege-actions/#deployment-management-actions)
 - [Change Stream Actions](https://docs.mongodb.com/manual/reference/privilege-actions/#change-stream-actions)
-- [更改流操作](https://docs.mongodb.com/manual/reference/privilege-actions/#change-stream-actions)
+- [变更流操作](https://docs.mongodb.com/manual/reference/privilege-actions/#change-stream-actions)
 - [Replication Actions](https://docs.mongodb.com/manual/reference/privilege-actions/#replication-actions)
 - [复制集操作](https://docs.mongodb.com/manual/reference/privilege-actions/#replication-actions)
 - [Sharding Actions](https://docs.mongodb.com/manual/reference/privilege-actions/#sharding-actions)
@@ -532,13 +532,13 @@ db.runCommand({find: UUID("123e4567-e89b-12d3-a456-426655440000")})
 
 ## Change Stream Actions 
 
-## 更改流操作
+## 变更流操作
 
 - `changeStream`
 
   User with [`changeStream`](https://docs.mongodb.com/manual/reference/privilege-actions/#changeStream) and [`find`](https://docs.mongodb.com/manual/reference/privilege-actions/#find) on the specific collection, all non-`system` collections in a specifc database, or all non-`system` collections across all databases can open [change stream cursor](https://docs.mongodb.com/manual/changeStreams/) for that resource.
   
-  用户在指定集合，或在指定数据库中的全体非system集合，或在所有数据库中的所有非system集合中有[`changeStream`](https://docs.mongodb.com/manual/reference/privilege-actions/#changeStream) 和 [`find`](https://docs.mongodb.com/manual/reference/privilege-actions/#find)权限，那么该用户可以为这些资源打开[更改流指针](https://docs.mongodb.com/manual/changeStreams/) 
+  用户在指定集合，或在指定数据库中的全体非system集合，或在所有数据库中的所有非system集合中有[`changeStream`](https://docs.mongodb.com/manual/reference/privilege-actions/#changeStream) 和 [`find`](https://docs.mongodb.com/manual/reference/privilege-actions/#find)权限，那么该用户可以为这些资源打开[变更流指针](https://docs.mongodb.com/manual/changeStreams/) 
 
 ## Replication Actions 
 
