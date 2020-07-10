@@ -33,7 +33,7 @@ Privilege actions define the operations a user can perform on a [resource](https
 
 MongoDB provides built-in roles with pre-defined pairings of resources and permitted actions. For lists of the actions granted, see [Built-In Roles](https://docs.mongodb.com/manual/reference/built-in-roles/). To define custom roles, see [Create a User-Defined Role](https://docs.mongodb.com/manual/tutorial/manage-users-and-roles/#create-user-defined-role).
 
-MongoDB 为内置角色提供了预定义的资源和允许的操作。有关授予的操作的列表，请参阅 [内置角色](https://docs.mongodb.com/manual/reference/built-in-roles/)。要定义自定义角色，请参阅 [创建用户定义角色](https://docs.mongodb.com/manual/tutorial/manage-users-and-roles/#create-user-defined-role)。
+MongoDB 为内置角色提供了预定义的资源和允许的操作配组。有关授予的操作的列表，请参阅 [内置角色](https://docs.mongodb.com/manual/reference/built-in-roles/)。要定义自定义角色，请参阅 [创建用户定义角色](https://docs.mongodb.com/manual/tutorial/manage-users-and-roles/#create-user-defined-role)。
 
 ## Query and Write Actions
 
