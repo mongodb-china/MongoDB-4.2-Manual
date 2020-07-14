@@ -422,7 +422,6 @@ On Linux, you must disable *zone reclaim* and also ensure that your [mongod](htt
 echo 0 | sudo tee /proc/sys/vm/zone_reclaim_mod
    ```
 
-
    ```
 sudo sysctl -w vm.zone_reclaim_mode=0
    ```
@@ -555,27 +554,31 @@ Using different storage devices will affect your ability to create snapshot-styl
 
 For local block devices attached to a virtual machine instance via the hypervisor or hosted by a cloud hosting provider, the guest operating system should use a *noop* scheduler for best performance. The *noop* scheduler allows the operating system to defer I/O scheduling to the underlying hypervisor.                                              对于通过虚拟机监视器连接到虚拟机实例或由云托管提供商托管的本地块设备，客户操作系统应使用 noop 调度器以获得最佳性能。noop 调度器允许操作系统将 I/O 调度延缓到底层管理程序。
 
-##### Scheduling for Physical Servers                                                                                                                                                 物理服务器的调度
+##### Scheduling for Physical Servers 物理服务器的调度
 
 For physical servers, the operating system should use a *deadline* scheduler. The *deadline* scheduler caps maximum latency per request and maintains a good disk throughput that is best for disk-intensive database applications.                                                                                                                                                                     对于物理服务器，操作系统应使用 *deadline*调度器。*deadline*调度器限制每个请求的最大延迟，并保持良好的磁盘吞吐量，这对于磁盘密集型数据库应用程序来说是最好的。
 
-## Architecture                                                                                      架构
+## Architecture  架构
 
-### Replica Sets                                                                                                        副本集
+### Replica Sets 副本集
 
 See the [Replica Set Architectures](https://docs.mongodb.com/manual/core/replica-set-architectures/) document for an overview of architectural considerations for replica set deployments.                                                                                                                                                                                            有关副本集部署的体系结构注意事项的概述，请参阅 [副本集体系结构文档](https://docs.mongodb.com/manual/core/replica-set-architectures/)。
 
-### Sharded Clusters                                                                                                  碎片簇
+### Sharded Clusters 碎片集群
 
-See [Sharded Cluster Production Architecture](https://docs.mongodb.com/manual/core/sharded-cluster-components/) for an overview of recommended sharded cluster architectures for production deployments.                                                                                                                                     有关建议的用于生产部署的分片集群体系结构的概述，请参阅[分片集群生产体系结构 ](https://docs.mongodb.com/manual/core/sharded-cluster-components/)。
+See [Sharded Cluster Production Architecture](https://docs.mongodb.com/manual/core/sharded-cluster-components/) for an overview of recommended sharded cluster architectures for production deployments. 
 
-SEE ALSO                                                                                                                                                                                也可以参阅
+有关建议的用于生产部署的分片集群体系结构的概述，请参阅[分片集群生产体系结构 ](https://docs.mongodb.com/manual/core/sharded-cluster-components/)。
+
+SEE ALSO也可以参阅
 
 [Development Checklist](https://docs.mongodb.com/manual/administration/production-checklist-development/)                                                                                                                                                                                                 [开发清单](https://docs.mongodb.com/manual/administration/production-checklist-development/)
 
-## Compression                                                                                            压缩
+## Compression 压缩
 
-WiredTiger can compress collection data using one of the following compression library:                               WiredTiger可以使用以下压缩库之一压缩收集数据：
+WiredTiger can compress collection data using one of the following compression library: 
+
+WiredTiger可以使用以下压缩库之一压缩收集数据：
 
 - [snappy](https://docs.mongodb.com/manual/reference/glossary/#term-snappy)
 
@@ -601,11 +604,17 @@ WiredTiger can compress collection data using one of the following compression l
 
   提供比 snappy 和 zlib 更好的压缩率，并且比 zlib 具有更低的CPU成本。
 
-By default, WiredTiger uses [snappy](https://docs.mongodb.com/manual/reference/glossary/#term-snappy) compression library. To change the compression setting, see [storage.wiredTiger.collectionConfig.blockCompressor](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.collectionConfig.blockCompressor).                                                                                                    默认情况下，WiredTiger使用 [snappy](https://docs.mongodb.com/manual/reference/glossary/#term-snappy) 压缩库。要更改压缩设置，请参见[storage.wiredTiger.collectionConfig.blockCompressor](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.collectionConfig.blockCompressor)。
+By default, WiredTiger uses [snappy](https://docs.mongodb.com/manual/reference/glossary/#term-snappy) compression library. To change the compression setting, see [storage.wiredTiger.collectionConfig.blockCompressor](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.collectionConfig.blockCompressor). 
 
-WiredTiger uses [prefix compression](https://docs.mongodb.com/manual/reference/glossary/#term-prefix-compression) on all indexes by default.                                                                                                默认情况下，WiredTiger对所有索引使用 [前缀压缩](https://docs.mongodb.com/manual/reference/glossary/#term-prefix-compression) 。
+默认情况下，WiredTiger使用 [snappy](https://docs.mongodb.com/manual/reference/glossary/#term-snappy) 压缩库。要更改压缩设置，请参见[storage.wiredTiger.collectionConfig.blockCompressor](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.collectionConfig.blockCompressor)。
 
-## Clock Synchronization                                                                              时钟同步 
+WiredTiger uses [prefix compression](https://docs.mongodb.com/manual/reference/glossary/#term-prefix-compression) on all indexes by default.
+
+默认情况下，WiredTiger对所有索引使用 [前缀压缩](https://docs.mongodb.com/manual/reference/glossary/#term-prefix-compression) 。
+
+## Clock Synchronization 
+
+## 时钟同步 
 
 MongoDB [components](https://docs.mongodb.com/manual/reference/program/) keep logical clocks for supporting time-dependent operations. Using [NTP](http://www.ntp.org/) to synchronize host machine clocks mitigates the risk of clock drift between components. Clock drift between components increases the likelihood of incorrect or abnormal behavior of time-dependent operations like the following:                                                                                                                                                                          MongoDB [组件](https://docs.mongodb.com/manual/reference/program/)保留逻辑时钟以支持与时间相关的操作。使用[网络时间协议](http://www.ntp.org/)同步主机时钟来降低组件之间时钟漂移的风险。组件之间的时钟漂移增加了时间相关操作不正确或异常行为的可能性，如下所示：
 
@@ -624,119 +633,188 @@ MongoDB [components](https://docs.mongodb.com/manual/reference/program/) keep lo
 NTP synchronization is required for deployments running MongoDB lower than 3.4.6 or 3.2.17 with the WiredTiger storage engine, where clock drift could lead to [checkpoint hangs](https://jira.mongodb.org/browse/WT-3227). The issue was fixed in MongoDB [3.4.6+](https://docs.mongodb.com/manual/release-notes/3.4-changelog/#id148) and MongoDB [3.2.17+](https://docs.mongodb.com/manual/release-notes/3.2/#id5), and is resolved in all point release of MongoDB 3.6, 4.0, and 4.2.                                                                                                                                             运行 MongoDB 低于 3.4.6 或 3.2.17 的部署需要 NTP 同步，使用 WiredTiger 存储引擎，时钟漂移可能导致[检查点挂起](https://jira.mongodb.org/browse/WT-3227)。该问题在 MongoDB [3.4.6+](https://docs.mongodb.com/manual/release-notes/3.4-changelog/#id148) 和 MongoDB [3.2.17+](https://docs.mongodb.com/manual/release-notes/3.2/#id5) 中得到了修复，并在 MongoDB 3.6、4.0 和 4.2 版本中所有点得到了解决。
 
 
+
+
 ## Platform Specific Considerations
 
 ## 平台特定注意事项
 
-### MongoDB on Linux                                                                                   Linux 上的 MongoDB
+### MongoDB on Linux  Linux 上的 MongoDB
 
-#### Kernel and File Systems                                                                                                    内核和文件系统
+#### Kernel and File Systems 内核和文件系统
 
 When running MongoDB in production on Linux, you should use Linux kernel version 2.6.36 or later, with either the XFS or EXT4 filesystem. If possible, use XFS as it generally performs better with MongoDB.                                                                                                                                                                 在Linux上的生产环境中运行MongoDB时，应该使用 Linux 内核版本 2.6.36 或更高版本，并使用 XFS或 EXT4 文件系统。如果可能的话，使用 XFS，因为它通常在 MongoDB 中执行得更好。
 
-With the [WiredTiger storage engine](https://docs.mongodb.com/manual/core/wiredtiger/#storage-wiredtiger), using XFS is strongly recommended for data bearing nodes to avoid performance issues that may occur when using EXT4 with WiredTiger.                                   对于 [WiredTiger 存储引擎](https://docs.mongodb.com/manual/core/wiredtiger/#storage-wiredtiger)，强烈建议使用 XFS，以避免将 EXT4 与 WiredTiger 一起使用时可能出现的性能问题。
+With the [WiredTiger storage engine](https://docs.mongodb.com/manual/core/wiredtiger/#storage-wiredtiger), using XFS is strongly recommended for data bearing nodes to avoid performance issues that may occur when using EXT4 with WiredTiger. 
 
-- In general, if you use the XFS file system, use at least version 2.6.25 of the Linux Kernel.              一般来说，如果您使用的是 XFS 文件系统，那么至少要使用 2.6.25 版本的Linux内核。
-- If you use the EXT4 file system, use at least version 2.6.28 of the Linux Kernel.                                        如果使用 EXT4 文件系统，请至少使用 2.6.28 版本的 Linux 内核。
-- On Red Hat Enterprise Linux and CentOS, use at least version 2.6.18-194 of the Linux kernel.在Red Hat 企业版 Linux 和 CentOS 上，至少使用 2.6.18-194 版 Linux 内核。
+对于 [WiredTiger 存储引擎](https://docs.mongodb.com/manual/core/wiredtiger/#storage-wiredtiger)，强烈建议使用 XFS，以避免将 EXT4 与 WiredTiger 一起使用时可能出现的性能问题。
 
-#### System C Library                                                                                                                         系统C库
+- In general, if you use the XFS file system, use at least version 2.6.25 of the Linux Kernel. 
+- 一般来说，如果您使用的是 XFS 文件系统，那么至少要使用 2.6.25 版本的Linux内核。
+- If you use the EXT4 file system, use at least version 2.6.28 of the Linux Kernel.  
+- 如果使用 EXT4 文件系统，请至少使用 2.6.28 版本的 Linux 内核。
+- On Red Hat Enterprise Linux and CentOS, use at least version 2.6.18-194 of the Linux kernel.
+- 在Red Hat 企业版 Linux 和 CentOS 上，至少使用 2.6.18-194 版 Linux 内核。
 
-MongoDB uses the [GNU C Library](http://www.gnu.org/software/libc/) (glibc) on Linux. Generally, each Linux distro provides its own vetted version of this library. For best results, use the latest update available for this system-provided version. You can check whether you have the latest version installed by using your system’s package manager. For example:                                                                                                  MongoDB在Linux上使用 [GNU C 库](http://www.gnu.org/software/libc/) (glibc)。一般来说，每个Linux发行版都提供了自己经过审查的版本。为了获得最佳结果，请使用此系统提供版本的最新更新。您可以使用系统的包管理器检查是否安装了最新版本。例如：
+#### System C Library    系统C库
 
-- On RHEL / CentOS, the following command updates the system-provided GNU C Library:                     在 RHEL/CentOS 上，以下命令更新系统提供的 GNU C 库：
+MongoDB uses the [GNU C Library](http://www.gnu.org/software/libc/) (glibc) on Linux. Generally, each Linux distro provides its own vetted version of this library. For best results, use the latest update available for this system-provided version. You can check whether you have the latest version installed by using your system’s package manager. For example: 
+
+MongoDB在Linux上使用 [GNU C 库](http://www.gnu.org/software/libc/) (glibc)。一般来说，每个Linux发行版都提供了自己经过审查的版本。为了获得最佳结果，请使用此系统提供版本的最新更新。您可以使用系统的包管理器检查是否安装了最新版本。例如：
+
+- On RHEL / CentOS, the following command updates the system-provided GNU C Library:
+
+- 在 RHEL/CentOS 上，以下命令更新系统提供的 GNU C 库：
 
   ```
-sudo yum update glibc
-  ```
-  
-- On Ubuntu / Debian, the following command updates the system-provided GNU C Library: 在Ubuntu/Debian上，以下命令更新系统提供的 GNU C 库：
-
-  ```
-sudo apt-get install libc6
+  sudo yum update glibc
   ```
 
-#### fsync() on Directories                                                                                                              目录中的 fsync()
+- On Ubuntu / Debian, the following command updates the system-provided GNU C Library: 
 
-IMPORTANT                                                                                                                                                                 重要
+- 在Ubuntu/Debian上，以下命令更新系统提供的 GNU C 库：
 
-MongoDB requires a filesystem that supports fsync() *on directories*. For example, HGFS and Virtual Box’s shared folders do *not* support this operation.                                                                   MongoDB要求文件系统对目录支持 fsync()。例如 HGFS 和 Virtual Box 的共享目录不支持这个操作。
+  ```
+  sudo apt-get install libc6
+  ```
 
-#### Set vm.swappiness to 1 or 0                                                                                                  将 vm.swappiness 设置为 1 或者 0
+#### fsync() on Directories  目录中的 fsync()
 
-“Swappiness” is a Linux kernel setting that influences the behavior of the Virtual Memory manager. The vm.swappiness setting ranges from 0 to 100: the higher the value, the more strongly it prefers swapping memory pages to disk over dropping pages from RAM.          “Swappiness” 是一种影响虚拟内存管理器的 Linux 内核设置，vm.swappiness 设置的范围从0到100：该值越高，它越倾向于将内存页交换到磁盘，而不是从RAM中删除页。
+IMPORTANT
 
-- A setting of 0 disables swapping entirely [[2\]](https://docs.mongodb.com/manual/administration/production-notes/#swappiness-kernel-version).                                                                                                      设置为0将完全禁用交换 [[2\]](https://docs.mongodb.com/manual/administration/production-notes/#swappiness-kernel-version)。
-- A setting of 1 permits the kernel to swap only to avoid out-of-memory problems.                                     设置为1只允许内核交换以避免内存不足问题。
+ 重要
+
+MongoDB requires a filesystem that supports fsync() *on directories*. For example, HGFS and Virtual Box’s shared folders do *not* support this operation.
+
+MongoDB要求文件系统对目录支持 fsync()。例如 HGFS 和 Virtual Box 的共享目录不支持这个操作。
+
+
+
+#### Set vm.swappiness to 1 or 0
+
+#### 将 vm.swappiness 设置为 1 或者 0
+
+“Swappiness” is a Linux kernel setting that influences the behavior of the Virtual Memory manager. The vm.swappiness setting ranges from 0 to 100: the higher the value, the more strongly it prefers swapping memory pages to disk over dropping pages from RAM. 
+
+“Swappiness” 是一种影响虚拟内存管理器的 Linux 内核设置，vm.swappiness 设置的范围从0到100：该值越高，它越倾向于将内存页交换到磁盘，而不是从RAM中删除页。
+
+- A setting of 0 disables swapping entirely [[2\]](https://docs.mongodb.com/manual/administration/production-notes/#swappiness-kernel-version). 
+- 设置为0将完全禁用交换 [[2\]](https://docs.mongodb.com/manual/administration/production-notes/#swappiness-kernel-version)。
+- A setting of 1 permits the kernel to swap only to avoid out-of-memory problems. 
+- 设置为1只允许内核交换以避免内存不足问题。
 - A setting of 60 tells the kernel to swap to disk often, and is the default value on many Linux distributions.                                                                                                                                                                设置60告诉内核经常交换到磁盘，这是许多Linux发行版的默认值。
-- A setting of 100 tells the kernel to swap aggressively to disk.                                                                        设置为100将告诉内核尽可能交换到磁盘。
+- A setting of 100 tells the kernel to swap aggressively to disk. 
+- 设置为100将告诉内核尽可能交换到磁盘。
 
 MongoDB performs best where swapping can be avoided or kept to a minimum. As such you should set vm.swappiness to either 1 or 0 depending on your application needs and cluster configuration.                                                                                                                                                    MongoDB 在可以避免或保持最小交换的地方表现最好。因此，您应该根据应用程序需要和集群配置将 vm.swappiness 设置为1或0。
 
 [2]  With Linux kernel versions previous to 3.5, or RHEL / CentOS kernel versions previous to 2.6.32-303, a vm.swappiness setting of 0 would still allow the kernel to swap in certain emergency situations.                                                                                                                                                [2] 对于3.5之前的Linux内核版本，或 2.6.32-303 之前的 RHEL/CentOS 内核版本，vm.swappiness 设置为0仍然允许内核在某些紧急情况下进行交换。
 
-NOTE                                                                                                                                                                            注意
+
+
+NOTE
+
+注意
 
 If your MongoDB instance is hosted on a system that also runs other software, such as a webserver, you should set vm.swappiness to 1. If possible, it is highly recommended that you run MongoDB on its own dedicated system.                                                                                                    如果 MongoDB 实例托管在同时运行其他软件（如Web服务器）的系统上，则应将 vm.swappiness 设置为1。如果可能，强烈建议您在MongoDB自己的专用系统上运行MongoDB。
 
-- To check the current swappiness setting on your system, run:                                                                 要检查系统上的当前交换设置，请运行：
+- To check the current swappiness setting on your system, run: 
+
+- 要检查系统上的当前交换设置，请运行：
 
   ```
-cat /proc/sys/vm/swappiness
+  cat /proc/sys/vm/swappiness
   ```
-  
-- To change swappiness on your system:                                                                                                                    要更改系统上的交换设置：
 
-  1. Edit the /etc/sysctl.conf file and add the following line:                                                                              编辑 /etc/sysctl.conf 文件并添加以下行：
+- To change swappiness on your system:
 
-     ```
-vm.swappiness = 1
-     ```
-     
-  2. Run the following command to apply the setting:                                                                                       运行以下命令以应用设置：
+- 要更改系统上的交换设置：
+
+  1. Edit the /etc/sysctl.conf file and add the following line: 
+
+     编辑 /etc/sysctl.conf 文件并添加以下行：
 
      ```
-sudo sysctl -p
+     vm.swappiness = 1
      ```
 
-NOTE                                                                                                                                                                            注意
+  2. Run the following command to apply the setting: 
 
-If you are running RHEL / CentOS and using a tuned performance profile, you must also edit your chosen profile to set vm.swappiness to 1 or 0.                                                                                                        如果您正在运行 RHEL/CentOS 并使用优化的性能配置文件，则还必须编辑所选配置文件以将vm.swappiness 设置为1或0。
+     运行以下命令以应用设置：
 
-#### Recommended Configuration                                                                                                 推荐配置
+     ```
+     sudo sysctl -p
+     ```
 
-For all MongoDB deployments:                                                                                                                                 对于所有MongoDB部署：
+NOTE
+
+ 注意
+
+If you are running RHEL / CentOS and using a tuned performance profile, you must also edit your chosen profile to set vm.swappiness to 1 or 0.
+
+如果您正在运行 RHEL/CentOS 并使用优化的性能配置文件，则还必须编辑所选配置文件以将vm.swappiness 设置为1或0。
+
+
+
+#### Recommended Configuration 推荐配置
+
+For all MongoDB deployments: 
+
+对于所有MongoDB部署：
 
 - Use the Network Time Protocol (NTP) to synchronize time among your hosts. This is especially important in sharded clusters.                                                                                                              在主机之间同步时间使用网络时间协议（NTP）。这在分片集群中尤为重要。
 
-For the WiredTiger storage engines, consider the following recommendations:                                                 对于 WiredTiger 存储引擎，请考虑以下建议：
+For the WiredTiger storage engines, consider the following recommendations:
 
-- Turn off atime for the storage volume containing the [database files](https://docs.mongodb.com/manual/reference/glossary/#term-dbpath).                                                                             在包含[数据库文件](https://docs.mongodb.com/manual/reference/glossary/#term-dbpath)的存储卷关闭 atime 配置。 
+对于 WiredTiger 存储引擎，请考虑以下建议：
 
-- Set the file descriptor limit, -n, and the user process limit (ulimit), -u, above 20,000, according to the suggestions in the [ulimit](https://docs.mongodb.com/manual/reference/ulimit/) reference. A low ulimit will affect MongoDB when under heavy use and can produce errors and lead to failed connections to MongoDB processes and loss of service.                                                                                                                                      按照 [ulimit](https://docs.mongodb.com/manual/reference/ulimit/) 设置的推荐，设置描述符限制，-n 和用户进程限制（ulimit），-u 设置为20000以上。当大量使用时，低 ulimit 将影响 MongoDB，并可能产生错误，导致与MongoDB进程的连接失败和服务丢失。
+- Turn off atime for the storage volume containing the [database files](https://docs.mongodb.com/manual/reference/glossary/#term-dbpath). 
 
-- Disable Transparent Huge Pages. MongoDB performs better with normal (4096 bytes) virtual memory pages. See [Transparent Huge Pages Settings](https://docs.mongodb.com/manual/tutorial/transparent-huge-pages/).                                                                          不要使用透明大页，因为MongoDB在标准页中表现更好。参见 [透明大页设置](https://docs.mongodb.com/manual/tutorial/transparent-huge-pages/).     
+- 在包含[数据库文件](https://docs.mongodb.com/manual/reference/glossary/#term-dbpath)的存储卷关闭 atime 配置。 
 
-- Disable NUMA in your BIOS. If that is not possible, see [MongoDB on NUMA Hardware](https://docs.mongodb.com/manual/administration/production-notes/#production-numa).                     在BIOS中禁用NUMA。如果做不到，请参考 [MongoDB 和 NUMA 硬件](https://docs.mongodb.com/manual/administration/production-notes/#production-numa)章节。
+- Set the file descriptor limit, -n, and the user process limit (ulimit), -u, above 20,000, according to the suggestions in the [ulimit](https://docs.mongodb.com/manual/reference/ulimit/) reference. A low ulimit will affect MongoDB when under heavy use and can produce errors and lead to failed connections to MongoDB processes and loss of service. 
+
+- 按照 [ulimit](https://docs.mongodb.com/manual/reference/ulimit/) 设置的推荐，设置描述符限制，-n 和用户进程限制（ulimit），-u 设置为20000以上。当大量使用时，低 ulimit 将影响 MongoDB，并可能产生错误，导致与MongoDB进程的连接失败和服务丢失。
+
+- Disable Transparent Huge Pages. MongoDB performs better with normal (4096 bytes) virtual memory pages. See [Transparent Huge Pages Settings](https://docs.mongodb.com/manual/tutorial/transparent-huge-pages/). 
+
+- 不要使用透明大页，因为MongoDB在标准页中表现更好。参见 [透明大页设置](https://docs.mongodb.com/manual/tutorial/transparent-huge-pages/).     
+
+- Disable NUMA in your BIOS. If that is not possible, see [MongoDB on NUMA Hardware](https://docs.mongodb.com/manual/administration/production-notes/#production-numa).
+
+- 在BIOS中禁用NUMA。如果做不到，请参考 [MongoDB 和 NUMA 硬件](https://docs.mongodb.com/manual/administration/production-notes/#production-numa)章节。
 
 - Configure SELinux for MongoDB if you are not using the default MongoDB directory paths or [ports](https://docs.mongodb.com/manual/reference/default-mongodb-port/).                                                                                                                                                                        如果不使用默认的 MongoDB 目录路径或 [端口](https://docs.mongodb.com/manual/reference/default-mongodb-port/)，请为 MongoDB 配置 SELinux。
 
   See: [Configure SELinux for MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#install-rhel-configure-selinux) and [Configure SELinux for MongoDB Enterprise](https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-red-hat/#install-enterprise-rhel-configure-selinux) for the required configuration.                                                                                                                                         请参阅[为 MongoDB 配置 SELinux](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#install-rhel-configure-selinux) 和 [为 MongoDB 企业版配置 SELinux](https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-red-hat/#install-enterprise-rhel-configure-selinux) 以获得所需的配置。
 
-  NOTE                                                                                                                                                                            注意
+  
+
+  NOTE
+
+  注意
 
   If you are using SELinux, any MongoDB operation that requires [server-side JavaScript](https://docs.mongodb.com/manual/core/server-side-javascript/) will result in segfault errors. [Disable Server-Side Execution of JavaScript](https://docs.mongodb.com/manual/core/server-side-javascript/#disable-server-side-js) describes how to disable execution of server-side JavaScript.                                                                                                      如果您使用的是 SELinux，任何需要 [服务器端 javaScript](https://docs.mongodb.com/manual/core/server-side-javascript/) 的 MongoDB 操作都会导致段错误。 [禁用服务器端执行JavaScript](https://docs.mongodb.com/manual/core/server-side-javascript/#disable-server-side-js) 描述如何禁用服务器端 JavaScript 执行。
 
-For the WiredTiger storage engine:                                                                                                                          对于WiredTiger存储引擎：
+  
+
+For the WiredTiger storage engine: 
+
+对于WiredTiger存储引擎：
 
 - Set the readahead setting between 8 and 32 regardless of storage media type (spinning disk, SSD, etc.).                                                                                                                                                      无论存储介质类型（旋转磁盘、SSD等）如何，将 文件预读的值设置为8到32。
 
-  Higher readahead commonly benefits sequential I/O operations. Since MongoDB disk access patterns are generally random, using higher readahead settings provides limited benefit or potential performance degradation. As such, for optimal MongoDB performance, set readahead between 8 and 32, unless testing shows a measurable, repeatable, and reliable benefit in a higher readahead value. [MongoDB commercial support](https://support.mongodb.com/welcome?jmp=docs) can provide advice and guidance on alternate readahead configurations.                                                       较高的预读通常有利于顺序 I/O 操作。由于MongoDB 磁盘访问模式通常是随机的，因此使用更高的文件预读设置提供的好处有限，或者可能会降低性能。因此，为了获得最佳的 MongoDB 性能，请将文件预读的值设置在8到32之间，除非测试在更高的文件预读值中显示出可测量、可重复和可靠的好处。 [MongoDB 商业支持](https://support.mongodb.com/welcome?jmp=docs)可以提供关于备用文件预读配置的建议和指导。
+  Higher readahead commonly benefits sequential I/O operations. Since MongoDB disk access patterns are generally random, using higher readahead settings provides limited benefit or potential performance degradation. As such, for optimal MongoDB performance, set readahead between 8 and 32, unless testing shows a measurable, repeatable, and reliable benefit in a higher readahead value. [MongoDB commercial support](https://support.mongodb.com/welcome?jmp=docs) can provide advice and guidance on alternate readahead configurations. 
+
+  较高的预读通常有利于顺序 I/O 操作。由于MongoDB 磁盘访问模式通常是随机的，因此使用更高的文件预读设置提供的好处有限，或者可能会降低性能。因此，为了获得最佳的 MongoDB 性能，请将文件预读的值设置在8到32之间，除非测试在更高的文件预读值中显示出可测量、可重复和可靠的好处。 [MongoDB 商业支持](https://support.mongodb.com/welcome?jmp=docs)可以提供关于备用文件预读配置的建议和指导。
+
   
 
-#### MongoDB and TLS/SSL Libraries                                                                              MongoDB 和 TLS/SSL 库
+#### MongoDB and TLS/SSL Libraries MongoDB 和 TLS/SSL 库
 
-On Linux platforms, you may observe one of the following statements in the MongoDB log:                  在 Linux 平台上，您可以在 MongoDB 日志中看到以下语句之一：
+On Linux platforms, you may observe one of the following statements in the MongoDB log:  
+
+在 Linux 平台上，您可以在 MongoDB 日志中看到以下语句之一：
 
 ```
 <path to TLS/SSL libs>/libssl.so.<version>: no version information available (required by /usr/bin/mongod)
@@ -750,7 +828,9 @@ objdump -T <path to mongod>/mongod | grep " SSL_"
 objdump -T <path to mongod>/mongod | grep " CRYPTO_"
 ```
 
-These operations will return output that resembles one the of the following lines:                                      这些操作将返回类似于以下行之一的输出：
+These operations will return output that resembles one the of the following lines: 
+
+这些操作将返回类似于以下行之一的输出：
 
 ```
 0000000000000000      DF *UND*       0000000000000000  libssl.so.10 SSL_write
@@ -768,120 +848,178 @@ This procedure is neither exact nor exhaustive: many symbols used by [mongod](ht
 
 这个过程既不精确也不详尽： [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 从 libcrypto 库中使用的许多符号不是以 CRYPTO_ 开头的。
 
-### MongoDB on Windows                                                                    Windows 上的 MongoDB
+### MongoDB on Windows  Windows 上的 MongoDB
 
 For MongoDB instances using the WiredTiger storage engine, performance on Windows is comparable to performance on Linux.                                                                                                                      对于使用 WiredTiger 存储引擎的 MongoDB 实例，Windows 上的性能与 Linux 上的性能相当。
 
-### MongoDB on Virtual Environments                                                                              虚拟环境中的MongoDB
+
+
+### MongoDB on Virtual Environments   虚拟环境中的MongoDB
 
 This section describes considerations when running MongoDB in some of the more common virtual environments.                                                                                                                                                  本章节描述了在常用虚拟环境中运行MongoDB需要考虑的问题。
 
 For all platforms, consider [Scheduling](https://docs.mongodb.com/manual/administration/production-notes/#virtualized-disks-scheduling).                                                                                                                                                                                         对于所有平台，请考虑 [调度](https://docs.mongodb.com/manual/administration/production-notes/#virtualized-disks-scheduling).
 
-#### AWS EC2                                                                                                                              亚马逊弹性计算云
+#### AWS EC2    亚马逊弹性计算云
 
-There are two performance configurations to consider:                                                                                    有两种性能配置需要考虑：
+There are two performance configurations to consider: 
 
-- Reproducible performance for performance testing or benchmarking, and                                                        性能测试或基准测试的可复制性能，以及
-- Raw maximum performance                                                                                                                                原始最大性能
+有两种性能配置需要考虑：
 
-To tune performance on EC2 for either configuration, you should:                                                                        要为任一配置优化弹性计算云上的性能，应：
+- Reproducible performance for performance testing or benchmarking, and 
+- 性能测试或基准测试的可复制性能，以及
+- Raw maximum performance
+- 原始最大性能
+
+To tune performance on EC2 for either configuration, you should: 
+
+ 要为任一配置优化弹性计算云上的性能，应：
 
 - Enable AWS [Enhanced Networking](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking) for your instance. Not all instance types support Enhanced Networking.                                                                                                                                                   为您的实例启用亚马逊[增强的网络](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking)。并非所有实例类型都支持增强的网络。
 
-  To learn more about Enhanced Networking, see to the [AWS documentation](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking).                                           要了解有关增强联网的更多信息，请参阅[AWS 文档](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking)。
+  
 
-If you are concerned more about reproducible performance on EC2, you should also:                                   如果您更关心弹性计算云的可重复性能，您还应该：
+  To learn more about Enhanced Networking, see to the [AWS documentation](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking).
 
-- Use provisioned IOPS for the storage, with separate devices for journal and data. Do not use the ephemeral (SSD) storage available on most instance types as their performance changes moment to moment. (The i series is a notable exception, but very expensive.)                                        为存储使用配置的 IOPS，日志和数据使用单独的设备。不要使用大多数实例类型上可用的临时（SSD）存储，因为它们的性能会随时发生变化。（i 系列是一个显著的例外，但非常昂贵。）
+  要了解有关增强联网的更多信息，请参阅[AWS 文档](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking)。
 
-- Disable DVFS and CPU power saving modes.                                                                                                           禁用 DVFS 和 CPU 节能模式。
+If you are concerned more about reproducible performance on EC2, you should also: 
 
-  SEE ALSO                                                                                                                                                                 也可以看看
+如果您更关心弹性计算云的可重复性能，您还应该：
 
-  [Amazon documentation on Processor State Control](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/processor_state_control.html)                                                                                       [关于处理器状态控制的Amazon文档](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/processor_state_control.html)                                                                              
+- Use provisioned IOPS for the storage, with separate devices for journal and data. Do not use the ephemeral (SSD) storage available on most instance types as their performance changes moment to moment. (The i series is a notable exception, but very expensive.) 
 
-- Disable hyperthreading.                                                                                                                                       禁用超线程。
+- 为存储使用配置的 IOPS，日志和数据使用单独的设备。不要使用大多数实例类型上可用的临时（SSD）存储，因为它们的性能会随时发生变化。（i 系列是一个显著的例外，但非常昂贵。）
 
-  SEE ALSO                                                                                                                                                                 也可以看看
+- Disable DVFS and CPU power saving modes. 
 
-  [Amazon blog post on disabling Hyper-Threading](https://aws.amazon.com/blogs/compute/disabling-intel-hyper-threading-technology-on-amazon-linux/).                                                                                                   [亚马逊关于禁用超线程的博客文章](https://aws.amazon.com/blogs/compute/disabling-intel-hyper-threading-technology-on-amazon-linux/).
+- 禁用 DVFS 和 CPU 节能模式。
 
-- Use numactl to bind memory locality to a single socket.                                                                使用 numactl 将内存局部性绑定到单个套接字。
+  SEE ALSO
 
-#### Azure                                                                                                                                    Azure
+  也可以看看
+
+  [Amazon documentation on Processor State Control](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/processor_state_control.html)
+
+  [关于处理器状态控制的Amazon文档](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/processor_state_control.html)                                                                              
+
+- Disable hyperthreading. 禁用超线程。
+
+  
+
+  SEE ALSO
+
+  也可以看看
+
+   [亚马逊关于禁用超线程的博客文章](https://aws.amazon.com/blogs/compute/disabling-intel-hyper-threading-technology-on-amazon-linux/).
+
+- Use numactl to bind memory locality to a single socket. 
+
+- 使用 numactl 将内存局部性绑定到单个套接字。
+
+#### Azure
 
 Use [Premium Storage](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage/). Microsoft Azure offers two general types of storage: Standard storage, and Premium storage. MongoDB on Azure has better performance when using Premium storage than it does with Standard storage.                                                                                                                                                                   使用[高级存储](https://azure.microsoft.com/en-us/documentation/articles/storage-premium-storage/)。微软Azure提供了两种常见的存储类型：标准存储和高级存储。与标准存储相比，Azure上的MongoDB 在使用高级存储时具有更好的性能。
 
-The TCP idle timeout on the Azure load balancer is 240 seconds by default, which can cause it to silently drop connections if the TCP keepalive on your Azure systems is greater than this value. You should set tcp_keepalive_time to 120 to ameliorate this problem.                                                                                                         默认情况下，Azure 负载平衡器上的 TCP 空闲超时默认为240秒，如果 Azure 系统上的 TCP 长连接大于此值，则会导致它自动断开连接。您应该将 TCP 长连接时间设置为120以改善此问题。                                                                                          
+The TCP idle timeout on the Azure load balancer is 240 seconds by default, which can cause it to silently drop connections if the TCP keepalive on your Azure systems is greater than this value. You should set tcp_keepalive_time to 120 to ameliorate this problem. 
 
-NOTE                                                                                                                                                                                                             注意
+默认情况下，Azure 负载平衡器上的 TCP 空闲超时默认为240秒，如果 Azure 系统上的 TCP 长连接大于此值，则会导致它自动断开连接。您应该将 TCP 长连接时间设置为120以改善此问题。                                                                                          
+
+NOTE
+
+注意
 
 You will need to restart [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) and [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) processes for new system-wide keepalive settings to take effect.                                                                                                                                                                                               要使新的系统范围长连接设置生效，您需要重新启动 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 和[mongos ](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos)进程。
 
-- To view the keepalive setting on Linux, use one of the following commands:                                                              要在 Linux 上查看长连接设置，请使用以下命令之一：
+- To view the keepalive setting on Linux, use one of the following commands:
+
+- 要在 Linux 上查看长连接设置，请使用以下命令之一：
 
   ```
-sysctl net.ipv4.tcp_keepalive_time
-  ```
-  
-  Or:                                                                                                                                                                                                 或者：
-
-  ```
-cat /proc/sys/net/ipv4/tcp_keepalive_time
+  sysctl net.ipv4.tcp_keepalive_time
   ```
 
-  The value is measured in seconds.                                                                                                                                        该值以秒为单位。
-  
-  NOTE                                                                                                                                                                                              注意
+  Or: 
+
+  或者：
+
+  ```
+  cat /proc/sys/net/ipv4/tcp_keepalive_time
+  ```
+
+  The value is measured in seconds. 
+
+  该值以秒为单位。
+
+  NOTE
+
+  注意
 
   Although the setting name includes ipv4, the tcp_keepalive_time value applies to both IPv4 and IPv6.                                                                                                                                                                        尽管设置名称包括IPv4 ，但 TCP 长连接时间值同时适用于 IPv4 和 IPv6。
 
 - To change the tcp_keepalive_time value, you can use one of the following commands, supplying a <value> in seconds:                                                                                                                    要更改 TCP 长连接时间值，可以使用以下命令之一，以秒为单位提供<value>：：
 
   ```
-sudo sysctl -w net.ipv4.tcp_keepalive_time=<value>
+  sudo sysctl -w net.ipv4.tcp_keepalive_time=<value>
   ```
-  
-  Or:                                                                                                                                                                       或者：
+
+  Or:
+
+  或者：
 
   ```
-echo <value> | sudo tee /proc/sys/net/ipv4/tcp_keepalive_time
+  echo <value> | sudo tee /proc/sys/net/ipv4/tcp_keepalive_time
   ```
 
   These operations do not persist across system reboots. To persist the setting, add the following line to /etc/sysctl.conf, supplying a<value> in seconds, and reboot the machine:                                                                                                                                                                  这些操作不会在系统重新启动时保持。要保持设置，请将以下行添加到 /etc/sysctl.conf，以秒为单位提供 <value>，然后重新启动计算机：
-  
-  ```
-net.ipv4.tcp_keepalive_time = <value>
-  ```
-
-  Keepalive values greater than 300 seconds, (5 minutes) will be overridden on [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) and [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) sockets and set to 300 seconds.                                                                                                               长连接值大于300秒（5分钟）将在 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) and [mongos ](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos)套接字上重写，并设置为300秒。
-
-- To view the keepalive setting on Windows, issue the following command:                                                 要在 Windows 上查看长连接设置，请发出以下命令：
 
   ```
-reg query HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters /v KeepAliveTime
+  net.ipv4.tcp_keepalive_time = <value>
   ```
-  
-  The registry value is not present by default. The system default, used if the value is absent, is 7200000 milliseconds or 0x6ddd00 in hexadecimal.                                                                                      默认情况下不存在注册表值。如果该值不存在，则使用系统默认值7200000毫秒或0x6ddd00（十六进制）。
 
-- To change the KeepAliveTime value, use the following command in an Administrator Command Prompt, where  is expressed in hexadecimal (e.g. 120000 is 0x1d4c0):                                     要更改长连接时间值，请在管理员命令提示符中使用以下命令，该命令以十六进制表示（例如120000是0x1d4c0）：
+  Keepalive values greater than 300 seconds, (5 minutes) will be overridden on [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) and [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) sockets and set to 300 seconds.
+
+  长连接值大于300秒（5分钟）将在 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) and [mongos ](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos)套接字上重写，并设置为300秒。
+
+- To view the keepalive setting on Windows, issue the following command:
+
+- 要在 Windows 上查看长连接设置，请发出以下命令：
 
   ```
-reg add HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\ /t REG_DWORD /v KeepAliveTime /d <value>
+  reg query HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters /v KeepAliveTime
   ```
-  
+
+  The registry value is not present by default. The system default, used if the value is absent, is 7200000 milliseconds or 0x6ddd00 in hexadecimal. 
+
+  默认情况下不存在注册表值。如果该值不存在，则使用系统默认值7200000毫秒或0x6ddd00（十六进制）。
+
+- To change the KeepAliveTime value, use the following command in an Administrator Command Prompt, where  is expressed in hexadecimal (e.g. 120000 is 0x1d4c0):
+
+- 要更改长连接时间值，请在管理员命令提示符中使用以下命令，该命令以十六进制表示（例如120000是0x1d4c0）：
+
+  ```
+  reg add HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\ /t REG_DWORD /v KeepAliveTime /d <value>
+  ```
+
   Windows users should consider the [Windows Server Technet Article on KeepAliveTime](https://technet.microsoft.com/en-us/library/cc957549.aspx) for more information on setting keepalive for MongoDB deployments on Windows systems. Keepalive values greater than or equal to *600000* milliseconds (10 minutes) will be ignored by [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) and [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos).                                                                                                                             Windows用户应考虑 [Windows服务器 Technet 关于长连接时间值的文章](https://technet.microsoft.com/en-us/library/cc957549.aspx) 以获取有关在 Windows系统上设置 MongoDB 部署长连接的详细信息。 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) and [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) 将忽略大于或等于*600000*毫秒（10分钟）的长连接值。
 
-#### VMware                                                                                                                            VMware
+  
 
-MongoDB is compatible with VMware.                                                                                                                                               MongoDB 与 VMware 兼容。
+#### VMware
+
+MongoDB is compatible with VMware. 
+
+MongoDB 与 VMware 兼容。
 
 VMware supports memory overcommitment, where you can assign more memory to your virtual machines than the physical machine has available. When memory is overcommitted, the hypervisor reallocates memory between the virtual machines. VMware’s balloon driver (vmmemctl) reclaims the pages that are considered least valuable.                                                        VMware支持内存过量使用，在这里，您可以为虚拟机分配比物理机可用更多的内存。当内存被过度使用时，管理程序会在虚拟机之间重新分配内存。VMware 的气球驱动（vmmemctl）回收那些被认为价值最低的页面。
 
-The balloon driver resides inside the guest operating system. When the balloon driver expands, it may induce the guest operating system to reclaim memory from guest applications, which can interfere with MongoDB’s memory management and affect MongoDB’s performance.                                       气球驱动程序位于来宾操作系统中。当气球驱动程序扩展时，可能导致来宾操作系统从来宾应用程序中回收内存，从而干扰 MongoDB 的内存管理，影响 MongoDB 的性能。
+The balloon driver resides inside the guest operating system. When the balloon driver expands, it may induce the guest operating system to reclaim memory from guest applications, which can interfere with MongoDB’s memory management and affect MongoDB’s performance. 
 
-Do not disable the balloon driver and memory overcommitment features. This can cause the hypervisor to use its swap which will affect performance. Instead, map and reserve the full amount of memory for the virtual machine running MongoDB. This ensures that the balloon will not be inflated in the local operating system if there is memory pressure in the hypervisor due to an overcommitted configuration.                                                                                                                           不要禁用气球驱动程序和内存过载使用功能。这会导致虚拟机监控程序使用其交换，从而影响性能。相反，映射并保留运行 MongoDB 的虚拟机的全部内存。这可以确保，如果管理程序中存在由于过度提交配置而导致的内存压力，则气球不会在本地操作系统中膨胀。
+气球驱动程序位于来宾操作系统中。当气球驱动程序扩展时，可能导致来宾操作系统从来宾应用程序中回收内存，从而干扰 MongoDB 的内存管理，影响 MongoDB 的性能。
+
+Do not disable the balloon driver and memory overcommitment features. This can cause the hypervisor to use its swap which will affect performance. Instead, map and reserve the full amount of memory for the virtual machine running MongoDB. This ensures that the balloon will not be inflated in the local operating system if there is memory pressure in the hypervisor due to an overcommitted configuration.
+
+不要禁用气球驱动程序和内存过载使用功能。这会导致虚拟机监控程序使用其交换，从而影响性能。相反，映射并保留运行 MongoDB 的虚拟机的全部内存。这可以确保，如果管理程序中存在由于过度提交配置而导致的内存压力，则气球不会在本地操作系统中膨胀。
 
 Ensure that virtual machines stay on a specific ESX/ESXi host by setting VMware’s [affinity rules](https://kb.vmware.com/selfservice/microsites/search.do?cmd=displayKC&docType=kc&externalId=1005508&sliceId=1&docTypeID=DT_KB_1_1&dialogID=549881455&stateId=0 0 549889513). If you must manually migrate a virtual machine to another host and the [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) instance on the virtual machine is the [primary](https://docs.mongodb.com/manual/reference/glossary/#term-primary), you must first [step down](https://docs.mongodb.com/manual/reference/method/rs.stepDown/#rs.stepDown) the primary and then [shut down the instance](https://docs.mongodb.com/manual/reference/method/db.shutdownServer/#db.shutdownServer).                                                                                                                                                                           通过设置VMware的[关联规则](https://kb.vmware.com/selfservice/microsites/search.do?cmd=displayKC&docType=kc&externalId=1005508&sliceId=1&docTypeID=DT_KB_1_1&dialogID=549881455&stateId=0 0 549889513)，确保虚拟机留在特定的 ESX/ESXi 主机上。如果必须手动将虚拟机迁移到另一个主机，并且虚拟机上的 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 实例是[最重要的](https://docs.mongodb.com/manual/reference/glossary/#term-primary)，则必须先[逐步关闭](https://docs.mongodb.com/manual/reference/method/rs.stepDown/#rs.stepDown)最重要的实例，然后[关闭实例](https://docs.mongodb.com/manual/reference/method/db.shutdownServer/#db.shutdownServer)。
 
@@ -889,46 +1027,67 @@ Follow the [networking best practices for vMotion](https://docs.vmware.com/en/VM
 
 It is possible to clone a virtual machine running MongoDB. You might use this function to spin up a new virtual host to add as a member of a replica set. If you clone a VM with journaling enabled, the clone snapshot will be valid. If not using journaling, first stop [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod), then clone the VM, and finally, restart [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod).                                                                                                                                                    可以克隆运行 MongoDB 的虚拟机。您可以使用此函数启动新的虚拟主机，将其添加为副本集的成员。如果克隆启用了日志记录的虚拟机，则克隆快照将有效。如果不使用日志记录，首先停止[mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)，然后克隆虚拟机，最后重新启动 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)。
 
-#### KVM                                                                                                                                           KVM
+#### KVM
 
-MongoDB is compatible with KVM.                                                                                                                  MongoDB 与 KVM 兼容。
+MongoDB is compatible with KVM.
+
+MongoDB 与 KVM 兼容。
 
 KVM supports memory overcommitment, where you can assign more memory to your virtual machines than the physical machine has available. When memory is overcommitted, the hypervisor reallocates memory between the virtual machines. KVM’s balloon driver reclaims the pages that are considered least valuable.                                                                                                             KVM支持内存超载使用，在这里，您可以为虚拟机分配比物理机可用更多的内存。当内存被过度提交时，管理程序会在虚拟机之间重新分配内存。KVM的气球驱动程序回收被认为价值最低的页面。
 
-The balloon driver resides inside the guest operating system. When the balloon driver expands, it may induce the guest operating system to reclaim memory from guest applications, which can interfere with MongoDB’s memory management and affect MongoDB’s performance.                                     气球驱动程序位于来宾操作系统中。当气球驱动程序扩展时，可能导致来宾操作系统从来宾应用程序中回收内存，从而干扰 MongoDB 的内存管理，影响 MongoDB 的性能。     
+The balloon driver resides inside the guest operating system. When the balloon driver expands, it may induce the guest operating system to reclaim memory from guest applications, which can interfere with MongoDB’s memory management and affect MongoDB’s performance. 
 
-Do not disable the balloon driver and memory overcommitment features. This can cause the hypervisor to use its swap which will affect performance. Instead, map and reserve the full amount of memory for the virtual machine running MongoDB. This ensures that the balloon will not be inflated in the local operating system if there is memory pressure in the hypervisor due to an overcommitted configuration.                                                                                                                           不要禁用气球驱动程序和内存过载使用功能。这会导致虚拟机监控程序使用其交换，从而影响性能。相反，映射并保留运行 MongoDB 的虚拟机的全部内存。这可以确保，如果管理程序中存在由于过度提交配置而导致的内存压力，则气球不会在本地操作系统中膨胀。
+气球驱动程序位于来宾操作系统中。当气球驱动程序扩展时，可能导致来宾操作系统从来宾应用程序中回收内存，从而干扰 MongoDB 的内存管理，影响 MongoDB 的性能。     
+
+Do not disable the balloon driver and memory overcommitment features. This can cause the hypervisor to use its swap which will affect performance. Instead, map and reserve the full amount of memory for the virtual machine running MongoDB. This ensures that the balloon will not be inflated in the local operating system if there is memory pressure in the hypervisor due to an overcommitted configuration.
+
+不要禁用气球驱动程序和内存过载使用功能。这会导致虚拟机监控程序使用其交换，从而影响性能。相反，映射并保留运行 MongoDB 的虚拟机的全部内存。这可以确保，如果管理程序中存在由于过度提交配置而导致的内存压力，则气球不会在本地操作系统中膨胀。
+
+
 
 ## Performance Monitoring
 
 ## 性能监控
 
-NOTE                                                                                                                                                                             注意
+NOTE 
 
-Starting in version 4.0, MongoDB offers [free Cloud monitoring](https://docs.mongodb.com/manual/administration/free-monitoring/) for standalones and replica sets. For more information, see [Free Monitoring](https://docs.mongodb.com/manual/administration/free-monitoring/).                                                                                                                 从4.0版开始，MongoDB为标准和副本集提供[免费云监控](https://docs.mongodb.com/manual/administration/free-monitoring/)。有关更多信息，请参阅[免费监控](https://docs.mongodb.com/manual/administration/free-monitoring/)。
+注意
 
-### iostat                                                                                                              iostat
+Starting in version 4.0, MongoDB offers [free Cloud monitoring](https://docs.mongodb.com/manual/administration/free-monitoring/) for standalones and replica sets. For more information, see [Free Monitoring](https://docs.mongodb.com/manual/administration/free-monitoring/).
+
+从4.0版开始，MongoDB为标准和副本集提供[免费云监控](https://docs.mongodb.com/manual/administration/free-monitoring/)。有关更多信息，请参阅[免费监控](https://docs.mongodb.com/manual/administration/free-monitoring/)。
+
+
+
+### iostat
 
 On Linux, use the iostat command to check if disk I/O is a bottleneck for your database. Specify a number of seconds when running iostat to avoid displaying stats covering the time since server boot.                                                                                                                                                          在 Linux 上，使用 iostat 命令检查磁盘 I/O 是否是数据库的瓶颈。指定运行 iostat 时的秒数，以避免显示信息为自服务器启动以来的统计信息。
 
-For example, the following command will display extended statistics and the time for each displayed report, with traffic in MB/s, at one second intervals:                                                                                 例如，以下命令将每隔一秒显示扩展统计信息和每个显示报告的时间，流量单位为MB/s：
+For example, the following command will display extended statistics and the time for each displayed report, with traffic in MB/s, at one second intervals:
+
+例如，以下命令将每隔一秒显示扩展统计信息和每个显示报告的时间，流量单位为MB/s：
 
 ```
 iostat -xmt 1
 ```
 
-Key fields from iostat:                                                                                                                                         iostat中的关键字段：
+Key fields from iostat:
+
+iostat中的关键字段：
 
 - %util: this is the most useful field for a quick check, it indicates what percent of the time the device/drive is in use.                                                                                                                                        %util: 这是快速检查最有用的字段，它表示设备/驱动器使用时间的百分比。
 - avgrq-sz: average request size. Smaller number for this value reflect more random IO operations.                                                                                                                                                                      avgrq-sz: 平均请求大小。此值的较小数字反映了更多的随机IO操作。
 
-### bwm-ng                                                                                                          bwm-ng 
+### bwm-ng
 
-[bwm-ng](http://www.gropp.org/?id=projects&sub=bwm-ng) is a command-line tool for monitoring network use. If you suspect a network-based bottleneck, you may use bwm-ng to begin your diagnostic process.                                                                   [bwm-ng](http://www.gropp.org/?id=projects&sub=bwm-ng) 是用于监视网络使用的命令行工具。如果怀疑是基于网络的瓶颈，可以使用 bwm-ng 开始诊断进程。
+ is a command-line tool for monitoring network use. If you suspect a network-based bottleneck, you may use bwm-ng to begin your diagnostic process. 
 
-## Backups                                                                                            备份
+[bwm-ng](http://www.gropp.org/?id=projects&sub=bwm-ng) 是用于监视网络使用的命令行工具。如果怀疑是基于网络的瓶颈，可以使用 bwm-ng 开始诊断进程。
 
-To make backups of your MongoDB database, please refer to [MongoDB Backup Methods Overview](https://docs.mongodb.com/manual/core/backups/).                                                                                                                                                                         要备份 MongoDB 数据库，请参阅 [MongoDB 备份方法概述](https://docs.mongodb.com/manual/core/backups/)。
+## Backups  备份
+
+To make backups of your MongoDB database, please refer to [MongoDB Backup Methods Overview](https://docs.mongodb.com/manual/core/backups/).                                                                                                                                                                         
+要备份 MongoDB 数据库，请参阅 [MongoDB 备份方法概述](http://docs.mongodb.com/manual/core/backups/)。
 
 
 
