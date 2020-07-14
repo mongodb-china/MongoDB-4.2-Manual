@@ -552,7 +552,7 @@ Using different storage devices will affect your ability to create snapshot-styl
 
 ##### Scheduling for Virtual or Cloud Hosted Devices                                                                                                                          虚拟或云主机设备的调度
 
-For local block devices attached to a virtual machine instance via the hypervisor or hosted by a cloud hosting provider, the guest operating system should use a *noop* scheduler for best performance. The *noop* scheduler allows the operating system to defer I/O scheduling to the underlying hypervisor.                                              对于通过虚拟机监视器连接到虚拟机实例或由云托管提供商托管的本地块设备，来宾操作系统应使用 noop 调度器以获得最佳性能。noop 调度器允许操作系统将 I/O 调度延缓到底层管理程序。
+For local block devices attached to a virtual machine instance via the hypervisor or hosted by a cloud hosting provider, the guest operating system should use a *noop* scheduler for best performance. The *noop* scheduler allows the operating system to defer I/O scheduling to the underlying hypervisor.                                              对于通过虚拟机监视器连接到虚拟机实例或由云托管提供商托管的本地块设备，客户操作系统应使用 noop 调度器以获得最佳性能。noop 调度器允许操作系统将 I/O 调度延缓到底层管理程序。
 
 ##### Scheduling for Physical Servers                                                                                                                                                 物理服务器的调度
 
