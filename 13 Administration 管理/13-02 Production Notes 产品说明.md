@@ -1126,7 +1126,7 @@ VMware支持内存过量使用，在这里，您可以为虚拟机分配比物�
 
 The balloon driver resides inside the guest operating system. When the balloon driver expands, it may induce the guest operating system to reclaim memory from guest applications, which can interfere with MongoDB’s memory management and affect MongoDB’s performance. 
 
-气球驱动程序位于客户操作系统中。当气球驱动程序扩展时，可能导致客户操作系统从来宾应用程序中回收内存，从而干扰 MongoDB 的内存管理，影响 MongoDB 的性能。
+气球驱动程序位于客户操作系统中。当气球驱动程序扩展时，可能导致客户操作系统从客户端应用程序中回收内存，从而干扰 MongoDB 的内存管理，影响 MongoDB 的性能。
 
 Do not disable the balloon driver and memory overcommitment features. This can cause the hypervisor to use its swap which will affect performance. Instead, map and reserve the full amount of memory for the virtual machine running MongoDB. This ensures that the balloon will not be inflated in the local operating system if there is memory pressure in the hypervisor due to an overcommitted configuration.
 
