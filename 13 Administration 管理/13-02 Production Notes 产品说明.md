@@ -346,77 +346,129 @@ Starting in MongoDB 3.4, the default WiredTiger internal cache size is the large
 - 50% of (RAM - 1 GB), or                                                                                                                                                             50% 的 (RAM - 1 GB), 或者
 - 256 MB.                                                                                                                                                                                 256MB。
 
-For example, on a system with a total of 4GB of RAM the WiredTiger cache will use 1.5GB of RAM (0.5 * (4 GB - 1 GB) = 1.5 GB`). Conversely, a system with a total of 1.25 GB of RAM will allocate 256 MB to the WiredTiger cache because that is more than half of the total RAM minus one gigabyte (0.5 * (1.25 GB - 1 GB) = 128 MB < 256 MB).                                                                                                                                                          例如，在总共有4GB RAM的系统上，WiredTiger缓存将使用1.5GB RAM(0.5 * (4 GB - 1 GB) = 1.5 GB)。相反，RAM总量为1.25GB的系统将为WiredTiger缓存分配256MB，因为这超过了RAM总量减去1GB（0.5*（1.25GB-1GB）=128MB<256MB) 的一半。
+For example, on a system with a total of 4GB of RAM the WiredTiger cache will use 1.5GB of RAM (0.5 * (4 GB - 1 GB) = 1.5 GB). Conversely, a system with a total of 1.25 GB of RAM will allocate 256 MB to the WiredTiger cache because that is more than half of the total RAM minus one gigabyte (0.5 * (1.25 GB - 1 GB) = 128 MB < 256 MB).                 
 
-NOTE                                                                                                                                                                                        注意
+例如，在总共有4GB RAM的系统上，WiredTiger缓存将使用1.5GB RAM(0.5 * (4 GB - 1 GB) = 1.5 GB)。相反，RAM总量为1.25GB的系统将为WiredTiger缓存分配256MB，因为这超过了RAM总量减去1GB（0.5*（1.25GB-1GB）=128MB<256MB) 的一半。
 
-In some instances, such as when running in a container, the database can have memory constraints that are lower than the total system memory. In such instances, this memory limit, rather than the total system memory, is used as the maximum RAM available.                                                                                                           在某些情况下，例如在容器中运行时，数据库可能具有低于总系统内存的内存约束。在这种情况下，这个内存限制，而不是整个系统内存，被用作可用的最大RAM。
+NOTE                                                                                                                                                                             
+注意
 
-To see the memory limit, see [hostInfo.system.memLimitMB](https://docs.mongodb.com/manual/reference/command/hostInfo/#hostInfo.system.memLimitMB).                                                                                     要查看内存限制，请参阅 [hostInfo.system.memLimitMB](https://docs.mongodb.com/manual/reference/command/hostInfo/#hostInfo.system.memLimitMB)。
+In some instances, such as when running in a container, the database can have memory constraints that are lower than the total system memory. In such instances, this memory limit, rather than the total system memory, is used as the maximum RAM available.  
 
-By default, WiredTiger uses Snappy block compression for all collections and prefix compression for all indexes. Compression defaults are configurable at a global level and can also be set on a per-collection and per-index basis during collection and index creation.                                                                                                  默认情况下，WiredTiger对所有集合使用snapy块压缩，对所有索引使用前缀压缩。压缩默认值在全局级别上是可配置的，也可以在集合和索引创建期间根据每个集合和每个索引进行设置。
+在某些情况下，例如在容器中运行时，数据库可能具有低于总系统内存的内存约束。在这种情况下，这个内存限制，而不是整个系统内存，被用作可用的最大RAM。
 
-Different representations are used for data in the WiredTiger internal cache versus the on-disk format:                                  WiredTiger内部缓存中的数据与磁盘上的格式相比使用了不同的表示：
+To see the memory limit, see [hostInfo.system.memLimitMB](https://docs.mongodb.com/manual/reference/command/hostInfo/#hostInfo.system.memLimitMB).                               
 
-- Data in the filesystem cache is the same as the on-disk format, including benefits of any compression for data files. The filesystem cache is used by the operating system to reduce disk I/O.                                              文件系统缓存中的数据与磁盘上的格式相同，包括对数据文件进行任何压缩的好处。操作系统使用文件系统缓存来减少磁盘I/O。
-- Indexes loaded in the WiredTiger internal cache have a different data representation to the on-disk format, but can still take advantage of index prefix compression to reduce RAM usage. Index prefix compression deduplicates common prefixes from indexed fields.                                                                                      加载在WiredTiger内部缓存中的索引与磁盘上的格式具有不同的数据表示形式，但仍然可以利用索引前缀压缩来减少RAM的使用。索引前缀压缩从索引字段中删除常用前缀。
-- Collection data in the WiredTiger internal cache is uncompressed and uses a different representation from the on-disk format. Block compression can provide significant on-disk storage savings, but data must be uncompressed to be manipulated by the server.                                                                                    WiredTiger内部缓存中的收集数据是未压缩的，使用与磁盘格式不同的表示形式。块压缩可以显著节省磁盘存储空间，但数据必须解压缩才能由服务器操作。
+要查看内存限制，请参阅 [hostInfo.system.memLimitMB](https://docs.mongodb.com/manual/reference/command/hostInfo/#hostInfo.system.memLimitMB)。
 
-Via the filesystem cache, MongoDB automatically uses all free memory that is not used by the WiredTiger cache or by other processes.                                                                                                                                                                                                                                         MongoDB通过文件系统缓存自动使用WiredTiger缓存或其他进程未使用的所有可用内存。
+By default, WiredTiger uses Snappy block compression for all collections and prefix compression for all indexes. Compression defaults are configurable at a global level and can also be set on a per-collection and per-index basis during collection and index creation.                                                                                       
 
-To adjust the size of the WiredTiger internal cache, see [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB) and [--wiredTigerCacheSizeGB](https://docs.mongodb.com/manual/reference/program/mongod/#cmdoption-mongod-wiredtigercachesizegb). Avoid increasing the WiredTiger internal cache size above its default value.                               要调整WiredTiger内部缓存的大小，请参见 [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB) 和 [--wiredTigerCacheSizeGB](https://docs.mongodb.com/manual/reference/program/mongod/#cmdoption-mongod-wiredtigercachesizegb)。避免将WiredTiger内部缓存大小增加到其默认值以上。
+默认情况下，WiredTiger对所有集合使用snapy块压缩，对所有索引使用前缀压缩。压缩默认值在全局级别上是可配置的，也可以在集合和索引创建期间根据每个集合和每个索引进行设置。
 
-NOTE                                                                                                                                                                                       注意
+Different representations are used for data in the WiredTiger internal cache versus the on-disk format:
 
-The [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB) limits the size of the WiredTiger internal cache. The operating system will use the available free memory for filesystem cache, which allows the compressed MongoDB data files to stay in memory. In addition, the operating system will use any free RAM to buffer file system blocks and file system cache.                                                                                                                               [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB) 限制了wiredTiger内部缓存的大小。操作系统将使用可用的空闲内存进行文件系统缓存，这将允许压缩的MongoDB数据文件保留在内存中。此外，操作系统将使用任何空闲RAM缓冲文件系统块和文件系统缓存。
+WiredTiger内部缓存中的数据与磁盘上的格式相比使用了不同的表示：
 
-To accommodate the additional consumers of RAM, you may have to decrease WiredTiger internal cache size.                                                                                                                                                                                       为了适应RAM的其他使用者，您可能必须减小WiredTiger内部缓存的大小。
+- Data in the filesystem cache is the same as the on-disk format, including benefits of any compression for data files. The filesystem cache is used by the operating system to reduce disk I/O.
 
-The default WiredTiger internal cache size value assumes that there is a single [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) instance per machine. If a single machine contains multiple MongoDB instances, then you should decrease the setting to accommodate the other [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) instances.                                                                                                                 默认的WiredTiger内部缓存大小值假定每台计算机有一个[mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)实例。如果一台机器包含多个MongoDB实例，那么您应该减少设置以适应其他[mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)实例。
+文件系统缓存中的数据与磁盘上的格式相同，包括对数据文件进行任何压缩的好处。操作系统使用文件系统缓存来减少磁盘I/O。
 
-If you run [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) in a container (e.g. lxc, cgroups, Docker, etc.) that does *not* have access to all of the RAM available in a system, you must set [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB) to a value less than the amount of RAM available in the container. The exact amount depends on the other processes running in the container. See [memLimitMB](https://docs.mongodb.com/manual/reference/command/hostInfo/#hostInfo.system.memLimitMB).                                                                                                                                         如果在无法访问系统中所有可用RAM的容器（例如lxc、cgroups、Docker等）中运行[mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)，则必须将 [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB)设置为小于容器中可用RAM的值。具体数量取决于容器中运行的其他进程。参见 [memLimitMB](https://docs.mongodb.com/manual/reference/command/hostInfo/#hostInfo.system.memLimitMB)。
+- Indexes loaded in the WiredTiger internal cache have a different data representation to the on-disk format, but can still take advantage of index prefix compression to reduce RAM usage. Index prefix compression deduplicates common prefixes from indexed fields.  
 
-To view statistics on the cache and eviction rate, see the [wiredTiger.cache](https://docs.mongodb.com/manual/reference/command/serverStatus/#serverstatus.wiredTiger.cache) field returned from the [serverStatus](https://docs.mongodb.com/manual/reference/command/serverStatus/#dbcmd.serverStatus) command.                                                                                                                                                要查看缓存和逐出率的统计信息，请参阅从[serverStatus](https://docs.mongodb.com/manual/reference/command/serverStatus/#dbcmd.serverStatus) 命令返回的 [wiredTiger.cache](https://docs.mongodb.com/manual/reference/command/serverStatus/#serverstatus.wiredTiger.cache) 字段。
+加载在WiredTiger内部缓存中的索引与磁盘上的格式具有不同的数据表示形式，但仍然可以利用索引前缀压缩来减少RAM的使用。索引前缀压缩从索引字段中删除常用前缀。
+
+- Collection data in the WiredTiger internal cache is uncompressed and uses a different representation from the on-disk format. Block compression can provide significant on-disk storage savings, but data must be uncompressed to be manipulated by the server.  
+
+WiredTiger内部缓存中的收集数据是未压缩的，使用与磁盘格式不同的表示形式。块压缩可以显著节省磁盘存储空间，但数据必须解压缩才能由服务器操作。
+
+Via the filesystem cache, MongoDB automatically uses all free memory that is not used by the WiredTiger cache or by other processes.                                                                                                                                                                                                                             MongoDB通过文件系统缓存自动使用WiredTiger缓存或其他进程未使用的所有可用内存。
+
+To adjust the size of the WiredTiger internal cache, see [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB) and [--wiredTigerCacheSizeGB](https://docs.mongodb.com/manual/reference/program/mongod/#cmdoption-mongod-wiredtigercachesizegb). Avoid increasing the WiredTiger internal cache size above its default value.
+
+要调整WiredTiger内部缓存的大小，请参见 [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB) 和 [--wiredTigerCacheSizeGB](https://docs.mongodb.com/manual/reference/program/mongod/#cmdoption-mongod-wiredtigercachesizegb)。避免将WiredTiger内部缓存大小增加到其默认值以上。
+
+NOTE                                                                                                                                                                             注意
+
+The [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB) limits the size of the WiredTiger internal cache. The operating system will use the available free memory for filesystem cache, which allows the compressed MongoDB data files to stay in memory. In addition, the operating system will use any free RAM to buffer file system blocks and file system cache.                                                             
+
+[storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB) 限制了wiredTiger内部缓存的大小。操作系统将使用可用的空闲内存进行文件系统缓存，这将允许压缩的MongoDB数据文件保留在内存中。此外，操作系统将使用任何空闲RAM缓冲文件系统块和文件系统缓存。
+
+To accommodate the additional consumers of RAM, you may have to decrease WiredTiger internal cache size.                                                                         
+
+为了适应RAM的其他使用者，您可能必须减小WiredTiger内部缓存的大小。
+
+The default WiredTiger internal cache size value assumes that there is a single [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) instance per machine. If a single machine contains multiple MongoDB instances, then you should decrease the setting to accommodate the other [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) instances.                                                                                               
+
+默认的WiredTiger内部缓存大小值假定每台计算机有一个[mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)实例。如果一台机器包含多个MongoDB实例，那么您应该减少设置以适应其他[mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)实例。
+
+If you run [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) in a container (e.g. lxc, cgroups, Docker, etc.) that does *not* have access to all of the RAM available in a system, you must set [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB) to a value less than the amount of RAM available in the container. The exact amount depends on the other processes running in the container. See [memLimitMB](https://docs.mongodb.com/manual/reference/command/hostInfo/#hostInfo.system.memLimitMB). 
+
+如果在无法访问系统中所有可用RAM的容器（例如lxc、cgroups、Docker等）中运行[mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)，则必须将 [storage.wiredTiger.engineConfig.cacheSizeGB](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB)设置为小于容器中可用RAM的值。具体数量取决于容器中运行的其他进程。参见 [memLimitMB](https://docs.mongodb.com/manual/reference/command/hostInfo/#hostInfo.system.memLimitMB)。
+
+To view statistics on the cache and eviction rate, see the [wiredTiger.cache](https://docs.mongodb.com/manual/reference/command/serverStatus/#serverstatus.wiredTiger.cache) field returned from the [serverStatus](https://docs.mongodb.com/manual/reference/command/serverStatus/#dbcmd.serverStatus) command.                                             
+
+要查看缓存和逐出率的统计信息，请参阅从[serverStatus](https://docs.mongodb.com/manual/reference/command/serverStatus/#dbcmd.serverStatus) 命令返回的 [wiredTiger.cache](https://docs.mongodb.com/manual/reference/command/serverStatus/#serverstatus.wiredTiger.cache) 字段。
 
 #### Compression and Encryption                                                                                                            压缩和加密
 
 When using encryption, CPUs equipped with AES-NI instruction-set extensions show significant performance advantages. If you are using MongoDB Enterprise with the [Encrypted Storage Engine](https://docs.mongodb.com/manual/core/security-encryption-at-rest/#encrypted-storage-engine), choose a CPU that supports AES-NI for better performance.                                                                                                              当使用加密时，配备AES-NI指令集扩展的CPU可以显示出显著的性能优势。如果将MongoDB 企业版与 [加密存储引擎](https://docs.mongodb.com/manual/core/security-encryption-at-rest/#encrypted-storage-engine)一起使用，请选择支持AES-N指令集的CPU以获得更好的性能。
 
-SEE ALSO                                                                                                                                                                              也可以看看
+SEE ALSO                                                                                                                                                                         
+也可以看看
 
-[Concurrency](https://docs.mongodb.com/manual/administration/production-notes/#prod-notes-concurrency)                                                                                                                                                                       [并发](https://docs.mongodb.com/manual/administration/production-notes/#prod-notes-concurrency)
+[Concurrency](https://docs.mongodb.com/manual/administration/production-notes/#prod-notes-concurrency)                                                                           
 
-### Use Solid State Disks (SSDs)                                                                           使用固态硬盘（SSD）
+[并发](https://docs.mongodb.com/manual/administration/production-notes/#prod-notes-concurrency)
 
-MongoDB has good results and a good price-performance ratio with SATA SSD (Solid State Disk).                           MongoDB使用SATA SSD能得到很好的效果和很好的性价比。
 
-Use SSD if available and economical.                                                                                                                                 在可用且经济的情况下请使用SSD。
+### Use Solid State Disks (SSDs) 使用固态硬盘（SSD）
 
-Commodity (SATA) spinning drives are often a good option, as the random I/O performance increase with more expensive spinning drives is not that dramatic (only on the order of 2x). Using SSDs or increasing RAM may be more effective in increasing I/O throughput.                                                                                                    传统硬盘通常也是个好的选择，因为使用更昂贵的硬盘来提高随机IO性能并不是那么有效（只能是每次2倍）。使用SSD或增加RAM的容量可能对于提升IO更有效率。
+MongoDB has good results and a good price-performance ratio with SATA SSD (Solid State Disk).
+MongoDB使用SATA SSD能得到很好的效果和很好的性价比。
 
-### MongoDB and NUMA Hardware                                                          MongoDB和NUMA硬件
+Use SSD if available and economical.
 
-Running MongoDB on a system with Non-Uniform Memory Access (NUMA) can cause a number of operational problems, including slow performance for periods of time and high system process usage.           在运行NUMA的系统中运行MongoDB可能造成一系列问题，包括一段时间内的效率低下和高系统进程使用率。
+在可用且经济的情况下请使用SSD。
 
-When running MongoDB servers and clients on NUMA hardware, you should configure a memory interleave policy so that the host behaves in a non-NUMA fashion. MongoDB checks NUMA settings on start up when deployed on Linux (since version 2.0) and Windows (since version 2.6) machines. If the NUMA configuration may degrade performance, MongoDB prints a warning.                                                                                 当在NUMA硬件上运行MongoDB服务器和客户端时，应配置内存交错策略，以便主机以非NUMA方式运行。MongoDB在Linux（2.0版以后）和Windows（2.6版以后）机器上部署时，会在启动时检查NUMA设置。如果NUMA配置可能会降低性能，MongoDB会打印一个警告。
+Commodity (SATA) spinning drives are often a good option, as the random I/O performance increase with more expensive spinning drives is not that dramatic (only on the order of 2x). Using SSDs or increasing RAM may be more effective in increasing I/O throughput.                                                                                           
 
-SEE ALSO                                                                                                                                                                              也可以看看
+传统硬盘通常也是个好的选择，因为使用更昂贵的硬盘来提高随机IO性能并不是那么有效（只能是每次2倍）。使用SSD或增加RAM的容量可能对于提升IO更有效率。
+
+### MongoDB and NUMA Hardware MongoDB和NUMA硬件
+
+Running MongoDB on a system with Non-Uniform Memory Access (NUMA) can cause a number of operational problems, including slow performance for periods of time and high system process usage.
+
+在运行NUMA的系统中运行MongoDB可能造成一系列问题，包括一段时间内的效率低下和高系统进程使用率。
+
+When running MongoDB servers and clients on NUMA hardware, you should configure a memory interleave policy so that the host behaves in a non-NUMA fashion. MongoDB checks NUMA settings on start up when deployed on Linux (since version 2.0) and Windows (since version 2.6) machines. If the NUMA configuration may degrade performance, MongoDB prints a warning.
+
+当在NUMA硬件上运行MongoDB服务器和客户端时，应配置内存交错策略，以便主机以非NUMA方式运行。MongoDB在Linux（2.0版以后）和Windows（2.6版以后）机器上部署时，会在启动时检查NUMA设置。如果NUMA配置可能会降低性能，MongoDB会打印一个警告。
+
+SEE ALSO                                                                                                                                                                         
+也可以看看
 
 - [The MySQL “swap insanity” problem and the effects of NUMA](http://jcole.us/blog/archives/2010/09/28/mysql-swap-insanity-and-the-numa-architecture/) post, which describes the effects of NUMA on databases. The post introduces NUMA and its goals, and illustrates how these goals are not compatible with production databases. Although the blog post addresses the impact of NUMA for MySQL, the issues for MongoDB are similar.
+
 - [MySQL的 “疯狂交换” 问题和 NUMA的影响](http://jcole.us/blog/archives/2010/09/28/mysql-swap-insanity-and-the-numa-architecture/) 报告, ，它描述了NUMA对数据库造成的影响。这篇文章介绍了NUMA和它的目标，并指出了为什么这些目标和生产环境数据库的需求是不相容的。尽管这篇博文讨论了NUMA对于 MySQL的影响，但是MongoDB的问题是相似的。
-- [NUMA: An Overview](https://queue.acm.org/detail.cfm?id=2513149).                                                                                                                                                 [NUMA: 综述](https://queue.acm.org/detail.cfm?id=2513149)。
+- [NUMA: An Overview](https://queue.acm.org/detail.cfm?id=2513149). 
 
-#### Configuring NUMA on Windows                                                                                           在 Windows 上配置 NUMA
+[NUMA: 综述](https://queue.acm.org/detail.cfm?id=2513149)。
 
-On Windows, memory interleaving must be enabled through the machine’s BIOS. Consult your system documentation for details.                                                                                                                                               在 Windows 上，必须通过机器的 BIOS 启用内存交叉存取。有关详细信息，请参阅系统文档
+#### Configuring NUMA on Windows 在 Windows 上配置 NUMA
 
-#### Configuring NUMA on Linux                                                                                                 在 Linux 上配置 NUMA                                                                                                  
+On Windows, memory interleaving must be enabled through the machine’s BIOS. Consult your system documentation for details.                                                       
+
+在 Windows 上，必须通过机器的 BIOS 启用内存交叉存取。有关详细信息，请参阅系统文档
+
+#### Configuring NUMA on Linux 在 Linux 上配置 NUMA                                                                                                  
 
 On Linux, you must disable *zone reclaim* and also ensure that your [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) and [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) instances are started by numactl, which is generally configured through your platform’s init system. You must perform both of these operations to properly disable NUMA for use with MongoDB.
 
 在 Linux上，您必须禁用内存区域回收，并确保您的 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) and [mongos ](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) 实例由 numactl命令启动，numactl 通常是通过平台的 init 系统配置的。您必须执行这两个操作才能正确禁用 NUMA 以便与 MongoDB 一起使用。
 
-1. Disable *zone reclaim* with one of the following commands:                                                                                      使用以下命令之一禁用内存区域回收:
+1. Disable *zone reclaim* with one of the following commands: 
+
+使用以下命令之一禁用内存区域回收:
 
    ```
 echo 0 | sudo tee /proc/sys/vm/zone_reclaim_mod
@@ -443,15 +495,19 @@ sudo sysctl -w vm.zone_reclaim_mode=0
 
    ##### systemd                                                                                                                                                                      systemd
 
-   You must use numactl to start each of your [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) instances, including all [config servers](https://docs.mongodb.com/manual/core/sharded-cluster-config-servers/), [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) instances, and clients. Edit the default systemd service file for each as follows:                                                   你必须使用 numactl 启动每个 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 实例,包括所有 [配置服务器](https://docs.mongodb.com/manual/core/sharded-cluster-config-servers/), [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos)实例,和客户端.。如下所示编辑每个系统的默认 systemd 服务文件：
+   You must use numactl to start each of your [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) instances, including all [config servers](https://docs.mongodb.com/manual/core/sharded-cluster-config-servers/), [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) instances, and clients. Edit the default systemd service file for each as follows:
+   
+   你必须使用 numactl 启动每个 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 实例,包括所有 [配置服务器](https://docs.mongodb.com/manual/core/sharded-cluster-config-servers/), [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos)实例,和客户端.。如下所示编辑每个系统的默认 systemd 服务文件：
 
-   1. Copy the default MongoDB service file:                                                                                                            复制默认MongoDB服务文件：
+   1. Copy the default MongoDB service file:复制默认MongoDB服务文件：
 
       ```
    sudo cp /lib/systemd/system/mongod.service /etc/systemd/system/
       ```
-      
-   2. Edit the /etc/systemd/system/mongod.service file,  and update the ExecStart statement to begin with:                                                                                                                                                                                     编辑 /etc/systemd/system/mongod.service 文件，首先要更新 ExecStart 语句：
+
+
+   2. Edit the /etc/systemd/system/mongod.service file,  and update the ExecStart statement to begin with:                                                                         编辑 /etc/systemd/system/mongod.service 文件，首先要更新 ExecStart 语句：
+   
 
       ```
    /usr/bin/numactl --interleave=all
@@ -459,49 +515,56 @@ sudo sysctl -w vm.zone_reclaim_mode=0
       
       EXAMPLE                                                                                                                                                                    例如
 
-      If your existing ExecStart statement reads:                                                                                                      如果现有的 ExecStart 语句为：
+      If your existing ExecStart statement reads: 如果现有的 ExecStart 语句为：
 
       ```
    ExecStart=/usr/bin/mongod --config /etc/mongod.conf
       ```
-      
+
       Update that statement to read:                                                                                                                                         将该语句更新为：
 
       ```
    ExecStart=/usr/bin/numactl --interleave=all /usr/bin/mongod --config /etc/mongod.conf
       ```
-      
+
    3. Apply the change to systemd:
    将更改应用于 systemd：
-      
+
    ```
       sudo systemctl daemon-reload
    ```
    
-   4. Restart any running mongod instances:                                                                                                           重新启动任何正在运行的 mongod 实例：
+   4. Restart any running mongod instances: 重新启动任何正在运行的 mongod 实例：
 
       ```
       sudo systemctl stop mongod
       sudo systemctl start mongod
       ```
 
-   5. If applicable, repeat these steps for any [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) instances.                                                                                  如果适用，对任何[mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) 重复这些步骤。
+   5. If applicable, repeat these steps for any [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) instances.                                       
+   如果适用，对任何[mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) 重复这些步骤。
+   
 
-For more information, see the [Documentation for /proc/sys/vm/*](http://www.kernel.org/doc/Documentation/sysctl/vm.txt).                                                                                     有关更多信息，请参见 [Documentation for /proc/sys/vm/*](http://www.kernel.org/doc/Documentation/sysctl/vm.txt)。
+For more information, see the [Documentation for /proc/sys/vm/*](http://www.kernel.org/doc/Documentation/sysctl/vm.txt).                                                         
 
-##### Custom init scripts                                                                                                                                                                  自定义初始化脚本
+有关更多信息，请参见 [Documentation for /proc/sys/vm/*](http://www.kernel.org/doc/Documentation/sysctl/vm.txt)。
 
-You must use `numactl` to start each of your [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) instances, including all [config servers](https://docs.mongodb.com/manual/core/sharded-cluster-config-servers/), [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) instances, and clients.                                                                                                                                                       你必须使用 numactl 启动每个 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 实例,包括所有 [配置服务器](https://docs.mongodb.com/manual/core/sharded-cluster-config-servers/), [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos)实例,和客户端.。
+##### Custom init scripts                                                                                                                                                       自定义初始化脚本
 
-1. Install numactl for your platform if not already installed. Refer to the documentation for your operating system for information on installing the numactl  package.                                                                                             如果尚未安装numactl，请为您的平台安装 numactl。有关安装 numactl 包的信息，请参阅操作系统的文档。
+You must use `numactl` to start each of your [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) instances, including all [config servers](https://docs.mongodb.com/manual/core/sharded-cluster-config-servers/), [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos) instances, and clients.                                                                                                                                                       你必须使用 numactl 启动每个 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 实例,包括所有 [配置服务器](https://docs.mongodb.com/manual/core/sharded-cluster-config-servers/), [mongos](https://docs.mongodb.com/manual/reference/program/mongos/#bin.mongos)实例和客户端。
 
-2. Configure each of your custom init scripts to start each MongoDB instance via numactl:                                       配置每个自定义init脚本以通过numactl启动每个MongoDB实例：
+
+1. Install numactl for your platform if not already installed. Refer to the documentation for your operating system for information on installing the numactl  package.         
+如果尚未安装numactl，请为您的平台安装 numactl。有关安装 numactl 包的信息，请参阅操作系统的文档。
+
+2. Configure each of your custom init scripts to start each MongoDB instance via numactl:
+配置每个自定义init脚本以通过numactl启动每个MongoDB实例：
 
    ```
    numactl --interleave=all <path> <options>
    ```
 
-   Where <path> is the path to the program you are starting and  are any optional arguments to pass to that program.                                                                                                                                                             其中是 <path> 是要启动的程序的路径，也是要传递给该程序的任何可选参数。
+   Where <path> is the path to the program you are starting and  are any optional arguments to pass to that program.                                                              其中是 <path> 是要启动的程序的路径，也是要传递给该程序的任何可选参数。
 
    EXAMPLE：                                                                                                                                                                       例如：
 
@@ -509,46 +572,57 @@ You must use `numactl` to start each of your [mongod](https://docs.mongodb.com/m
    numactl --interleave=all /usr/local/bin/mongod -f /etc/mongod.conf
    ```
 
-For more information, see the [Documentation for /proc/sys/vm/*](http://www.kernel.org/doc/Documentation/sysctl/vm.txt).                                                                                        有关更多信息，请参见 [Documentation for /proc/sys/vm/*](http://www.kernel.org/doc/Documentation/sysctl/vm.txt)。
+For more information, see the [Documentation for /proc/sys/vm/*](http://www.kernel.org/doc/Documentation/sysctl/vm.txt).                                                         有关更多信息，请参见 [Documentation for /proc/sys/vm/*](http://www.kernel.org/doc/Documentation/sysctl/vm.txt)。
 
-### Disk and Storage Systems                                                                                      磁盘和存储系统
+### Disk and Storage Systems 磁盘和存储系统
 
-#### Swap                                                                                                                                                   交换
+#### Swap 交换
 
-MongoDB performs best where swapping can be avoided or kept to a minimum, as retrieving data from swap will always be slower than accessing data in RAM. However, if the system hosting MongoDB runs out of RAM, swapping can prevent the Linux OOM Killer from terminating the [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) process.                 MongoDB在可以避免交换或将交换保持在最低限度的地方表现最好，因为从交换中检索数据总是比访问RAM中的数据慢。但是，如果托管 MongoDB 的系统没有RAM，交换可以防止 Linux OOM Killer 终止 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 进程。
+MongoDB performs best where swapping can be avoided or kept to a minimum, as retrieving data from swap will always be slower than accessing data in RAM. However, if the system hosting MongoDB runs out of RAM, swapping can prevent the Linux OOM Killer from terminating the [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) process.
+MongoDB在可以避免交换或将交换保持在最低限度的地方表现最好，因为从交换中检索数据总是比访问RAM中的数据慢。但是，如果托管 MongoDB 的系统没有RAM，交换可以防止 Linux OOM Killer 终止 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 进程。
 
-Generally, you should choose one of the following swap strategies:                                                                            通常，您应该选择以下交换策略之一：
+Generally, you should choose one of the following swap strategies:
+通常，您应该选择以下交换策略之一：
 
-1. Assign swap space on your system, and configure the kernel to only permit swapping under high memory load, or                                                                                                                                                          在系统上分配交换空间，并将内核配置为只允许在高内存负载下进行交换，或者
-2. Do not assign swap space on your system, and configure the kernel to disable swapping entirely                         不要在系统上分配交换空间，并将内核配置为完全禁用交换
+1. Assign swap space on your system, and configure the kernel to only permit swapping under high memory load, or                                                                 在系统上分配交换空间，并将内核配置为只允许在高内存负载下进行交换，或者
+2. Do not assign swap space on your system, and configure the kernel to disable swapping entirely 
+不要在系统上分配交换空间，并将内核配置为完全禁用交换
 
-See [Set vm.swappiness](https://docs.mongodb.com/manual/administration/production-notes/#set-swappiness) for instructions on configuring swap on your Linux system following these guidelines.                                                                                                                                                                          请参阅 [Set vm.swappiness](https://docs.mongodb.com/manual/administration/production-notes/#set-swappiness) 以获取有关在Linux系统上按照这些指导原则配置swap的说明。
+See [Set vm.swappiness](https://docs.mongodb.com/manual/administration/production-notes/#set-swappiness) for instructions on configuring swap on your Linux system following these guidelines.                                                                                                                                                               请参阅 [Set vm.swappiness](https://docs.mongodb.com/manual/administration/production-notes/#set-swappiness) 以获取有关在Linux系统上按照这些指导原则配置swap的说明。
 
-NOTE                                                                                                                                                                                    注意
+NOTE                                                                                                                                                                             注意
 
 If your MongoDB instance is hosted on a system that also runs other software, such as a webserver, you should choose the first swap strategy. Do *not* disable swap in this case. If possible, it is highly recommended that you run MongoDB on its own dedicated system.                                                                       如果MongoDB实例托管在同时运行其他软件（如Web服务器）的系统上，则应选择第一个交换策略。在这种情况下不要禁用交换。如果可能，强烈建议您在MongoDB自己的专用系统上运行MongoDB。
 
 #### RAID                                                                                                                                                                  磁盘阵列
 
-For optimal performance in terms of the storage layer, use disks backed by RAID-10. RAID-5 and RAID-6 do not typically provide sufficient performance to support a MongoDB deployment.                                                               为了在存储层方面实现最佳性能，请使用 RAID-10 支持的磁盘。 RAID-5 和 RAID-6 通常不提供足够的 性能来支持 MongoDB 部署。
+For optimal performance in terms of the storage layer, use disks backed by RAID-10. RAID-5 and RAID-6 do not typically provide sufficient performance to support a MongoDB deployment.
+为了在存储层方面实现最佳性能，请使用 RAID-10 支持的磁盘。 RAID-5 和 RAID-6 通常不提供足够的 性能来支持 MongoDB 部署。
 
 #### Remote Filesystems                                                                                                                                   远程文件系统
 
 With the WiredTiger storage engine, WiredTiger objects may be stored on remote file systems if the remote file system conforms to ISO/IEC 9945-1:1996 (POSIX.1). Because remote file systems are often slower than local file systems, using a remote file system for storage may degrade performance.                                               使用 WiredTiger 存储引擎，如果远程文件系统符合 ISO/IEC 9945-1:1996(POSIX.1)，则 WiredTiger 对象 可以存储在远程文件系统上。由于远程文件系统通常比本地文件系统慢，因此使用 远程文件系统进行存储可能会降低性能。
 
-If you decide to use NFS, add the following NFS options to your /etc/fstab file: bg, nolock, and noatime.                            如果决定使用网络文件系统，请在 /etc/fstab 文件中添加以下NFS选项：bg、nolock 和 noatime。
+If you decide to use NFS, add the following NFS options to your /etc/fstab file: bg, nolock, and noatime. 
+如果决定使用网络文件系统，请在 /etc/fstab 文件中添加以下NFS选项：bg、nolock 和 noatime。
 
-#### Separate Components onto Different Storage Devices                                                                                        将组件分离到不同的存储设备上
+#### Separate Components onto Different Storage Devices 将组件分离到不同的存储设备上
 
-For improved performance, consider separating your database’s data, journal, and logs onto different storage devices, based on your application’s access and write pattern. Mount the components as separate filesystems and use symbolic links to map each component’s path to the device storing it.                                                  为了提高性能，请考虑根据应用程序的访问和写入模式，将数据库的数据、logs 和 journal 分离到不同的存储设备上。将组件作为单独的文件系统挂载，并使用符号链接将每个组件的路径映射到存储它的设备。
+For improved performance, consider separating your database’s data, journal, and logs onto different storage devices, based on your application’s access and write pattern. Mount the components as separate filesystems and use symbolic links to map each component’s path to the device storing it.
 
-For the WiredTiger storage engine, you can also store the indexes on a different storage device. See [storage.wiredTiger.engineConfig.directoryForIndexes](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.directoryForIndexes).                                                                                                      对于WiredTiger存储引擎，还可以将索引存储在不同的存储设备上。见[storage.wiredTiger.engineConfig.directoryForIndexes](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.directoryForIndexes)。  
+为了提高性能，请考虑根据应用程序的访问和写入模式，将数据库的数据、logs 和 journal 分离到不同的存储设备上。将组件作为单独的文件系统挂载，并使用符号链接将每个组件的路径映射到存储它的设备。
 
-NOTE                                                                                                                                                                                           注意
+For the WiredTiger storage engine, you can also store the indexes on a different storage device. See [storage.wiredTiger.engineConfig.directoryForIndexes](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.directoryForIndexes).                                                         
 
-Using different storage devices will affect your ability to create snapshot-style backups of your data, since the files will be on different devices and volumes.                                                                                                                           使用不同的存储设备将影响您创建数据快照式备份的能力，因为文件将位于不同的设备和卷上。
+对于WiredTiger存储引擎，还可以将索引存储在不同的存储设备上。见[storage.wiredTiger.engineConfig.directoryForIndexes](https://docs.mongodb.com/manual/reference/configuration-options/#storage.wiredTiger.engineConfig.directoryForIndexes)。  
 
-#### Scheduling                                                                                                                                        调度
+NOTE                                                                                                                                                                             注意
+
+Using different storage devices will affect your ability to create snapshot-style backups of your data, since the files will be on different devices and volumes.               
+
+使用不同的存储设备将影响您创建数据快照式备份的能力，因为文件将位于不同的设备和卷上。
+
+#### Scheduling 调度
 
 ##### Scheduling for Virtual or Cloud Hosted Devices                                                                                                                          虚拟或云主机设备的调度
 
@@ -556,13 +630,17 @@ For local block devices attached to a virtual machine instance via the hyperviso
 
 ##### Scheduling for Physical Servers 物理服务器的调度
 
-For physical servers, the operating system should use a *deadline* scheduler. The *deadline* scheduler caps maximum latency per request and maintains a good disk throughput that is best for disk-intensive database applications.                                                                                                                                                                     对于物理服务器，操作系统应使用 *deadline*调度器。*deadline*调度器限制每个请求的最大延迟，并保持良好的磁盘吞吐量，这对于磁盘密集型数据库应用程序来说是最好的。
+For physical servers, the operating system should use a *deadline* scheduler. The *deadline* scheduler caps maximum latency per request and maintains a good disk throughput that is best for disk-intensive database applications.                                                                                                                           
+
+对于物理服务器，操作系统应使用 *deadline*调度器。*deadline*调度器限制每个请求的最大延迟，并保持良好的磁盘吞吐量，这对于磁盘密集型数据库应用程序来说是最好的。
 
 ## Architecture  架构
 
 ### Replica Sets 副本集
 
-See the [Replica Set Architectures](https://docs.mongodb.com/manual/core/replica-set-architectures/) document for an overview of architectural considerations for replica set deployments.                                                                                                                                                                                            有关副本集部署的体系结构注意事项的概述，请参阅 [副本集体系结构文档](https://docs.mongodb.com/manual/core/replica-set-architectures/)。
+See the [Replica Set Architectures](https://docs.mongodb.com/manual/core/replica-set-architectures/) document for an overview of architectural considerations for replica set deployments.                                                                                                                                                                     
+
+有关副本集部署的体系结构注意事项的概述，请参阅 [副本集体系结构文档](https://docs.mongodb.com/manual/core/replica-set-architectures/)。
 
 ### Sharded Clusters 碎片集群
 
@@ -572,7 +650,9 @@ See [Sharded Cluster Production Architecture](https://docs.mongodb.com/manual/co
 
 SEE ALSO也可以参阅
 
-[Development Checklist](https://docs.mongodb.com/manual/administration/production-checklist-development/)                                                                                                                                                                                                 [开发清单](https://docs.mongodb.com/manual/administration/production-checklist-development/)
+[Development Checklist](https://docs.mongodb.com/manual/administration/production-checklist-development/)                                                                       
+
+[开发清单](https://docs.mongodb.com/manual/administration/production-checklist-development/)
 
 ## Compression 压缩
 
@@ -616,21 +696,33 @@ WiredTiger uses [prefix compression](https://docs.mongodb.com/manual/reference/g
 
 ## 时钟同步 
 
-MongoDB [components](https://docs.mongodb.com/manual/reference/program/) keep logical clocks for supporting time-dependent operations. Using [NTP](http://www.ntp.org/) to synchronize host machine clocks mitigates the risk of clock drift between components. Clock drift between components increases the likelihood of incorrect or abnormal behavior of time-dependent operations like the following:                                                                                                                                                                          MongoDB [组件](https://docs.mongodb.com/manual/reference/program/)保留逻辑时钟以支持与时间相关的操作。使用[网络时间协议](http://www.ntp.org/)同步主机时钟来降低组件之间时钟漂移的风险。组件之间的时钟漂移增加了时间相关操作不正确或异常行为的可能性，如下所示：
+MongoDB [components](https://docs.mongodb.com/manual/reference/program/) keep logical clocks for supporting time-dependent operations. Using [NTP](http://www.ntp.org/) to synchronize host machine clocks mitigates the risk of clock drift between components. Clock drift between components increases the likelihood of incorrect or abnormal behavior of time-dependent operations like the following:                                                                                                                                 
 
-- If the underlying system clock of any given MongoDB component drifts a year or more from other components in the same deployment, communication between those members may become unreliable or halt altogether.                                                                                                                    如果任何给定 MongoDB 组件的底层系统时钟偏离同一部署中的其他组件一年或更长时间，则这些成员之间的通信可能变得不可靠或完全停止。
+MongoDB [组件](https://docs.mongodb.com/manual/reference/program/)保留逻辑时钟以支持与时间相关的操作。使用[网络时间协议](http://www.ntp.org/)同步主机时钟来降低组件之间时钟漂移的风险。组件之间的时钟漂移增加了时间相关操作不正确或异常行为的可能性，如下所示：
+
+- If the underlying system clock of any given MongoDB component drifts a year or more from other components in the same deployment, communication between those members may become unreliable or halt altogether. 
+
+如果任何给定 MongoDB 组件的底层系统时钟偏离同一部署中的其他组件一年或更长时间，则这些成员之间的通信可能变得不可靠或完全停止。
 
   The [maxAcceptableLogicalClockDriftSecs](https://docs.mongodb.com/manual/reference/parameters/#param.maxAcceptableLogicalClockDriftSecs) parameter controls the amount of acceptable clock drift between components. Clusters with a lower value of maxAcceptableLogicalClockDriftSecs have a correspondingly lower tolerance for clock drift.
 
   [maxAcceptableLogicalClockDriftSecs](https://docs.mongodb.com/manual/reference/parameters/#param.maxAcceptableLogicalClockDriftSecs) 参数控制组件之间可接受的时钟偏移量。MaxAcceptableLogicalClockDiftSecs值较低的集群对时钟漂移的容忍度相应较低。
 
-- Two cluster members with different system clocks may return different values for operations that return the current cluster or system time, such as [Date()](https://docs.mongodb.com/manual/reference/method/Date/#Date), [NOW](https://docs.mongodb.com/manual/reference/aggregation-variables/#variable.NOW), and [CLUSTER_TIME](https://docs.mongodb.com/manual/reference/aggregation-variables/#variable.CLUSTER_TIME).                                                                                                                                                          对于返回当前集群或系统时间的操作，具有不同系统时钟的两个集群成员可能返回不同的值，例如 [Date()](https://docs.mongodb.com/manual/reference/method/Date/#Date), [NOW](https://docs.mongodb.com/manual/reference/aggregation-variables/#variable.NOW), 和 [CLUSTER_TIME](https://docs.mongodb.com/manual/reference/aggregation-variables/#variable.CLUSTER_TIME)。
+- Two cluster members with different system clocks may return different values for operations that return the current cluster or system time, such as [Date()](https://docs.mongodb.com/manual/reference/method/Date/#Date), [NOW](https://docs.mongodb.com/manual/reference/aggregation-variables/#variable.NOW), and [CLUSTER_TIME](https://docs.mongodb.com/manual/reference/aggregation-variables/#variable.CLUSTER_TIME).                                                                                       
 
-- Features which rely on timekeeping may have inconsistent or unpredictable behavior in clusters with clock drift between MongoDB components.                                                                          在MongoDB组件之间存在时钟漂移的集群中，依赖于计时的特性可能会有不一致或不可预测的行为。
+对于返回当前集群或系统时间的操作，具有不同系统时钟的两个集群成员可能返回不同的值，例如 [Date()](https://docs.mongodb.com/manual/reference/method/Date/#Date), [NOW](https://docs.mongodb.com/manual/reference/aggregation-variables/#variable.NOW), 和 [CLUSTER_TIME](https://docs.mongodb.com/manual/reference/aggregation-variables/#variable.CLUSTER_TIME)。
 
-  For example, [TTL indexes](https://docs.mongodb.com/manual/core/index-ttl/#index-feature-ttl) rely on the system clock to calculate when to delete a given document. If two members have different system clock times, each member could delete a given document covered by the TTL index at a different time. Since [Client Sessions and Causal Consistency Guarantees](https://docs.mongodb.com/manual/core/read-isolation-consistency-recency/#sessions) use TTL indexes to control their lifespan, clock drift could result in inconsistent or unpredictable session timeout behavior.                                                                例如，[TTL索引](https://docs.mongodb.com/manual/core/index-ttl/#index-feature-ttl)依赖于系统时钟来计算何时删除给定文档。如果两个成员有不同的系统时钟时间，则每个成员可以在不同的时间删除TTL索引覆盖的给定文档。由于[客户端会话和因果一致性](https://docs.mongodb.com/manual/core/read-isolation-consistency-recency/#sessions)保证使用TTL索引来控制它们的寿命，时钟漂移可能导致不一致或不可预测的会话超时行为。
+- Features which rely on timekeeping may have inconsistent or unpredictable behavior in clusters with clock drift between MongoDB components.                                   
 
-NTP synchronization is required for deployments running MongoDB lower than 3.4.6 or 3.2.17 with the WiredTiger storage engine, where clock drift could lead to [checkpoint hangs](https://jira.mongodb.org/browse/WT-3227). The issue was fixed in MongoDB [3.4.6+](https://docs.mongodb.com/manual/release-notes/3.4-changelog/#id148) and MongoDB [3.2.17+](https://docs.mongodb.com/manual/release-notes/3.2/#id5), and is resolved in all point release of MongoDB 3.6, 4.0, and 4.2.                                                                                                                                             运行 MongoDB 低于 3.4.6 或 3.2.17 的部署需要 NTP 同步，使用 WiredTiger 存储引擎，时钟漂移可能导致[检查点挂起](https://jira.mongodb.org/browse/WT-3227)。该问题在 MongoDB [3.4.6+](https://docs.mongodb.com/manual/release-notes/3.4-changelog/#id148) 和 MongoDB [3.2.17+](https://docs.mongodb.com/manual/release-notes/3.2/#id5) 中得到了修复，并在 MongoDB 3.6、4.0 和 4.2 版本中所有点得到了解决。
+在MongoDB组件之间存在时钟漂移的集群中，依赖于计时的特性可能会有不一致或不可预测的行为。
+
+For example, [TTL indexes](https://docs.mongodb.com/manual/core/index-ttl/#index-feature-ttl) rely on the system clock to calculate when to delete a given document. If two members have different system clock times, each member could delete a given document covered by the TTL index at a different time. Since [Client Sessions and Causal Consistency Guarantees](https://docs.mongodb.com/manual/core/read-isolation-consistency-recency/#sessions) use TTL indexes to control their lifespan, clock drift could result in inconsistent or unpredictable session timeout behavior.
+
+例如，[TTL索引](https://docs.mongodb.com/manual/core/index-ttl/#index-feature-ttl)依赖于系统时钟来计算何时删除给定文档。如果两个成员有不同的系统时钟时间，则每个成员可以在不同的时间删除TTL索引覆盖的给定文档。由于[客户端会话和因果一致性](https://docs.mongodb.com/manual/core/read-isolation-consistency-recency/#sessions)保证使用TTL索引来控制它们的寿命，时钟漂移可能导致不一致或不可预测的会话超时行为。
+
+NTP synchronization is required for deployments running MongoDB lower than 3.4.6 or 3.2.17 with the WiredTiger storage engine, where clock drift could lead to [checkpoint hangs](https://jira.mongodb.org/browse/WT-3227). The issue was fixed in MongoDB [3.4.6+](https://docs.mongodb.com/manual/release-notes/3.4-changelog/#id148) and MongoDB [3.2.17+](https://docs.mongodb.com/manual/release-notes/3.2/#id5), and is resolved in all point release of MongoDB 3.6, 4.0, and 4.2.                                           
+
+运行 MongoDB 低于 3.4.6 或 3.2.17 的部署需要 NTP 同步，使用 WiredTiger 存储引擎，时钟漂移可能导致[检查点挂起](https://jira.mongodb.org/browse/WT-3227)。该问题在 MongoDB [3.4.6+](https://docs.mongodb.com/manual/release-notes/3.4-changelog/#id148) 和 MongoDB [3.2.17+](https://docs.mongodb.com/manual/release-notes/3.2/#id5) 中得到了修复，并在 MongoDB 3.6、4.0 和 4.2 版本中所有点得到了解决。
 
 
 
@@ -643,7 +735,9 @@ NTP synchronization is required for deployments running MongoDB lower than 3.4.6
 
 #### Kernel and File Systems 内核和文件系统
 
-When running MongoDB in production on Linux, you should use Linux kernel version 2.6.36 or later, with either the XFS or EXT4 filesystem. If possible, use XFS as it generally performs better with MongoDB.                                                                                                                                                                 在Linux上的生产环境中运行MongoDB时，应该使用 Linux 内核版本 2.6.36 或更高版本，并使用 XFS或 EXT4 文件系统。如果可能的话，使用 XFS，因为它通常在 MongoDB 中执行得更好。
+When running MongoDB in production on Linux, you should use Linux kernel version 2.6.36 or later, with either the XFS or EXT4 filesystem. If possible, use XFS as it generally performs better with MongoDB.                                                                                                                                                   
+
+在Linux上的生产环境中运行MongoDB时，应该使用 Linux 内核版本 2.6.36 或更高版本，并使用 XFS或 EXT4 文件系统。如果可能的话，使用 XFS，因为它通常在 MongoDB 中执行得更好。
 
 With the [WiredTiger storage engine](https://docs.mongodb.com/manual/core/wiredtiger/#storage-wiredtiger), using XFS is strongly recommended for data bearing nodes to avoid performance issues that may occur when using EXT4 with WiredTiger. 
 
@@ -802,11 +896,12 @@ For the WiredTiger storage engine:
 
 对于WiredTiger存储引擎：
 
-- Set the readahead setting between 8 and 32 regardless of storage media type (spinning disk, SSD, etc.).                                                                                                                                                      无论存储介质类型（旋转磁盘、SSD等）如何，将 文件预读的值设置为8到32。
+- Set the readahead setting between 8 and 32 regardless of storage media type (spinning disk, SSD, etc.).                                                                       
+无论存储介质类型（旋转磁盘、SSD等）如何，将 文件预读的值设置为8到32。
 
-  Higher readahead commonly benefits sequential I/O operations. Since MongoDB disk access patterns are generally random, using higher readahead settings provides limited benefit or potential performance degradation. As such, for optimal MongoDB performance, set readahead between 8 and 32, unless testing shows a measurable, repeatable, and reliable benefit in a higher readahead value. [MongoDB commercial support](https://support.mongodb.com/welcome?jmp=docs) can provide advice and guidance on alternate readahead configurations. 
+Higher readahead commonly benefits sequential I/O operations. Since MongoDB disk access patterns are generally random, using higher readahead settings provides limited benefit or potential performance degradation. As such, for optimal MongoDB performance, set readahead between 8 and 32, unless testing shows a measurable, repeatable, and reliable benefit in a higher readahead value. [MongoDB commercial support](https://support.mongodb.com/welcome?jmp=docs) can provide advice and guidance on alternate readahead configurations. 
 
-  较高的预读通常有利于顺序 I/O 操作。由于MongoDB 磁盘访问模式通常是随机的，因此使用更高的文件预读设置提供的好处有限，或者可能会降低性能。因此，为了获得最佳的 MongoDB 性能，请将文件预读的值设置在8到32之间，除非测试在更高的文件预读值中显示出可测量、可重复和可靠的好处。 [MongoDB 商业支持](https://support.mongodb.com/welcome?jmp=docs)可以提供关于备用文件预读配置的建议和指导。
+较高的预读通常有利于顺序 I/O 操作。由于MongoDB 磁盘访问模式通常是随机的，因此使用更高的文件预读设置提供的好处有限，或者可能会降低性能。因此，为了获得最佳的 MongoDB 性能，请将文件预读的值设置在8到32之间，除非测试在更高的文件预读值中显示出可测量、可重复和可靠的好处。 [MongoDB 商业支持](https://support.mongodb.com/welcome?jmp=docs)可以提供关于备用文件预读配置的建议和指导。
 
   
 
@@ -821,7 +916,9 @@ On Linux platforms, you may observe one of the following statements in the Mongo
 <path to TLS/SSL libs>/libcrypto.so.<version>: no version information available (required by /usr/bin/mongod)
 ```
 
-These warnings indicate that the system’s TLS/SSL libraries are different from the TLS/SSL libraries that the [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) was compiled against. Typically these messages do not require intervention; however, you can use the following operations to determine the symbol versions that [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) expects:                                                                                                                                            这些警告表示系统的 TLS/SSL 库与 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)  编译时所依据的 TLS/SSL 库不同。通常这些消息不需要干预；但是，您可以使用以下操作来确定 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)  期望的符号版本：
+These warnings indicate that the system’s TLS/SSL libraries are different from the TLS/SSL libraries that the [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) was compiled against. Typically these messages do not require intervention; however, you can use the following operations to determine the symbol versions that [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) expects:                               
+
+这些警告表示系统的 TLS/SSL 库与 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)  编译时所依据的 TLS/SSL 库不同。通常这些消息不需要干预；但是，您可以使用以下操作来确定 [mongod](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)  期望的符号版本：
 
 ```
 objdump -T <path to mongod>/mongod | grep " SSL_"
@@ -850,13 +947,17 @@ This procedure is neither exact nor exhaustive: many symbols used by [mongod](ht
 
 ### MongoDB on Windows  Windows 上的 MongoDB
 
-For MongoDB instances using the WiredTiger storage engine, performance on Windows is comparable to performance on Linux.                                                                                                                      对于使用 WiredTiger 存储引擎的 MongoDB 实例，Windows 上的性能与 Linux 上的性能相当。
+For MongoDB instances using the WiredTiger storage engine, performance on Windows is comparable to performance on Linux.                                                         
+
+对于使用 WiredTiger 存储引擎的 MongoDB 实例，Windows 上的性能与 Linux 上的性能相当。
 
 
 
 ### MongoDB on Virtual Environments   虚拟环境中的MongoDB
 
-This section describes considerations when running MongoDB in some of the more common virtual environments.                                                                                                                                                  本章节描述了在常用虚拟环境中运行MongoDB需要考虑的问题。
+This section describes considerations when running MongoDB in some of the more common virtual environments.                                                                     
+
+本章节描述了在常用虚拟环境中运行MongoDB需要考虑的问题。
 
 For all platforms, consider [Scheduling](https://docs.mongodb.com/manual/administration/production-notes/#virtualized-disks-scheduling).                                                                                                                                                                                         对于所有平台，请考虑 [调度](https://docs.mongodb.com/manual/administration/production-notes/#virtualized-disks-scheduling).
 
@@ -875,13 +976,13 @@ To tune performance on EC2 for either configuration, you should:
 
  要为任一配置优化弹性计算云上的性能，应：
 
-- Enable AWS [Enhanced Networking](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking) for your instance. Not all instance types support Enhanced Networking.                                                                                                                                                   为您的实例启用亚马逊[增强的网络](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking)。并非所有实例类型都支持增强的网络。
+- Enable AWS [Enhanced Networking](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking) for your instance. Not all instance types support Enhanced Networking.                                                                                                                                               为您的实例启用亚马逊[增强的网络](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking)。并非所有实例类型都支持增强的网络。
 
   
 
-  To learn more about Enhanced Networking, see to the [AWS documentation](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking).
+To learn more about Enhanced Networking, see to the [AWS documentation](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking).
 
-  要了解有关增强联网的更多信息，请参阅[AWS 文档](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking)。
+要了解有关增强联网的更多信息，请参阅[AWS 文档](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html#enabling_enhanced_networking)。
 
 If you are concerned more about reproducible performance on EC2, you should also: 
 
@@ -955,9 +1056,13 @@ You will need to restart [mongod](https://docs.mongodb.com/manual/reference/prog
 
   注意
 
-  Although the setting name includes ipv4, the tcp_keepalive_time value applies to both IPv4 and IPv6.                                                                                                                                                                        尽管设置名称包括IPv4 ，但 TCP 长连接时间值同时适用于 IPv4 和 IPv6。
+  Although the setting name includes ipv4, the tcp_keepalive_time value applies to both IPv4 and IPv6.                                                                           
+  
+  尽管设置名称包括IPv4 ，但 TCP 长连接时间值同时适用于 IPv4 和 IPv6。
 
-- To change the tcp_keepalive_time value, you can use one of the following commands, supplying a <value> in seconds:                                                                                                                    要更改 TCP 长连接时间值，可以使用以下命令之一，以秒为单位提供<value>：：
+- To change the tcp_keepalive_time value, you can use one of the following commands, supplying a <value> in seconds:                                                             
+  
+  要更改 TCP 长连接时间值，可以使用以下命令之一，以秒为单位提供<value>：：
 
   ```
   sudo sysctl -w net.ipv4.tcp_keepalive_time=<value>
@@ -1075,8 +1180,12 @@ Key fields from iostat:
 
 iostat中的关键字段：
 
-- %util: this is the most useful field for a quick check, it indicates what percent of the time the device/drive is in use.                                                                                                                                        %util: 这是快速检查最有用的字段，它表示设备/驱动器使用时间的百分比。
-- avgrq-sz: average request size. Smaller number for this value reflect more random IO operations.                                                                                                                                                                      avgrq-sz: 平均请求大小。此值的较小数字反映了更多的随机IO操作。
+- %util: this is the most useful field for a quick check, it indicates what percent of the time the device/drive is in use.                                                     
+
+%util: 这是快速检查最有用的字段，它表示设备/驱动器使用时间的百分比。
+- avgrq-sz: average request size. Smaller number for this value reflect more random IO operations.                                                                               
+
+avgrq-sz: 平均请求大小。此值的较小数字反映了更多的随机IO操作。
 
 ### bwm-ng
 
