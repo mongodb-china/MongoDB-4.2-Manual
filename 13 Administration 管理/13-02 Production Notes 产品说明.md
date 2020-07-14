@@ -421,7 +421,8 @@ On Linux, you must disable *zone reclaim* and also ensure that your [mongod](htt
    ```
 echo 0 | sudo tee /proc/sys/vm/zone_reclaim_mod
    ```
-   
+
+
    ```
 sudo sysctl -w vm.zone_reclaim_mode=0
    ```
