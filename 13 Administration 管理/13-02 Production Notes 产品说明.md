@@ -1120,11 +1120,13 @@ MongoDB is compatible with VMware.
 
 MongoDB 与 VMware 兼容。
 
-VMware supports memory overcommitment, where you can assign more memory to your virtual machines than the physical machine has available. When memory is overcommitted, the hypervisor reallocates memory between the virtual machines. VMware’s balloon driver (vmmemctl) reclaims the pages that are considered least valuable.                                                        VMware支持内存过量使用，在这里，您可以为虚拟机分配比物理机可用更多的内存。当内存被过度使用时，管理程序会在虚拟机之间重新分配内存。VMware 的气球驱动（vmmemctl）回收那些被认为价值最低的页面。
+VMware supports memory overcommitment, where you can assign more memory to your virtual machines than the physical machine has available. When memory is overcommitted, the hypervisor reallocates memory between the virtual machines. VMware’s balloon driver (vmmemctl) reclaims the pages that are considered least valuable.                           
+
+VMware支持内存过量使用，在这里，您可以为虚拟机分配比物理机可用更多的内存。当内存被过度使用时，管理程序会在虚拟机之间重新分配内存。VMware 的气球驱动（vmmemctl）回收那些被认为价值最低的页面。
 
 The balloon driver resides inside the guest operating system. When the balloon driver expands, it may induce the guest operating system to reclaim memory from guest applications, which can interfere with MongoDB’s memory management and affect MongoDB’s performance. 
 
-气球驱动程序位于来宾操作系统中。当气球驱动程序扩展时，可能导致来宾操作系统从来宾应用程序中回收内存，从而干扰 MongoDB 的内存管理，影响 MongoDB 的性能。
+气球驱动程序位于客户操作系统中。当气球驱动程序扩展时，可能导致客户操作系统从来宾应用程序中回收内存，从而干扰 MongoDB 的内存管理，影响 MongoDB 的性能。
 
 Do not disable the balloon driver and memory overcommitment features. This can cause the hypervisor to use its swap which will affect performance. Instead, map and reserve the full amount of memory for the virtual machine running MongoDB. This ensures that the balloon will not be inflated in the local operating system if there is memory pressure in the hypervisor due to an overcommitted configuration.
 
