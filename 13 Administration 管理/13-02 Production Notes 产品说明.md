@@ -506,22 +506,26 @@ sudo sysctl -w vm.zone_reclaim_mode=0
       ```
 
 
-   2. Edit the /etc/systemd/system/mongod.service file,  and update the ExecStart statement to begin with:                                                                         编辑 /etc/systemd/system/mongod.service 文件，首先要更新 ExecStart 语句：
+ 2. Edit the /etc/systemd/system/mongod.service file,  and update the ExecStart statement to begin with:                                                                         编辑 /etc/systemd/system/mongod.service 文件，首先要更新 ExecStart 语句：
    
-
       ```
    /usr/bin/numactl --interleave=all
       ```
       
-      EXAMPLE                                                                                                                                                                    例如
+EXAMPLE  
+例如
 
-      If your existing ExecStart statement reads: 如果现有的 ExecStart 语句为：
+
+If your existing ExecStart statement reads: 
+如果现有的 ExecStart 语句为：
 
       ```
    ExecStart=/usr/bin/mongod --config /etc/mongod.conf
       ```
 
-      Update that statement to read:                                                                                                                                         将该语句更新为：
+
+Update that statement to read: 将该语句更新为：
+
 
       ```
    ExecStart=/usr/bin/numactl --interleave=all /usr/bin/mongod --config /etc/mongod.conf
@@ -642,7 +646,7 @@ See the [Replica Set Architectures](https://docs.mongodb.com/manual/core/replica
 
 有关副本集部署的体系结构注意事项的概述，请参阅 [副本集体系结构文档](https://docs.mongodb.com/manual/core/replica-set-architectures/)。
 
-### Sharded Clusters 碎片集群
+### Sharded Clusters 分片集群
 
 See [Sharded Cluster Production Architecture](https://docs.mongodb.com/manual/core/sharded-cluster-components/) for an overview of recommended sharded cluster architectures for production deployments. 
 
