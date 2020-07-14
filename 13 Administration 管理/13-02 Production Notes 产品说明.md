@@ -656,7 +656,7 @@ SEE ALSO也可以参阅
 
 [Development Checklist](https://docs.mongodb.com/manual/administration/production-checklist-development/)                                                                       
 
-[开发清单](https://docs.mongodb.com/manual/administration/production-checklist-development/)
+[开发清单列表](https://docs.mongodb.com/manual/administration/production-checklist-development/)
 
 ## Compression 压缩
 
