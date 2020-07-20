@@ -244,7 +244,7 @@ db.createUser(
 >
 > The database where you create the user (in this example, `test`) is that user’s [authentication database](https://docs.mongodb.com/v4.0/core/security-users/#user-authentication-database). Although the user would authenticate to this database, the user can have roles in other databases; i.e. the user’s authentication database does not limit the user’s privileges.	
 
-> 注解：
+> 说明：
 >
 > 你在其中创建用户的数据库（在这个示例中是test）就是这个用户的身份认证数据库。虽然用户将在此数据库进行身份认证，但用户可以具有其他数据库的角色；即用户的身份认证数据库不限制用户的权限。
 
