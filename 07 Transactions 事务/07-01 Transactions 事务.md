@@ -12,7 +12,7 @@ On this page
 - [General Information](https://docs.mongodb.com/manual/core/transactions/#general-information)
 - [Additional Transactions Topics](https://docs.mongodb.com/manual/core/transactions/#additional-transactions-topics)
 
-本页面涉及
+在本页
 
 > 事务API
 >
@@ -34,7 +34,7 @@ For situations that require atomicity of reads and writes to multiple documents 
 
 > 在MongoDB中，对单个文档的操作是原子的。因为您可以使用嵌入式文档和数组来捕获单个文档结构中的数据之间的关系，而不是在多个文档和集合之间进行规范化，所以这种单文档原子性消除了许多实际用例中对多文档事务的需求。
 >
-> 对于需要原子性地读写多个文档（在单个或多个集合中）的情况，MongoDB支持多文档事务。使用分布式事务，可以跨多个操作，集合，数据库，文档和分片使用事务
+> 对于需要原子性地读写多个文档（在单个或多个集合中）的情况，MongoDB支持多文档事务。使用分布式事务，可以跨多个操作，集合，数据库，文档和分片使用事务。
 
 ## Transactions API
 
@@ -125,7 +125,7 @@ Multi-document transactions are atomic (i.e. provide an “all-or-nothing” pro
 
   > 提交事务时，将保存在事务中进行的所有数据更改，并在事务外部可见。 也就是说，一个事务在回滚其他事务时将不会提交其某些更改。在提交事务之前，在事务外部看不到在事务中进行的数据更改。
   >
-  > 但是，当事务写入多个分片时，并非所有外部读取操作都需要等待已提交事务的结果在所有分片上可见。 例如，如果提交了一个事务，并且在分片A上可以看到写1，但是在分片B上却看不到写2，则外部读取时设置read concern [`"local"`](https://docs.mongodb.com/manual/reference/read-concern-local/#readconcern.%22local%22) 结果为可以读取写入1的结果而看不到写入2。
+  > 但是，当事务写入多个分片时，并非所有外部读取操作都需要等待已提交事务的结果在所有分片上可见。 例如，如果提交了一个事务，并且在分片A上可以看到写1，但是在分片B上却看不到写2，则外部读取时设置读关注 [`"local"`](https://docs.mongodb.com/manual/reference/read-concern-local/#readconcern.%22local%22) 结果为可以读取写入1的结果而看不到写入2。
 
 - When a transaction aborts, all data changes made in the transaction are discarded without ever becoming visible. For example, if any operation in the transaction fails, the transaction aborts and all data changes made in the transaction are discarded without ever becoming visible.
 
@@ -356,19 +356,19 @@ SEE ALSO
 
 ## Read Concern/Write Concern/Read Preference
 
-> 读关注/写关注/读选项
+> 读关注/写关注/读偏好
 
 ### Transactions and Read Preference
 
-> 事务和读选项
+> 事务和读偏好
 
 Operations in a transaction use the transaction-level [read preference](https://docs.mongodb.com/manual/core/read-preference/#replica-set-read-preference).
 
 Using the drivers, you can set the transaction-level [read preference](https://docs.mongodb.com/manual/core/read-preference/#replica-set-read-preference) at the transaction start:
 
-> 事务中的操作使用事务级别的[读选项](https://docs.mongodb.com/manual/core/read-preference/#replica-set-read-preference)。
+> 事务中的操作使用事务级别的[读偏好](https://docs.mongodb.com/manual/core/read-preference/#replica-set-read-preference)。
 >
-> 使用驱动程序，可以在事务开始时设置事务级别的 [read preference](https://docs.mongodb.com/manual/core/read-preference/#replica-set-read-preference) ：
+> 使用驱动程序，可以在事务开始时设置事务级别的 [读偏好](https://docs.mongodb.com/manual/core/read-preference/#replica-set-read-preference) ：
 
 - If the transaction-level read preference is unset, the transaction uses the session-level read preference.
 
@@ -376,11 +376,11 @@ Using the drivers, you can set the transaction-level [read preference](https://d
 
 - If transaction-level and the session-level read preference are unset, the transaction uses the client-level read preference. By default, the client-level read preference is [`primary`](https://docs.mongodb.com/manual/core/read-preference/#primary).
 
-  > 如果未设置事务级别和会话级别的读选项，则事务将使用客户端级别的读选项。 默认情况下，客户端级别的读选项为[`primary`](https://docs.mongodb.com/manual/core/read-preference/#primary)。
+  > 如果未设置事务级别和会话级别的读选项，则事务将使用客户端级别的读偏好。 默认情况下，客户端级别的读选项为[`primary`](https://docs.mongodb.com/manual/core/read-preference/#primary)。
 
 [Multi-document transactions](https://docs.mongodb.com/manual/core/transactions/#) that contain read operations must use read preference [`primary`](https://docs.mongodb.com/manual/core/read-preference/#primary). All operations in a given transaction must route to the same member.
 
-> 包含读取操作的[多文档事务](https://docs.mongodb.com/manual/core/transactions/#)必须使用读选项[`primary`](https://docs.mongodb.com/manual / core / read-preference /＃primary)。 给定事务中的所有操作都必须路由到同一成员。
+> 包含读取操作的[多文档事务](https://docs.mongodb.com/manual/core/transactions/#)必须使用读偏好[`primary`](https://docs.mongodb.com/manual / core / read-preference /＃primary)。 给定事务中的所有操作都必须路由到同一成员。
 
 ### Transactions and Read Concern
 
@@ -414,13 +414,13 @@ Transactions support the following read concern levels:
 
 - For transactions on sharded cluster, [`"local"`](https://docs.mongodb.com/manual/reference/read-concern-local/#readconcern.%22local%22) read concern cannot guarantee that the data is from the same snapshot view across the shards. If snapshot isolation is required, use ["snapshot"](https://docs.mongodb.com/manual/core/transactions/#transactions-read-concern-snapshot) read concern.
 
-  > 对于分片群集上的事务，[`“ local”`](https://docs.mongodb.com/manual/reference/read-concern-local/#readconcern.%22local%22)读关注不能保证数据是从整个分片的同一快照视图获取。 如果需要快照隔离，请使用[“快照”](https://docs.mongodb.com/manual/core/transactions/#transactions-read-concern-snapshot)阅读关注。
+  > 对于分片群集上的事务，[`“ local”`](https://docs.mongodb.com/manual/reference/read-concern-local/#readconcern.%22local%22)读关注不能保证数据是从整个分片的同一快照视图获取。 如果需要快照隔离，请使用[“snapshot”](https://docs.mongodb.com/manual/core/transactions/#transactions-read-concern-snapshot)读关注。
 
 #### `"majority"`
 
 - Read concern [`"majority"`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22) returns data that has been acknowledged by a majority of the replica set members (i.e. data cannot be rolled back) **if** the transaction commits with [write concern “majority”](https://docs.mongodb.com/manual/core/transactions/#transactions-write-concern).
 
-  > **如果**以[写关注“多数”](https://docs.mongodb.com/manual/core/transactions/#transactions-write-concern)提交事务，读关注 [`"majority"`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22)返回大多数副本成员已确认的数据（即无法回滚数据）。
+  > **如果**以[写关注“majority”](https://docs.mongodb.com/manual/core/transactions/#transactions-write-concern)提交事务，读关注 [`"majority"`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22)返回大多数副本成员已确认的数据（即无法回滚数据）。
 
 - If the transaction does not use [write concern “majority”](https://docs.mongodb.com/manual/core/transactions/#transactions-write-concern) for the commit, the [`"majority"`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22) read concern provides **no** guarantees that read operations read majority-committed data.
 
@@ -428,7 +428,7 @@ Transactions support the following read concern levels:
 
 - For transactions on sharded cluster, [`"majority"`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22) read concern cannot guarantee that the data is from the same snapshot view across the shards. If snapshot isolation is required, use ["snapshot"](https://docs.mongodb.com/manual/core/transactions/#transactions-read-concern-snapshot) read concern.
 
-  > 对于分片群集上的事务，[`“majority”`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22)读取关注不能保证数据是从整个分片的同一快照视图中获取。 如果需要快照隔离，请使用[“快照”](https://docs.mongodb.com/manual/core/transactions/#transactions-read-concern-snapshot)阅读关注。
+  > 对于分片群集上的事务，[`“majority”`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22)读取关注不能保证数据是从整个分片的同一快照视图中获取。 如果需要快照隔离，请使用[“snapshot”](https://docs.mongodb.com/manual/core/transactions/#transactions-read-concern-snapshot)读关注。
 
 
 
@@ -436,15 +436,15 @@ Transactions support the following read concern levels:
 
 - Read concern [`"snapshot"`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22) returns data from a snapshot of majority committed data **if** the transaction commits with [write concern “majority”](https://docs.mongodb.com/manual/core/transactions/#transactions-write-concern).
 
-  > **如果**事务提交时带有[写关注“majority”](https://docs.mongodb.com/manual/core/transactions/#transactions-write-concern)，读关注[`“快照”`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)从大多数已提交数据的快照中返回数据。
+  > **如果**事务提交时带有[写关注“majority”](https://docs.mongodb.com/manual/core/transactions/#transactions-write-concern)，读关注[`"snapshot"`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)从大多数已提交数据的快照中返回数据。
 
 - If the transaction does not use [write concern “majority”](https://docs.mongodb.com/manual/core/transactions/#transactions-write-concern) for the commit, the [`"snapshot"`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22) read concern provides **no** guarantee that read operations used a snapshot of majority-committed data.
 
-  > 如果事务未使用[写关注“majority”](https://docs.mongodb.com/manual/core/transactions/#transactions-write-concern)进行提交，则[`“快照”`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)读关注**不**保证读操作使用了大部分提交的数据的快照。
+  > 如果事务未使用[写关注“majority”](https://docs.mongodb.com/manual/core/transactions/#transactions-write-concern)进行提交，则[`"snapshot"`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)读关注**不**保证读操作使用了大部分提交的数据的快照。
 
 - For transactions on sharded clusters, the [`"snapshot"`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22) view of the data **is** synchronized across shards.
 
-  > 对于分片群集上的事务，数据**的[`“快照”`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)视图 **跨碎片同步。
+  > 对于分片群集上的事务，数据**的[`"snapshot"`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)视图 **跨分片同步。
 
 
 
@@ -500,7 +500,7 @@ Transactions support all write concern [w](https://docs.mongodb.com/manual/refer
 
 - When you commit with [`w: 1`](https://docs.mongodb.com/manual/reference/write-concern/#writeconcern.%3Cnumber%3E) write concern, transaction-level [`"snapshot"`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22) read concern provides **no** guarantee that read operations in the transaction used a snapshot of majority-committed data.
 
-  > 当您提交[`w：1`](https://docs.mongodb.com/manual/reference/write-concern/#writeconcern.%3Cnumber%3E)时，会写成事务级别的[`“快照”` ](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)，读取关注**不**保证事务中的读取操作使用多数快照提交的数据。
+  > 当您提交[`w：1`](https://docs.mongodb.com/manual/reference/write-concern/#writeconcern.%3Cnumber%3E)时，会写成事务级别的[`"snapshot"`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)，读取关注**不**保证事务中的读取操作使用多数快照提交的数据。
 
 #### `w: "majority"`
 
@@ -546,15 +546,15 @@ See also [Disabled Read Concern Majority](https://docs.mongodb.com/manual/core/t
 
 > 如果任何事务操作读取或写入包含仲裁程序的分片，则其写操作跨越多个分片的事务将出错并中止。
 >
-> 另请参见[禁用大多数读](https://docs.mongodb.com/manual/core/transactions/#transactions-disabled-rc-majority)，以了解已禁用多数读关注的分片的事务限制。
+> 另请参见[禁用读关注Majority](https://docs.mongodb.com/manual/core/transactions/#transactions-disabled-rc-majority)，以了解已禁用读关注majority的分片的事务限制。
 
 ### Disabled Read Concern Majority
 
-> 禁用读大多数
+> 禁用读关注Majority
 
 A 3-member PSA (Primary-Secondary-Arbiter) replica set or a sharded cluster with 3-member PSA shards may have disabled read concern majority ([`--enableMajorityReadConcern false`](https://docs.mongodb.com/manual/reference/program/mongod/#cmdoption-mongod-enablemajorityreadconcern) or [`replication.enableMajorityReadConcern: false`](https://docs.mongodb.com/manual/reference/configuration-options/#replication.enableMajorityReadConcern))
 
-> 一个含有3成员PSA（主-次-仲裁器）副本集，或具有3成员PSA分片的分片群集可能已禁用大多数读（[`--enableMajorityReadConcern false`](https://docs.mongodb.com/manual/reference/program/mongod/#cmdoption-mongod-enablemajorityreadconcern) 或[`replication.enableMajorityReadConcern：false`](https://docs.mongodb.com/manual/reference/configuration-options/#replication.enableMajorityReadConcern))
+> 一个含有3成员PSA（主-次-仲裁器）副本集，或具有3成员PSA分片的分片群集可能已禁用读关注Majority（[`--enableMajorityReadConcern false`](https://docs.mongodb.com/manual/reference/program/mongod/#cmdoption-mongod-enablemajorityreadconcern) 或[`replication.enableMajorityReadConcern：false`](https://docs.mongodb.com/manual/reference/configuration-options/#replication.enableMajorityReadConcern))
 
 - On sharded clusters,
 
@@ -566,17 +566,17 @@ A 3-member PSA (Primary-Secondary-Arbiter) replica set or a sharded cluster with
 
   > 对于分片集群：
   >
-  > 如果事务涉及的分片具有[禁用读大多数](https://docs.mongodb.com/manual/reference/read-concern-majority/#disable-read-concern-majority)，则事务中不能使用的读关注[`“快照”`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)。 您只能在事务中使用读关注的[`“ local”`](https://docs.mongodb.com/manual/reference/read-concern-local/#readconcern.%22local%22)或[`“majority”`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22)。 如果使用读关注[`“ snapshot”`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)，则事务错误并中止。 
+  > 如果事务涉及的分片具有[禁用读关注Majority](https://docs.mongodb.com/manual/reference/read-concern-majority/#disable-read-concern-majority)，则事务中不能使用的读关注[`“快照”`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)。 您只能在事务中使用读关注的[`“ local”`](https://docs.mongodb.com/manual/reference/read-concern-local/#readconcern.%22local%22)或[`“majority”`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22)。 如果使用读关注[`“ snapshot”`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22)，则事务错误并中止。 
   >
-  > `当enableMajorityReadConcern = false时，分片群集中不支持读关注级别“快照”。`
+  > `当enableMajorityReadConcern = false时，分片群集中不支持读关注级别 'snapshot' 。`
   >
-  > 如果任何事务的读或写操作涉及禁用了读关注“多数”的分片，则其写操作跨越多个分片的事务将出错并中止。
+  > 如果任何事务的读或写操作涉及禁用了读关注`"majority"`的分片，则其写操作跨越多个分片的事务将出错并中止。
 
 - On replica set,
 
   You can specify read concern [`"local"`](https://docs.mongodb.com/manual/reference/read-concern-local/#readconcern.%22local%22) or [`"majority"`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22) or [`"snapshot"`](https://docs.mongodb.com/manual/reference/read-concern-snapshot/#readconcern.%22snapshot%22) even in the replica set has [disabled read concern “majority”](https://docs.mongodb.com/manual/reference/read-concern-majority/#disable-read-concern-majority).However, if you are planning to transition to a sharded cluster with disabled read concern majority shards, you may wish to avoid using read concern `"snapshot"`.
 
-  > 在[已禁用读大多数](https://docs.mongodb.com/manual/reference/read-concern-majority/#disable-read-concern-majority)副本集中，您可以指定读关注[`“ local”`](https://docs.mongodb.com/manual/reference/read-concern-local/#readconcern.%22local%22)或[`“majority”`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22)或[`“snapshot”`](https://docs.mongodb.com/manual/reference /read-concern-snapshot/#readconcern.%22snapshot%22)。但是，如果您打算过渡到具有禁用读大多数分片的分片群集，则避免使用读关注的`“快照”`。
+  > 在[已禁用读关注“majority”](https://docs.mongodb.com/manual/reference/read-concern-majority/#disable-read-concern-majority)副本集中，您可以指定读关注[`“ local”`](https://docs.mongodb.com/manual/reference/read-concern-local/#readconcern.%22local%22)或[`“majority”`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern.%22majority%22)或[`“snapshot”`](https://docs.mongodb.com/manual/reference /read-concern-snapshot/#readconcern.%22snapshot%22)。但是，如果您打算过渡到具有禁用读关注majority分片的分片群集，则避免使用读关注的`"snapshot"`。
 
 TIP
 
@@ -586,7 +586,7 @@ For more information, see [3-Member Primary-Secondary-Arbiter Architecture](http
 
 > 提示：
 >
-> 检查是否已禁用读“大多数”，可以在 [`mongod`](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)上运行[`db.serverStatus（）`](https://docs.mongodb.com/manual/reference/method/db.serverStatus/#db.serverStatus)并检查[`storageEngine.supportsCommittedReads`](https://docs.mongodb.com/manual/reference/command/serverStatus/#serverstatus.storageEngine.supportsCommittedReads)字段。 如果为“ false”，则禁用读大多数。
+> 检查是否已禁用读关注“majority”，可以在 [`mongod`](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod)上运行[`db.serverStatus（）`](https://docs.mongodb.com/manual/reference/method/db.serverStatus/#db.serverStatus)并检查[`storageEngine.supportsCommittedReads`](https://docs.mongodb.com/manual/reference/command/serverStatus/#serverstatus.storageEngine.supportsCommittedReads)字段。 如果为“ false”，则禁用读关注“majority” 。
 >
 > 有关更多信息，请参阅[3-成员主-从-仲裁者体系结构](https://docs.mongodb.com/manual/core/transactions-production-consideration/#transactions-psa)和[三成员主-从-仲裁者 分片](https://docs.mongodb.com/manual/core/transactions-sharded-clusters/#transactions-sharded-clusters-psa)。
 
@@ -625,8 +625,8 @@ MongoDB provides various transactions metrics:
 
 | 方法                                                         |                                                              |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [`db.serverStatus()`](https://docs.mongodb.com/manual/reference/method/db.serverStatus/#db.serverStatus) 方法[`serverStatus`](https://docs.mongodb.com/manual/reference/command/serverStatus/#dbcmd.serverStatus)命令 | 返回 [事务](https://docs.mongodb.com/manual/reference/command/serverStatus/#server-status-transactions) 指标. |
-| [`$currentOp`](https://docs.mongodb.com/manual/reference/operator/aggregation/currentOp/#pipe._S_currentOp) 聚合管法哦 | 如果操作是事务的一部分，则返回[`$currentOp.transaction`](https://docs.mongodb.com/manual/reference/operator/aggregation/current)。 [无效会话](https://docs.mongodb.com/manual/reference/operator/aggregation/currentOp/#currentop-stage-idlesessions) 的信息作为事务的一部分持有锁。[`$currentOp.twoPhaseCommitCoordinator`](https://docs.mongodb.com/manual/reference/operator/aggregation/currentOp/#_S_currentOp.twoPhaseCommitCoordinator) 这些指标涉及向多个分片写入的分片事务。 |
+| [`db.serverStatus()`](https://docs.mongodb.com/manual/reference/method/db.serverStatus/#db.serverStatus) 方法[`serverStatus`](https://docs.mongodb.com/manual/reference/command/serverStatus/#dbcmd.serverStatus)命令 | 返回 [事务](https://docs.mongodb.com/manual/reference/command/serverStatus/#server-status-transactions) 指标。 |
+| [`$currentOp`](https://docs.mongodb.com/manual/reference/operator/aggregation/currentOp/#pipe._S_currentOp) 聚合管道 | 如果操作是事务的一部分，则返回[`$currentOp.transaction`](https://docs.mongodb.com/manual/reference/operator/aggregation/current)。 [无效会话](https://docs.mongodb.com/manual/reference/operator/aggregation/currentOp/#currentop-stage-idlesessions) 的信息作为事务的一部分持有锁。[`$currentOp.twoPhaseCommitCoordinator`](https://docs.mongodb.com/manual/reference/operator/aggregation/currentOp/#_S_currentOp.twoPhaseCommitCoordinator) 这些指标涉及向多个分片写入的分片事务。 |
 | [`db.currentOp()`](https://docs.mongodb.com/manual/reference/method/db.currentOp/#db.currentOp) 方法[`currentOp`](https://docs.mongodb.com/manual/reference/command/currentOp/#dbcmd.currentOp) 命令 | 如果操作是事务的一部分，则返回[`currentOp.transaction`](https://docs.mongodb.com/manual/reference/command/currentOp/#currentOp.transaction) 。[`currentOp.twoPhaseCommitCoordinator`](https://docs.mongodb.com/manual/reference/command/currentOp/#currentOp.twoPhaseCommitCoordinator) 这些指标涉及写入多个分片的分片事务。 |
 | [`mongod`](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) 和 [`mongos`](https://docs.mongodb.com/manual/reference/program/mongos/#b)日志信息 | 包括[`TXN`](https://docs.mongodb.com/manual/reference/log-messages/#TXN)日志组件下慢事务信息（即超过[`operationProfiling.slowOpThresholdMs`](https://docs.mongodb.com/manual/reference/configuration-options/#operationProfiling.slowOpThresholdMs)阈值的事务信息）。 |
 
@@ -634,7 +634,7 @@ MongoDB provides various transactions metrics:
 
 ### Feature Compatibility Version (FCV)
 
-> 功能兼容版本
+> 功能兼容版本 (FCV)
 
 To use transactions, the [featureCompatibilityVersion](https://docs.mongodb.com/manual/reference/command/setFeatureCompatibilityVersion/#view-fcv) for all members of the deployment must be at least:
 
@@ -675,7 +675,7 @@ Starting in MongoDB 4.2, [multi-document transactions](https://docs.mongodb.com/
 
 - the secondary members use either the WiredTiger storage engine or the [in-memory](https://docs.mongodb.com/manual/core/inmemory/) storage engines
 
-  > 从成员使用WiredTiger存储引擎或[in-memory](https://docs.mongodb.com/manual/core/inmemory/)存储引擎
+  > 从成员使用WiredTiger存储引擎或[内存](https://docs.mongodb.com/manual/core/inmemory/)存储引擎
 
 In MongoDB 4.0, only replica sets using the WiredTiger storage engine supported transactions.
 
@@ -687,7 +687,7 @@ You cannot run transactions on a sharded cluster that has a shard with [`writeCo
 >
 >注意：
 >
->您无法在具有[`writeConcernMajorityJournalDefault`](https://docs.mongodb.com/manual/reference/replica-configuration/#rsconf.writeConcernMajorityJournalDefault)设置为“ false”的分片的分片集群上运行事务，例如使用[in-memory 存储引擎](https://docs.mongodb.com/manual/core/inmemory/)具有投票成员的分片。
+>您无法在具有[`writeConcernMajorityJournalDefault`](https://docs.mongodb.com/manual/reference/replica-configuration/#rsconf.writeConcernMajorityJournalDefault)设置为“ false”的分片的分片集群上运行事务，例如使用[内存存储引擎](https://docs.mongodb.com/manual/core/inmemory/)具有投票成员的分片。
 
 ## Additional Transactions Topics
 
