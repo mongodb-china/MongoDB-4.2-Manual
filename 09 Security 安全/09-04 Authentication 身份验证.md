@@ -40,7 +40,7 @@ To authenticate using the [`mongo`](https://docs.mongodb.com/manual/reference/pr
 使用mongo shell 进行身份验证，可以：
 
 - 当连接mongod或者mongos实例时，使用mongo命令行认证选项（--username、--password和--authenticationDatabase），也可以
-- 先连接mongod或者mongos实例，然后运行authenticate命令或者db.auth()方法在认证数据库上。
+- 先连接mongod或者mongos实例，然后在认证数据库上运行authenticate命令或者db.auth()方法。
 
 > IMPORTANT:
 >
