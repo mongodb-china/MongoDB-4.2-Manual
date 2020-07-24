@@ -78,7 +78,7 @@ MongoDB支持多种身份验证机制：
 
 In addition to verifying the identity of a client, MongoDB can require members of replica sets and sharded clusters to [authenticate their membership](https://docs.mongodb.com/manual/core/security-internal-authentication/#inter-process-auth) to their respective replica set or sharded cluster. See [Internal/Membership Authentication](https://docs.mongodb.com/manual/core/security-internal-authentication/#inter-process-auth) for more information.
 
-除了验证客户端的身份之外，MongoDB能要求副本集和分片集群的成员对其各自的副本集或者分片集群的成员资格进行身份验证。更多的信息请参阅：内部/成员资格身份认证。
+除了验证客户端的身份之外，MongoDB能要求副本集和分片集群的成员对其各自的副本集或者分片集群的成员资格进行身份验证。更多的信息请参阅：内部/成员身份认证。
 
 ## Authentication on Sharded Clusters
 
