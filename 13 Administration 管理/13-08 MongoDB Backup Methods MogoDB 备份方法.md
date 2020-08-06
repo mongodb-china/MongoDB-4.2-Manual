@@ -195,3 +195,8 @@ For 4.2+ sharded clusters with in-progress sharded transactions, use one of the 
 See [Back Up and Restore with MongoDB Tools](https://docs.mongodb.com/manual/tutorial/backup-and-restore-tools/) and [Back Up a Sharded Cluster with Database Dumps](https://docs.mongodb.com/manual/tutorial/backup-sharded-cluster-with-database-dumps/) for more information.
 
 有关更多信息请参阅[Back Up and Restore with MongoDB Tools](https://docs.mongodb.com/manual/tutorial/backup-and-restore-tools/) 和 [Back Up a Sharded Cluster with Database Dumps](https://docs.mongodb.com/manual/tutorial/backup-sharded-cluster-with-database-dumps/)
+
+
+原文链接：https://docs.mongodb.com/manual/core/backups/
+
+译者：谢伟成
