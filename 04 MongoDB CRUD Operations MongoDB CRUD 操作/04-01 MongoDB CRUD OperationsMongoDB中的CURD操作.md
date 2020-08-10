@@ -76,3 +76,9 @@ For examples, see [Delete Documents](https://docs.mongodb.com/manual/tutorial/re
 ## Bulk Write
 
 MongoDB provides the ability to perform write operations in bulk. For details, see [Bulk Write Operations](https://docs.mongodb.com/manual/core/bulk-write-operations/).<br>MongoDB提供了批量执行写操作的能力。更多细节请参考【批量写操作】。
+
+
+
+原文链接：https://docs.mongodb.com/v4.2/crud/
+
+译者：刘翔
