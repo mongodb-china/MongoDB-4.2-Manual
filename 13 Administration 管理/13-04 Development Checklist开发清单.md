@@ -19,7 +19,7 @@
 
 The following checklist, along with the [Operations Checklist](https://docs.mongodb.com/v4.2/administration/production-checklist-operations/) list, provides recommendations to help you avoid issues in your production MongoDB deployment.                                                                                                       
 
-下面的清单以及[操作清单](https://docs.mongodb.com/v4.2/administration/production-checklist-operations/)列表提供了一些建议，帮助您避免生产环境下MongoDB部署中的问题。
+下面的清单以及[操作清单](https://docs.mongodb.com/v4.2/administration/production-checklist-operations/)列表提供了一些建议，帮助我们在生产环境下，避免MongoDB部署出现中的问题。
 
 ## Data Durability 
 
