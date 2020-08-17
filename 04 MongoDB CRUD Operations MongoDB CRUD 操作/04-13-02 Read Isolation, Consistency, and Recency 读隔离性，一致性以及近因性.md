@@ -2,7 +2,7 @@
 
 
 
-# Read Isolation, Consistency, and Recency 读隔离性，一致性以及近因性
+# Read Isolation, Consistency, and Recency 读隔离性，一致性与近因性
 
 >  On this page 在本页面中
 >
@@ -28,13 +28,13 @@ However, when a transaction writes to multiple shards, not all outside read oper
 
 Read uncommitted is the default isolation level and applies to [`mongod`](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) standalone instances as well as to replica sets and sharded clusters.<br>读未提交是默认的隔离级别，适用于mongod独立实例以及副本集和分片群集。
 
-### Read Uncommitted And Single Document Atomicity 读未提交以及单文档原子性
+### Read Uncommitted And Single Document Atomicity 读未提交与单文档原子性
 
 Write operations are atomic with respect to a single document; i.e. if a write is updating multiple fields in the document, a read operation will never see the document with only some of the fields updated. However, although a client may not see a *partially* updated document, read uncommitted means that concurrent read operations may still see the updated document before the changes are made [durable](https://docs.mongodb.com/manual/reference/glossary/#term-durable).<br>对于单个文档，写操作是原子性的。 即，如果写操作正在更新文档中的多个字段，则读操作将永远不会看到仅更新了某些字段的文档。 但是，尽管客户端可能看不到部分更新的文档，但读未提交意味着并发读取操作仍可以在使更改持久之前看到更新的文档。
 
 With a standalone [`mongod`](https://docs.mongodb.com/manual/reference/program/mongod/#bin.mongod) instance, a set of read and write operations to a single document is serializable. With a replica set, a set of read and write operations to a single document is serializable *only* in the absence of a rollback.<br>对于以独立模式部署的mongod实例，对单个文档的一组读写操作是线性的。 使用副本集时，*只有*在没有回滚的情况下，对单个文档的一组读取和写入操作才是线性的。
 
-### Read Uncommitted And Multiple Document Write 读未提交以及多文档写入
+### Read Uncommitted And Multiple Document Write 读未提交与多文档写入
 
 When a single write operation (e.g. [`db.collection.updateMany()`](https://docs.mongodb.com/manual/reference/method/db.collection.updateMany/#db.collection.updateMany)) modifies multiple documents, the modification of each document is atomic, but the operation as a whole is not atomic.<br>当单个写入操作（例如`db.collection.updateMany()`）修改多个文档时，每个文档的修改都是原子的，但整个操作不是原子的。
 
@@ -94,7 +94,7 @@ If an operation logically depends on a preceding operation, there is a causal re
 
 With causally consistent sessions, MongoDB executes causal operations in an order that respect their causal relationships, and clients observe results that are consistent with the causal relationships.<br>在因果一致的会话中，MongoDB按照尊重因果关系的顺序执行因果操作，并且客户观察到与因果关系一致的结果。
 
-### Client Sessions and Causal Consistency Guarantees 客户端会话以及因果一致性保证
+### Client Sessions and Causal Consistency Guarantees 客户端会话与因果一致性保证
 
 To provide causal consistency, MongoDB 3.6 enables causal consistency in client sessions. A causally consistent session denotes that the associated sequence of read operations with [`"majority"`](https://docs.mongodb.com/manual/reference/read-concern-majority/#readconcern."majority") read concern and write operations with [`"majority"`](https://docs.mongodb.com/manual/reference/write-concern/#writeconcern."majority") write concern have a causal relationship that is reflected by their ordering.**Applications must ensure that only one thread at a time executes these operations in a client session.**<br>为了提供因果一致性，MongoDB 3.6在客户端会话中启用因果一致性。 因果一致的会话表示具有`majority`的读关注级别的读操作和具有`majority`的写关注级别的写操作的关联序列具有因果关系，这由它们的顺序反映出来。 **应用程序必须确保一次只有一个线程在客户端会话中执行这些操作**。
 
