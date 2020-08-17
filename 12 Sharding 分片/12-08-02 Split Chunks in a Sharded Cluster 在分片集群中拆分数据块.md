@@ -21,7 +21,7 @@ The [balancer](https://docs.mongodb.com/manual/reference/glossary/#term-balancer
 >
 > Be careful when splitting data in a sharded collection to create new chunks. When you shard a collection that has existing data, MongoDB automatically creates chunks to evenly distribute the collection. To split data effectively in a sharded cluster you must consider the number of documents in a chunk and the average document size to create a uniform chunk size. When chunks have irregular sizes, shards may have an equal number of chunks but have very different data sizes. Avoid creating splits that lead to a collection with differently sized chunks.<br>在分片集合中拆分数据以创建新数据块时，请务必小心。当你对一个已有数据的集合进行分片操作时，MongoDB会自动创建数据块以均匀分布该集合。为了有效地在分片群集中拆分数据，必须考虑单个数据块中的文档数和平均文档大小才能创建统一的数据块大小。当数据块的大小不规则时，分片间可能具有相同数量的数据块，但它们的数据大小却大不相同。应避免由于创建时的拆分而导致的分片集合具有大小不同的数据块现象。
 
-Use [`sh.status()`](https://docs.mongodb.com/manual/reference/method/sh.status/#sh.status) to determine the current chunk ranges across the cluster.<br>使用`sh.status()`来决定当前集群中的数据块范围
+Use [`sh.status()`](https://docs.mongodb.com/manual/reference/method/sh.status/#sh.status) to determine the current chunk ranges across the cluster.<br>使用`sh.status()`来确定当前集群中的数据块范围
 
 To split chunks manually, use the [`split`](https://docs.mongodb.com/manual/reference/command/split/#dbcmd.split) command with either fields `middle` or `find`. The [`mongo`](https://docs.mongodb.com/manual/reference/program/mongo/#bin.mongo) shell provides the helper methods [`sh.splitFind()`](https://docs.mongodb.com/manual/reference/method/sh.splitFind/#sh.splitFind) and [`sh.splitAt()`](https://docs.mongodb.com/manual/reference/method/sh.splitAt/#sh.splitAt).<br>想要手动进行数据块的拆分，使用带`middle`或者`find`字段的`split`命令。mongos shell提供了辅助方法`sh.splitFind()`和`sh.splitAt()`
 
