@@ -73,7 +73,7 @@ You can specify criteria, or filters, that identify the documents to remove. The
 
 For examples, see [Delete Documents](https://docs.mongodb.com/manual/tutorial/remove-documents/).<br>关于示例，请参考【删除文档】。
 
-## Bulk Write
+## Bulk Write 批量写
 
 MongoDB provides the ability to perform write operations in bulk. For details, see [Bulk Write Operations](https://docs.mongodb.com/manual/core/bulk-write-operations/).<br>MongoDB提供了批量执行写操作的能力。更多细节请参考【批量写操作】。
 
