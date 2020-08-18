@@ -35,6 +35,7 @@ To split chunks manually, use the [`split`](https://docs.mongodb.com/manual/refe
 > ```
 
 Use [`splitAt()`](https://docs.mongodb.com/manual/reference/method/sh.splitAt/#sh.splitAt) to split a chunk in two, using the queried document as the lower bound in the new chunk:
+使用[`splitAt()`](https://docs.mongodb.com/manual/reference/method/sh.splitAt/#sh.splitAt)将大块一分为二，将查询的文档用作新的块的下限：
 
 > EXAMPLE 示例
 >
@@ -45,7 +46,7 @@ Use [`splitAt()`](https://docs.mongodb.com/manual/reference/method/sh.splitAt/#s
 
 > NOTE 注意
 >
-> [`splitAt()`](https://docs.mongodb.com/manual/reference/method/sh.splitAt/#sh.splitAt) does not necessarily split the chunk into two equally sized chunks. The split occurs at the location of the document matching the query, regardless of where that document is in the chunk.<br>`splitAt()`不一定会将数据块缠粉为两个大小相等的块。拆分发生在于查询匹配的文档的位置，而不会考虑该文档在整个数据块中的位置。
+> [`splitAt()`](https://docs.mongodb.com/manual/reference/method/sh.splitAt/#sh.splitAt) does not necessarily split the chunk into two equally sized chunks. The split occurs at the location of the document matching the query, regardless of where that document is in the chunk.<br>`splitAt()`不一定会将数据块平均分为两个大小相等的块。拆分发生在于查询匹配的文档的位置，而不会考虑该文档在整个数据块中的位置。
 
 SEE ALSO 另请参考
 
