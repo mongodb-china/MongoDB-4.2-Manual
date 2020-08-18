@@ -49,10 +49,10 @@ With WiredTiger, MongoDB utilizes both the WiredTiger internal cache and the fil
 
 Starting in MongoDB 3.4, the default WiredTiger internal cache size is the larger of either:<br>从MongoDB 3.4开始，默认的WiredTiger内部缓存大小是以下两者中的较大者：
 
-- 50% of (RAM - 1 GB), or<br>（机器的内存总量减去1GB）/2
+- 50% of (RAM - 1 GB), or<br>（RAM - 1GB）/2
 - 256 MB.<br>256MB
 
-For example, on a system with a total of 4GB of RAM the WiredTiger cache will use 1.5GB of RAM (`0.5 * (4GB - 1 GB) = 1.5 GB`). Conversely, a system with a total of 1.25 GB of RAM will allocate 256 MB to the WiredTiger cache because that is more than half of the total RAM minus one gigabyte (`0.5 * (1.25 GB - 1GB) = 128 MB < 256 MB`).<br>例如，在总共有4GB RAM的系统上，WiredTiger缓存将使用1.5GB RAM**`（0.5 *（4 GB-1 GB）= 1.5 GB）`**。 相反，总内存为1.25GB的系统将为WiredTiger缓存分配256MB，因为256MB大于总RAM的一半减去1GB**`（0.5 *（1.25 GB-1 GB）= 128 MB <256 MB）`**。
+For example, on a system with a total of 4GB of RAM the WiredTiger cache will use 1.5GB of RAM (`0.5 * (4GB - 1 GB) = 1.5 GB`). Conversely, a system with a total of 1.25 GB of RAM will allocate 256 MB to the WiredTiger cache because that is more than half of the total RAM minus one gigabyte (`0.5 * (1.25 GB - 1GB) = 128 MB < 256 MB`).<br>例如，在总共有4GB RAM的系统上，WiredTiger缓存将使用1.5GB RAM**`（0.5 *（4 GB-1 GB）= 1.5 GB）`**。 相反，总内存为1.25GB的系统将为WiredTiger缓存分配256MB，因为256MB大于总RAM减去1GB的一半**`（0.5 *（1.25 GB-1 GB）= 128 MB <256 MB）`**。
 
 > NOTE 注意：
 >
